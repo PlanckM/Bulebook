@@ -19,6 +19,10 @@
             android:resizeableActivity="true"
             android:theme="@style/Theme.Demo_Android.NoActionBar"
             tools:targetApi="24">
+
+        </activity>
+        <activity android:name=".LoginActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
