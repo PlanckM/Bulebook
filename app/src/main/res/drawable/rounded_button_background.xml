@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<selector xmlns:android="http://schemas.android.com/apk/res/android">
     <!-- res/drawable/rounded_button.xml -->
     <shape xmlns:android="http://schemas.android.com/apk/res/android">
-        <corners android:radius="20dp" /> <!-- 设置圆角大小，可以根据需要调整这个值 -->
+        <corners android:radius="48dp" /> <!-- 设置圆角大小，可以根据需要调整这个值 -->
         <solid android:color="@color/teal_200" /> <!-- 设置按钮的填充颜色 -->
     </shape>
-</selector>
