@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="AppTheme">
+        <item name="colorPrimary">@color/teal_200</item>
+
+    </style>
+    <style name="ButtonRoundedCorner">
+        <item name="android:background">@drawable/rounded_button_background</item>
+    </style>
+
+
+</resources>
