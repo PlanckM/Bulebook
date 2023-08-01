@@ -6,6 +6,7 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.text.InputType;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -15,6 +16,9 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import java.util.HashMap;
+import java.util.Map;
 
 
 public class LoginActivity extends AppCompatActivity {
@@ -90,6 +94,18 @@ public class LoginActivity extends AppCompatActivity {
                 Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                 startActivity(intent);
 
+                String Url="http://47.107.52.7:88/member/photo/user/login?";
+                Map<String,String> params=new HashMap<String,String>();
+                params.put("password","261317cy");
+                params.put("username","2100300907");
+                HttpUtils.post(Url,params,new VolleyCallback() {
+                    @Override
+                    public void onSuccess(HttpUtils.ResponseBody responseBody) {
+                        Log.d("666","onSuccess: ");
+                        Log.d(responseBody.getMsg(), "onSuccess: ");
+                        Log.d(etPwd.getText().toString(), "onSuccess: ");
+                    }
+                });
 
 
 
