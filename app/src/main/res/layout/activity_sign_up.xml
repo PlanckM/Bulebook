@@ -165,7 +165,7 @@
         android:layout_gravity="center">
 
         <Button
-            android:id="@+id/bt_login"
+            android:id="@+id/bt_signup"
             android:layout_width="128dp"
             android:gravity="center"
             android:layout_height="wrap_content"

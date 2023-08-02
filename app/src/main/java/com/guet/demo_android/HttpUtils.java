@@ -29,22 +29,26 @@ public class HttpUtils {
             .add("Accept", "application/json, text/plain, */*")
             .build();
 
-    public static void post(String url, Map<String,String> params,final VolleyCallback callback){
+    public static void post(String url, Map<String,String> params,boolean inBody,final VolleyCallback callback){
         new Thread(() -> {
             MediaType MEDIA_TYPE_JSON = MediaType.parse("application/json; charset=utf-8");
             String strUrl=url;
-            for (String key : params.keySet()) {
-                strUrl=strUrl+key+'='+params.get(key)+'&';
+            String body="";
+            if(!inBody) {
+                for (String key : params.keySet()) {
+                    strUrl = strUrl + key + '=' + params.get(key) + '&';
+                }
+                strUrl = strUrl.substring(0, strUrl.length() - 1);
             }
-            strUrl = strUrl.substring(0,strUrl.length()-1);
-            Log.d(strUrl, "post: ");
-
+            else{
+                body=gson.toJson(params);
+            }
             //请求组合创建
             Request request = new Request.Builder()
                     .url(strUrl)
                     // 将请求头加至请求中
                     .headers(headers)
-                    .post(RequestBody.create(MEDIA_TYPE_JSON,""))
+                    .post(RequestBody.create(MEDIA_TYPE_JSON,body))
                     .build();
 
             try {
@@ -76,10 +80,10 @@ public class HttpUtils {
     public static void get(String url, Map<String,String> params,final VolleyCallback callback){
         new Thread(() -> {
             String strUrl=url;
-            if(params!=null)
+            if(params!=null){
             for (String key : params.keySet()) {
                 strUrl=strUrl+key+'='+params.get(key)+'&';
-            }
+            }}
             // 请求头
             Headers headers = new Headers.Builder()
                     .add("appId", "729d6594c5dd4628a25f5cd464c46632")

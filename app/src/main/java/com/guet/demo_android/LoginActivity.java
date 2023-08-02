@@ -98,7 +98,7 @@ public class LoginActivity extends AppCompatActivity {
                 Map<String,String> params=new HashMap<String,String>();
                 params.put("password",password);
                 params.put("username",account);
-                HttpUtils.post(Url,params,new VolleyCallback() {
+                HttpUtils.post(Url,params,false,new VolleyCallback() {
                     @Override
                     public void onSuccess(HttpUtils.ResponseBody responseBody) {
                         if(responseBody.getCode()==200){
