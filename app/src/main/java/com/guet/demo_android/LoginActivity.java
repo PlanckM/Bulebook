@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.os.Looper;
 import android.text.InputType;
 import android.text.TextUtils;
 import android.util.Log;
@@ -91,56 +92,55 @@ public class LoginActivity extends AppCompatActivity {
                     toast.show();
                     return;
                 }
-                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                startActivity(intent);
 
                 String Url="http://47.107.52.7:88/member/photo/user/login?";
                 Map<String,String> params=new HashMap<String,String>();
-                params.put("password","261317cy");
-                params.put("username","2100300907");
+                params.put("password",password);
+                params.put("username",account);
                 HttpUtils.post(Url,params,new VolleyCallback() {
                     @Override
                     public void onSuccess(HttpUtils.ResponseBody responseBody) {
-                        Log.d("666","onSuccess: ");
-                        Log.d(responseBody.getMsg(), "onSuccess: ");
-                        Log.d(etPwd.getText().toString(), "onSuccess: ");
+                        if(responseBody.getCode()==200){
+                            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                            startActivity(intent);
+
+                            //在string文件下获取键值
+                            String spFileName = getResources()
+                                    .getString(R.string.shared_preferences_file_name);
+                            String accountKey = getResources()
+                                    .getString(R.string.login_account_name);
+                            String passwordKey = getResources()
+                                    .getString(R.string.login_password);
+                            String rememberPasswordKey = getResources()
+                                    .getString(R.string.login_remember_password);
+                            //写入数据
+                            //Context.MODE_PRIVATE表示该SharedPreferences对象的访问权限为私有，只能被当前应用程序访问。
+                            //spFileName文件名
+                            SharedPreferences spFile = getSharedPreferences(spFileName, Context.MODE_PRIVATE);
+                            //通过edit()方法获取SharedPreferences.Editor对象，然后使用该对象的各种putXxx()方法来写入数据。
+                            SharedPreferences.Editor editor = spFile.edit();
+
+                            //用于检查复选框是否被选中
+                            //选中就存数据到SharedPreferences，否则根据key清除数据
+                            if (cbRememberPwd.isChecked()) {
+                                editor.putString(accountKey, account);
+                                editor.putString(passwordKey, password);
+                                editor.putBoolean(rememberPasswordKey, true);
+                                editor.apply();
+                            } else {
+                                editor.remove(accountKey);
+                                editor.remove(passwordKey);
+                                editor.remove(rememberPasswordKey);
+                                editor.apply();
+                            }
+                        }
+                        else{
+                            Looper.prepare();
+                            Toast.makeText(LoginActivity.this, "密码或账号错误!", Toast.LENGTH_SHORT).show();
+                            Looper.loop();
+                        }
                     }
                 });
-
-
-
-                //在string文件下获取键值
-                String spFileName = getResources()
-                        .getString(R.string.shared_preferences_file_name);
-                String accountKey = getResources()
-                        .getString(R.string.login_account_name);
-                String passwordKey = getResources()
-                        .getString(R.string.login_password);
-                String rememberPasswordKey = getResources()
-                        .getString(R.string.login_remember_password);
-                //写入数据
-                //Context.MODE_PRIVATE表示该SharedPreferences对象的访问权限为私有，只能被当前应用程序访问。
-                //spFileName文件名
-                SharedPreferences spFile = getSharedPreferences(spFileName, Context.MODE_PRIVATE);
-                //通过edit()方法获取SharedPreferences.Editor对象，然后使用该对象的各种putXxx()方法来写入数据。
-                SharedPreferences.Editor editor = spFile.edit();
-
-                //用于检查复选框是否被选中
-                //选中就存数据到SharedPreferences，否则根据key清除数据
-                if (cbRememberPwd.isChecked()) {
-                    password = etPwd.getText().toString();
-                    account = etAccount.getText().toString();
-
-                    editor.putString(accountKey, account);
-                    editor.putString(passwordKey, password);
-                    editor.putBoolean(rememberPasswordKey, true);
-                    editor.apply();
-                } else {
-                    editor.remove(accountKey);
-                    editor.remove(passwordKey);
-                    editor.remove(rememberPasswordKey);
-                    editor.apply();
-                }
             }
 
         });

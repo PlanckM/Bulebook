@@ -73,6 +73,56 @@ public class HttpUtils {
         }).start();
     }
 
+    public static void get(String url, Map<String,String> params,final VolleyCallback callback){
+        new Thread(() -> {
+            String strUrl=url;
+            if(params!=null)
+            for (String key : params.keySet()) {
+                strUrl=strUrl+key+'='+params.get(key)+'&';
+            }
+            // 请求头
+            Headers headers = new Headers.Builder()
+                    .add("appId", "729d6594c5dd4628a25f5cd464c46632")
+                    .add("appSecret", "61181ce28ab2605ed4b63b2889765d7eebdba")
+                    .add("Accept", "application/json, text/plain, */*")
+                    .build();
+
+            //请求组合创建
+            Request request = new Request.Builder()
+                    .url(strUrl)
+                    // 将请求头加至请求中
+                    .headers(headers)
+                    .get()
+                    .build();
+            try {
+                OkHttpClient client = new OkHttpClient();
+                //发起请求，传入callback进行回调
+                client.newCall(request).enqueue(new Callback() {
+                    @Override
+                    public void onFailure(@NonNull Call call, IOException e) {
+                        //TODO 请求失败处理
+                        e.printStackTrace();
+                    }
+                    @Override
+                    public void onResponse(@NonNull Call call, Response response) throws IOException {
+                        //TODO 请求成功处理
+                        Type jsonType = new TypeToken<ResponseBody<Object>>(){}.getType();
+                        // 获取响应体的json串
+                        String body = response.body().string();
+                        // 解析json串到自己封装的状态
+                        ResponseBody<Object> dataResponseBody = gson.fromJson(body,jsonType);
+                        callback.onSuccess(dataResponseBody);
+                    }
+                });
+            }catch (NetworkOnMainThreadException ex){
+                ex.printStackTrace();
+            }
+        }).start();
+    }
+
+    /**
+     * 回调
+     */
 
     /**
      * http响应体的封装协议
