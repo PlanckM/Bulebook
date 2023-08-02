@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -29,7 +30,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private EditText etAccount;
     private CheckBox cbRememberPwd;
-
+    private TextView sign_up;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -163,6 +164,16 @@ public class LoginActivity extends AppCompatActivity {
                 }
             }
         });
+
+        sign_up = findViewById(R.id.tv_sign_up);
+        sign_up.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(LoginActivity.this, SignUpActivity.class);
+                startActivity(intent);
+            }
+        });
+
     }
 }
 
