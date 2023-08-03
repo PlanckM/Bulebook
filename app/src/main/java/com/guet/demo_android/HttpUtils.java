@@ -63,12 +63,9 @@ public class HttpUtils {
                     @Override
                     public void onResponse(@NonNull Call call, Response response) throws IOException {
                         //TODO 请求成功处理
-                        Type jsonType = new TypeToken<ResponseBody<Object>>(){}.getType();
                         // 获取响应体的json串
                         String body = response.body().string();
-                        // 解析json串到自己封装的状态
-                        ResponseBody<Object> dataResponseBody = gson.fromJson(body,jsonType);
-                        callback.onSuccess(dataResponseBody);
+                        callback.onSuccess(body,gson);
                     }
                 });
             }catch (NetworkOnMainThreadException ex){
@@ -113,9 +110,7 @@ public class HttpUtils {
                         Type jsonType = new TypeToken<ResponseBody<Object>>(){}.getType();
                         // 获取响应体的json串
                         String body = response.body().string();
-                        // 解析json串到自己封装的状态
-                        ResponseBody<Object> dataResponseBody = gson.fromJson(body,jsonType);
-                        callback.onSuccess(dataResponseBody);
+                        callback.onSuccess(body,gson);
                     }
                 });
             }catch (NetworkOnMainThreadException ex){
@@ -172,5 +167,5 @@ public class HttpUtils {
 
 }
 interface VolleyCallback {
-    void onSuccess(HttpUtils.ResponseBody result);
+    void onSuccess(String body, Gson gson);
 }

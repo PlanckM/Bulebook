@@ -19,6 +19,10 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -31,6 +35,7 @@ public class LoginActivity extends AppCompatActivity {
     private EditText etAccount;
     private CheckBox cbRememberPwd;
     private TextView sign_up;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -100,11 +105,14 @@ public class LoginActivity extends AppCompatActivity {
                 params.put("username",account);
                 HttpUtils.post(Url,params,false,new VolleyCallback() {
                     @Override
-                    public void onSuccess(HttpUtils.ResponseBody responseBody) {
+                    public void onSuccess(String body, Gson gson) {
+                        Type jsonType=new TypeToken<HttpUtils.ResponseBody<User>>(){}.getType();
+                        HttpUtils.ResponseBody<User> responseBody= gson.fromJson(body,jsonType);
                         if(responseBody.getCode()==200){
+                            final AppContext app = (AppContext)getApplication();
+                            app.user=responseBody.getData();
                             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                             startActivity(intent);
-
                             //在string文件下获取键值
                             String spFileName = getResources()
                                     .getString(R.string.shared_preferences_file_name);

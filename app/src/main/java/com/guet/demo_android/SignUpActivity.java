@@ -13,6 +13,10 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -49,7 +53,9 @@ public class SignUpActivity extends AppCompatActivity {
                 params.put("username",account);
                 HttpUtils.post(Url,params,true,new VolleyCallback() {
                     @Override
-                    public void onSuccess(HttpUtils.ResponseBody result) {
+                    public void onSuccess(String body, Gson gson) {
+                        Type jsonType=new TypeToken<HttpUtils.ResponseBody<Object>>(){}.getType();
+                        HttpUtils.ResponseBody<Object> result= gson.fromJson(body,jsonType);
                         if(result.getCode()==500){
                             Looper.prepare();
                             Toast.makeText(SignUpActivity.this, result.getMsg(), Toast.LENGTH_SHORT).show();
