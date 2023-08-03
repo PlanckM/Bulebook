@@ -8,19 +8,19 @@
     <fragment
         android:id="@+id/nav_transform"
         android:name="com.guet.demo_android.ui.transform.TransformFragment"
-        android:label="@string/menu_transform"
+        android:label="@string/menu_home"
         tools:layout="@layout/fragment_transform" />
 
     <fragment
         android:id="@+id/nav_reflow"
         android:name="com.guet.demo_android.ui.reflow.ReflowFragment"
-        android:label="@string/menu_reflow"
+        android:label="@string/menu_sharing"
         tools:layout="@layout/fragment_reflow" />
 
     <fragment
         android:id="@+id/nav_slideshow"
         android:name="com.guet.demo_android.ui.slideshow.SlideshowFragment"
-        android:label="@string/menu_slideshow"
+        android:label="@string/menu_user"
         tools:layout="@layout/fragment_slideshow" />
 
     <fragment
