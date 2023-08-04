@@ -1,6 +1,7 @@
 package com.guet.demo_android;
 
 import androidx.annotation.NonNull;
+
 import android.os.NetworkOnMainThreadException;
 import android.util.Log;
 
@@ -29,14 +30,14 @@ public class HttpUtils {
             .add("Accept", "application/json, text/plain, */*")
             .build();
 
-    public static void post(String url, Map<String,String> params,final VolleyCallback callback){
+    public static void post(String url, Map<String, String> params, final VolleyCallback callback) {
         new Thread(() -> {
             MediaType MEDIA_TYPE_JSON = MediaType.parse("application/json; charset=utf-8");
-            String strUrl=url;
+            String strUrl = url;
             for (String key : params.keySet()) {
-                strUrl=strUrl+key+'='+params.get(key)+'&';
+                strUrl = strUrl + key + '=' + params.get(key) + '&';
             }
-            strUrl = strUrl.substring(0,strUrl.length()-1);
+            strUrl = strUrl.substring(0, strUrl.length() - 1);
             Log.d(strUrl, "post: ");
 
             //请求组合创建
@@ -44,7 +45,7 @@ public class HttpUtils {
                     .url(strUrl)
                     // 将请求头加至请求中
                     .headers(headers)
-                    .post(RequestBody.create(MEDIA_TYPE_JSON,""))
+                    .post(RequestBody.create(MEDIA_TYPE_JSON, ""))
                     .build();
 
             try {
@@ -56,30 +57,32 @@ public class HttpUtils {
                         //TODO 请求失败处理
                         e.printStackTrace();
                     }
+
                     @Override
                     public void onResponse(@NonNull Call call, Response response) throws IOException {
                         //TODO 请求成功处理
-                        Type jsonType = new TypeToken<ResponseBody<Object>>(){}.getType();
+                        Type jsonType = new TypeToken<ResponseBody<Object>>() {
+                        }.getType();
                         // 获取响应体的json串
                         String body = response.body().string();
                         // 解析json串到自己封装的状态
-                        ResponseBody<Object> dataResponseBody = gson.fromJson(body,jsonType);
+                        ResponseBody<Object> dataResponseBody = gson.fromJson(body, jsonType);
                         callback.onSuccess(dataResponseBody);
                     }
                 });
-            }catch (NetworkOnMainThreadException ex){
+            } catch (NetworkOnMainThreadException ex) {
                 ex.printStackTrace();
             }
         }).start();
     }
 
-    public static void get(String url, Map<String,String> params,final VolleyCallback callback){
+    public static void get(String url, Map<String, String> params, final VolleyCallback callback) {
         new Thread(() -> {
-            String strUrl=url;
-            if(params!=null)
-            for (String key : params.keySet()) {
-                strUrl=strUrl+key+'='+params.get(key)+'&';
-            }
+            String strUrl = url;
+            if (params != null)
+                for (String key : params.keySet()) {
+                    strUrl = strUrl + key + '=' + params.get(key) + '&';
+                }
             // 请求头
             Headers headers = new Headers.Builder()
                     .add("appId", "729d6594c5dd4628a25f5cd464c46632")
@@ -103,18 +106,20 @@ public class HttpUtils {
                         //TODO 请求失败处理
                         e.printStackTrace();
                     }
+
                     @Override
                     public void onResponse(@NonNull Call call, Response response) throws IOException {
                         //TODO 请求成功处理
-                        Type jsonType = new TypeToken<ResponseBody<Object>>(){}.getType();
+                        Type jsonType = new TypeToken<ResponseBody<Object>>() {
+                        }.getType();
                         // 获取响应体的json串
                         String body = response.body().string();
                         // 解析json串到自己封装的状态
-                        ResponseBody<Object> dataResponseBody = gson.fromJson(body,jsonType);
+                        ResponseBody<Object> dataResponseBody = gson.fromJson(body, jsonType);
                         callback.onSuccess(dataResponseBody);
                     }
                 });
-            }catch (NetworkOnMainThreadException ex){
+            } catch (NetworkOnMainThreadException ex) {
                 ex.printStackTrace();
             }
         }).start();
@@ -126,9 +131,10 @@ public class HttpUtils {
 
     /**
      * http响应体的封装协议
+     *
      * @param <T> 泛型
      */
-    public static class ResponseBody <T> {
+    public static class ResponseBody<T> {
 
         /**
          * 业务响应码
@@ -143,14 +149,17 @@ public class HttpUtils {
          */
         private T data;
 
-        public ResponseBody(){}
+        public ResponseBody() {
+        }
 
         public int getCode() {
             return code;
         }
+
         public String getMsg() {
             return msg;
         }
+
         public T getData() {
             return data;
         }
@@ -167,6 +176,7 @@ public class HttpUtils {
     }
 
 }
+
 interface VolleyCallback {
     void onSuccess(HttpUtils.ResponseBody result);
 }
