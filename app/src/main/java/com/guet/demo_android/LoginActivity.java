@@ -102,6 +102,7 @@ public class LoginActivity extends AppCompatActivity {
                     public void onSuccess(HttpUtils.ResponseBody responseBody) {
                         if(responseBody.getCode()==200){
                             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+
                             startActivity(intent);
 
                             //在string文件下获取键值
@@ -136,7 +137,7 @@ public class LoginActivity extends AppCompatActivity {
                         }
                         else{
                             Looper.prepare();
-                            Toast.makeText(LoginActivity.this, "密码或账号错误!", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(LoginActivity.this, "password or account is wrong !", Toast.LENGTH_SHORT).show();
                             Looper.loop();
                         }
                     }

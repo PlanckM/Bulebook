@@ -9,8 +9,8 @@
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/ic_launcher"
-        android:label="Login"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:label="Blue Book"
+        android:roundIcon="@drawable/openai"
         android:supportsRtl="true"
         android:theme="@style/Theme.Demo_Android"
         tools:targetApi="31">
