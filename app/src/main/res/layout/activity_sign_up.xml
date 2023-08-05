@@ -7,7 +7,7 @@
     android:orientation="vertical"
     android:theme="@style/AppTheme"
     android:gravity="center_vertical"
-    tools:context=".LoginActivity"
+    tools:context=".SignUpActivity"
     android:padding="20dp">
 
     <RelativeLayout
@@ -41,33 +41,33 @@
             android:layout_height="56dp"
             android:layout_gravity="center"
             android:padding="10dp">
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="36dp"
-            >
-            <ImageView
-                android:id="@+id/img1"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_alignParentBottom="true"
-                android:layout_marginBottom="4dp"
-                android:src="@drawable/baseline_person_outline_24" />
-
-            <EditText
-                android:id="@+id/et_account"
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_gravity="center"
-                android:layout_marginStart="64dp"
-                android:layout_marginEnd="35dp"
-                android:layout_marginBottom="8dp"
-                android:hint="Email/Account"
-                android:background="@android:color/transparent"
-                android:maxLines="1"
-                /> <!-- 设置账号输入框的字体大小 -->
+                android:layout_height="36dp"
+                >
+                <ImageView
+                    android:id="@+id/img1"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginBottom="4dp"
+                    android:src="@drawable/baseline_person_outline_24" />
 
-        </RelativeLayout>
+                <EditText
+                    android:id="@+id/et_account"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="64dp"
+                    android:layout_marginEnd="35dp"
+                    android:layout_marginBottom="8dp"
+                    android:hint="Email/Account"
+                    android:background="@android:color/transparent"
+                    android:maxLines="1"
+                    /> <!-- 设置账号输入框的字体大小 -->
+
+            </RelativeLayout>
         </FrameLayout>
 
     </androidx.cardview.widget.CardView>
@@ -87,42 +87,42 @@
             android:layout_height="56dp"
             android:layout_gravity="center"
             android:padding="10dp">
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="36dp"
-        >
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="36dp"
+                >
 
-        <ImageView
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_alignParentBottom="true"
-            android:layout_marginBottom="4dp"
-            android:src="@drawable/baseline_lock_24" />
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginBottom="4dp"
+                    android:src="@drawable/baseline_lock_24" />
 
-        <EditText
-            android:id="@+id/et_pwd"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginStart="64dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="8dp"
-            android:hint="Password"
-            android:inputType="textPassword"
-            android:background="@android:color/transparent"
-            android:maxLines="1" />
+                <EditText
+                    android:id="@+id/et_pwd"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="64dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="8dp"
+                    android:hint="Password"
+                    android:inputType="textPassword"
+                    android:background="@android:color/transparent"
+                    android:maxLines="1" />
 
-        <ImageView
-            android:id="@+id/iv_pwd_switch"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentBottom="true"
-            android:layout_marginEnd="8dp"
-            android:layout_marginBottom="8dp"
-            android:src="@drawable/baseline_visibility_off_24" />
-    </RelativeLayout>
+                <ImageView
+                    android:id="@+id/iv_pwd_switch"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:src="@drawable/baseline_visibility_off_24" />
+            </RelativeLayout>
         </FrameLayout>
 
     </androidx.cardview.widget.CardView>
@@ -132,12 +132,12 @@
         android:layout_height="40dp"
         android:layout_marginTop="15dp"
         android:layout_gravity="center">
-        <CheckBox
+        <TextView
             android:id="@+id/cb_remember_pwd"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/black"
-            android:text="Remember Password"
+            android:text="Already have an account?"
             android:layout_marginBottom="4dp"
             android:layout_alignParentStart="true"
             android:layout_alignParentBottom="true"
@@ -146,7 +146,7 @@
             android:id="@+id/tv_sign_up"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Sign up"
+            android:text="Go Login"
             android:clickable="true"
             android:textColor="@color/selector_text_press_color"
             android:layout_marginEnd="28dp"
@@ -154,7 +154,7 @@
             android:layout_alignParentBottom="true"
             android:layout_alignBaseline="@id/cb_remember_pwd"
             />
-</RelativeLayout>
+    </RelativeLayout>
 
 
 
@@ -165,14 +165,14 @@
         android:layout_gravity="center">
 
         <Button
-            android:id="@+id/bt_login"
+            android:id="@+id/bt_signup"
             android:layout_width="128dp"
             android:gravity="center"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:layout_marginTop="32dp"
             android:layout_centerHorizontal="true"
-            android:text="Login"
+            android:text="Sign Up"
             android:background="@drawable/rounded_button_background"
             android:textColor="@android:color/white"
             />
