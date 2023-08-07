@@ -2,7 +2,7 @@ package com.guet.demo_android;
 
 public class User {
     String id;
-    String userName;
+    String username;
     String avatar;
     String introduce;
     Integer sex;
@@ -23,8 +23,8 @@ public class User {
         this.id = id;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public Integer getSex() {
@@ -43,7 +43,7 @@ public class User {
         return introduce;
     }
 
-    public String getUserName() {
-        return userName;
+    public String getUsername() {
+        return username;
     }
 }

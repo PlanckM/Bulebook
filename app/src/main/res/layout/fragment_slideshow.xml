@@ -21,9 +21,14 @@
 
             <ImageView
                 android:id="@+id/head"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
                 android:layout_marginLeft="16dp"
+                android:foreground="?selectableItemBackground"
+                android:padding="1dp"
+                android:src="@mipmap/ic_launcher"
+                android:background="@drawable/shape_gray_square_bg"
+                android:clickable="true"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -58,8 +63,9 @@
             android:id="@+id/budget_btn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:foreground="?selectableItemBackground"
             android:clickable="true">
 
             <ImageView
@@ -90,12 +96,78 @@
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="#1A000000"/>
+
+        <RelativeLayout
+            android:id="@+id/sex_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:foreground="?selectableItemBackground"
+            android:clickable="true">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="性别"
+                android:textSize="16sp"
+                android:layout_marginLeft="60dp"
+                android:layout_centerVertical="true"/>
+
+            <TextView
+                android:id="@+id/sex"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="男"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="50dp"/>
+
+        </RelativeLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#1A000000"/>
+        <LinearLayout
+            android:id="@+id/introduction_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:foreground="?selectableItemBackground"
+            android:clickable="true">
+
+            <TextView
+                android:id="@+id/ind"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="简介"
+                android:gravity="center_horizontal"
+                android:textSize="20sp"
+                />
+
+            <TextView
+                android:id="@+id/introduction"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="法师法师过年好大讲堂的绝大部分对比合法DVD发的认同我fasfgasg"
+                android:layout_above="@id/ind"
+                android:gravity="center_horizontal"
+                android:layout_marginHorizontal="20dp"
+                />
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#1A000000"/>
         <RelativeLayout
             android:id="@+id/setting_btn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:foreground="?selectableItemBackground"
             android:clickable="true">
 
             <ImageView
@@ -120,22 +192,10 @@
                 android:layout_centerVertical="true"
                 android:layout_alignParentRight="true"
                 android:layout_marginRight="20dp"/>
-
         </RelativeLayout>
-
-        <TextView
-            android:id="@+id/text_slideshow"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_weight="1"
-            android:textAlignment="center"
-            android:textSize="20sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:layout_height="1dp"
+            android:background="#1A000000"/>
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
