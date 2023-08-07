@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
@@ -48,16 +49,20 @@ public class SlideshowFragment extends Fragment {
         slideshowViewModel.getAvatar().observe(getViewLifecycleOwner(),new Observer<String>(){
             @Override
             public void onChanged(String s){
-                if(slideshowViewModel.getAvatar().getValue()!=null&&slideshowViewModel.getAvatar().getValue()!=""){
-                    if (ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.READ_EXTERNAL_STORAGE)
+                if(Build.VERSION.SDK_INT>=33)
+                    if (ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.READ_MEDIA_IMAGES)
                             != PackageManager.PERMISSION_GRANTED) {
-                        requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
-                                REQUEST_CODE_STORAGE_PERMISSION);
+                        if (ActivityCompat.shouldShowRequestPermissionRationale(getActivity(), Manifest.permission.READ_MEDIA_IMAGES)) {
+
+                        } else {
+                            requestPermissions(new String[]{Manifest.permission.READ_MEDIA_IMAGES},
+                                    REQUEST_CODE_STORAGE_PERMISSION);
+                        }
                     } else {
                         // 权限已经授予，加载图片
-                        binding.head.setImageURI(Uri.parse(slideshowViewModel.getAvatar().getValue()));
+                        if(slideshowViewModel.getAvatar().getValue()!=null&&slideshowViewModel.getAvatar().getValue()!="")
+                        {binding.head.setImageURI(Uri.parse(slideshowViewModel.getAvatar().getValue()));}
                     }
-                }
             }
         });
         slideshowViewModel.getUsername().observe(getViewLifecycleOwner(),binding.username::setText);
@@ -76,31 +81,25 @@ public class SlideshowFragment extends Fragment {
     }
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        switch (requestCode) {
-            case 555:
-
-                if (resultCode == Activity.RESULT_OK) {
-                    try {
-                        Uri uri = data.getData();
-                        Map<String,String> params=new HashMap<String,String>();
-                        params.put("avatar",uri.toString());
-                        params.put("id",slideshowViewModel.getId().getValue());
-                        String Url="http://47.107.52.7:88/member/photo/user/update";
-                        HttpUtils.post(Url,params,true,new VolleyCallback() {
-
-                            @Override
-                            public void onSuccess(String body, Gson gson) {
-
-                            }
-                        });
-                        binding.head.setImageURI(uri);
-                    } catch (Exception e) {
-                        e.printStackTrace();
+        if (resultCode == Activity.RESULT_OK) {
+            try {
+                Uri uri = data.getData();
+                Map<String,String> params=new HashMap<String,String>();
+                params.put("avatar",uri.toString());
+                params.put("id",slideshowViewModel.getId().getValue());
+                String Url="http://47.107.52.7:88/member/photo/user/update";
+                HttpUtils.post(Url,params,true,new VolleyCallback() {
+                    @Override
+                    public void onSuccess(String body, Gson gson) {
                     }
-                } else {
-                    Log.d("666", "失败");
-                }
-                break;
+                });
+                binding.head.setImageURI(uri);
+                slideshowViewModel.getAvatar().setValue(uri.toString());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } else {
+            Log.d("666", "失败");
         }
     }
     @Override
@@ -111,6 +110,7 @@ public class SlideshowFragment extends Fragment {
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+
         if (requestCode == REQUEST_CODE_STORAGE_PERMISSION) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 // 用户授权了权限，在这里处理逻辑，如加载图片
