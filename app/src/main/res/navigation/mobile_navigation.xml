@@ -12,6 +12,12 @@
         tools:layout="@layout/fragment_transform" />
 
     <fragment
+        android:id="@+id/edit_info"
+        android:name="com.guet.demo_android.ui.EditInfoFragment"
+        android:label="@string/menu_transform"
+        tools:layout="@layout/fragment_transform" />
+
+    <fragment
         android:id="@+id/nav_reflow"
         android:name="com.guet.demo_android.ui.reflow.ReflowFragment"
         android:label="@string/menu_reflow"

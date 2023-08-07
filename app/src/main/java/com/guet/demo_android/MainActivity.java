@@ -22,6 +22,8 @@ import com.guet.demo_android.databinding.ActivityMainBinding;
 public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
+    public static String FragmentSetting="setting_fragment";
+    public static String FragmentEditInfo="edit_info_fragment";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,5 +91,18 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
                 || super.onSupportNavigateUp();
+    }
+
+    //注意：这个我用来切换fragment的，使用方法，先创建fragment再在mobile_navigation中注册fragment,定义常量指定切换具体的fragment
+    public void navigateF(String fragment){
+        switch (fragment){
+            case "setting_fragment":
+                Navigation.findNavController(this, R.id.nav_host_fragment_content_main).navigate(R.id.nav_settings);
+                break;
+            case "edit_info_fragment":
+                Navigation.findNavController(this, R.id.nav_host_fragment_content_main).navigate(R.id.edit_info);
+                break;
+        }
+
     }
 }

@@ -23,6 +23,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.google.gson.Gson;
 import com.guet.demo_android.HttpUtils;
+import com.guet.demo_android.MainActivity;
 import com.guet.demo_android.VolleyCallback;
 import com.guet.demo_android.databinding.FragmentSlideshowBinding;
 
@@ -37,7 +38,7 @@ public class SlideshowFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        slideshowViewModel = new ViewModelProvider(this).get(SlideshowViewModel.class);
+        slideshowViewModel = new ViewModelProvider(getActivity()).get(SlideshowViewModel.class);
 
         binding = FragmentSlideshowBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
@@ -49,12 +50,11 @@ public class SlideshowFragment extends Fragment {
         slideshowViewModel.getAvatar().observe(getViewLifecycleOwner(),new Observer<String>(){
             @Override
             public void onChanged(String s){
-                if(Build.VERSION.SDK_INT>=33)
-                    if (ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.READ_MEDIA_IMAGES)
-                            != PackageManager.PERMISSION_GRANTED) {
+                    if(ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.READ_MEDIA_IMAGES)
+                            != PackageManager.PERMISSION_GRANTED){
                         if (ActivityCompat.shouldShowRequestPermissionRationale(getActivity(), Manifest.permission.READ_MEDIA_IMAGES)) {
 
-                        } else {
+                        }else{
                             requestPermissions(new String[]{Manifest.permission.READ_MEDIA_IMAGES},
                                     REQUEST_CODE_STORAGE_PERMISSION);
                         }
@@ -76,6 +76,21 @@ public class SlideshowFragment extends Fragment {
                 intent.setAction(Intent.ACTION_PICK);
                 intent.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
                 startActivityForResult(intent,555);
+            }
+        });
+
+        binding.budgetBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                MainActivity main=(MainActivity)getActivity();
+                main.navigateF(MainActivity.FragmentEditInfo);
+            }
+        });
+        binding.settingBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                MainActivity main=(MainActivity)getActivity();
+                main.navigateF(MainActivity.FragmentSetting);
             }
         });
     }
