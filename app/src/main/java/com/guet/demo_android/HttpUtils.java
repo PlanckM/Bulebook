@@ -28,7 +28,7 @@ public class HttpUtils {
             .add("Accept", "application/json, text/plain, */*")
             .build();
 
-    public static void post(String url, Map<String,String> params,boolean inBody,final VolleyCallback callback){
+    public static void post(String url, Map<String, Object> params, boolean inBody, final VolleyCallback callback){
         new Thread(() -> {
             MediaType MEDIA_TYPE_JSON = MediaType.parse("application/json; charset=utf-8");
             String strUrl=url;

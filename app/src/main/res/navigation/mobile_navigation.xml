@@ -14,7 +14,7 @@
     <fragment
         android:id="@+id/edit_info"
         android:name="com.guet.demo_android.ui.EditInfoFragment"
-        android:label="@string/menu_transform"
+        android:label="@string/menu_edit"
         tools:layout="@layout/fragment_transform" />
 
     <fragment

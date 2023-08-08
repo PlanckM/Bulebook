@@ -47,7 +47,7 @@ public class SignUpActivity extends AppCompatActivity {
                     return;
                 }
                 String Url="http://47.107.52.7:88/member/photo/user/register?";
-                Map<String,String> params=new HashMap<String,String>();
+                Map<String,Object > params=new HashMap<String,Object>();
                 params.put("password",password);
                 params.put("username",account);
                 HttpUtils.post(Url,params,true,new VolleyCallback() {

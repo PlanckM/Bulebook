@@ -5,7 +5,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
@@ -29,6 +28,7 @@ import com.guet.demo_android.databinding.FragmentSlideshowBinding;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 public class SlideshowFragment extends Fragment {
 
@@ -68,7 +68,14 @@ public class SlideshowFragment extends Fragment {
         slideshowViewModel.getUsername().observe(getViewLifecycleOwner(),binding.username::setText);
         slideshowViewModel.getId().observe(getViewLifecycleOwner(),binding.userid::setText);
         slideshowViewModel.getIntroduction().observe(getViewLifecycleOwner(),binding.introduction::setText);
-        slideshowViewModel.getSex().observe(getViewLifecycleOwner(),binding.sex::setText);
+        slideshowViewModel.getSex().observe(getViewLifecycleOwner(), new Observer<String>() {
+            @Override
+            public void onChanged(String s) {
+                if(Objects.equals(slideshowViewModel.getSex().getValue(), "1")) binding.sex.setText("男");
+                else if(Objects.equals(slideshowViewModel.getSex().getValue(), "-1")) binding.sex.setText("女");
+                else binding.sex.setText("未设置");
+            }
+        });
         binding.head.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -99,7 +106,7 @@ public class SlideshowFragment extends Fragment {
         if (resultCode == Activity.RESULT_OK) {
             try {
                 Uri uri = data.getData();
-                Map<String,String> params=new HashMap<String,String>();
+                Map<String,Object> params=new HashMap<String,Object>();
                 params.put("avatar",uri.toString());
                 params.put("id",slideshowViewModel.getId().getValue());
                 String Url="http://47.107.52.7:88/member/photo/user/update";

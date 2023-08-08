@@ -100,7 +100,7 @@ public class LoginActivity extends AppCompatActivity {
                 }
 
                 String Url="http://47.107.52.7:88/member/photo/user/login?";
-                Map<String,String> params=new HashMap<String,String>();
+                Map<String,Object> params=new HashMap<String,Object>();
                 params.put("password",password);
                 params.put("username",account);
                 HttpUtils.post(Url,params,false,new VolleyCallback() {
