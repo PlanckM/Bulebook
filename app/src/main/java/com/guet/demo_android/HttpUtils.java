@@ -23,8 +23,8 @@ public class HttpUtils {
     private static final Gson gson = new Gson();
     // 请求头
     static Headers headers = new Headers.Builder()
-            .add("appId", "729d6594c5dd4628a25f5cd464c46632")
-            .add("appSecret", "61181ce28ab2605ed4b63b2889765d7eebdba")
+            .add("appId", "4d30717bfe774414a81c1198b1fe7d22")
+            .add("appSecret", "266335a3f6cde181842a1a34f62a633f927f5")
             .add("Accept", "application/json, text/plain, */*")
             .build();
 

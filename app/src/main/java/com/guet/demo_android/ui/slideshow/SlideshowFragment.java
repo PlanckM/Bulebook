@@ -3,6 +3,7 @@ package com.guet.demo_android.ui.slideshow;
 import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.UriPermission;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
@@ -29,6 +30,7 @@ import com.guet.demo_android.databinding.FragmentSlideshowBinding;
 
 import java.io.File;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
@@ -64,7 +66,14 @@ public class SlideshowFragment extends Fragment {
                         // 权限已经授予，加载图片
                         if(slideshowViewModel.getAvatar().getValue()!=null&&slideshowViewModel.getAvatar().getValue()!="")
                         {
-                            binding.head.setImageURI(Uri.parse(slideshowViewModel.getAvatar().getValue()));
+                            Boolean weHaveDurablePermission=false;
+                            List<UriPermission> permissions = getActivity().getContentResolver().getPersistedUriPermissions();
+                            for (UriPermission perm : permissions) {
+                                if (perm.getUri().equals(Uri.parse(slideshowViewModel.getAvatar().getValue()))) {
+                                    weHaveDurablePermission=true;
+                                }
+                            }
+                            if(weHaveDurablePermission)binding.head.setImageURI(Uri.parse(slideshowViewModel.getAvatar().getValue()));
                         }
                     }
             }
@@ -85,6 +94,9 @@ public class SlideshowFragment extends Fragment {
             public void onClick(View view) {
                 Intent intent = new Intent();
                 intent.setAction(Intent.ACTION_OPEN_DOCUMENT);
+                intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION
+                                | Intent.FLAG_GRANT_WRITE_URI_PERMISSION
+                                | Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION);
                 intent.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
                 startActivityForResult(intent,555);
             }
@@ -119,11 +131,8 @@ public class SlideshowFragment extends Fragment {
                     public void onSuccess(String body, Gson gson) {
                     }
                 });
-                binding.head.setImageURI(uri);
+                getActivity().getContentResolver().takePersistableUriPermission(uri, Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
                 slideshowViewModel.getAvatar().setValue(uri.toString());
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-                    getActivity().getContentResolver().takePersistableUriPermission(uri, Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
-                }
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -143,7 +152,6 @@ public class SlideshowFragment extends Fragment {
         if (requestCode == REQUEST_CODE_STORAGE_PERMISSION) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 // 用户授权了权限，在这里处理逻辑，如加载图片
-                binding.head.setImageURI(Uri.parse(slideshowViewModel.getAvatar().getValue()));
             } else {
                 // 用户拒绝了权限，可以在这里做一些提示或处理
                 Toast.makeText(getActivity(), "头像无法正常显示!", Toast.LENGTH_SHORT).show();
