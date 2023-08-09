@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
@@ -26,6 +27,7 @@ import com.guet.demo_android.MainActivity;
 import com.guet.demo_android.VolleyCallback;
 import com.guet.demo_android.databinding.FragmentSlideshowBinding;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -61,7 +63,9 @@ public class SlideshowFragment extends Fragment {
                     } else {
                         // 权限已经授予，加载图片
                         if(slideshowViewModel.getAvatar().getValue()!=null&&slideshowViewModel.getAvatar().getValue()!="")
-                        {binding.head.setImageURI(Uri.parse(slideshowViewModel.getAvatar().getValue()));}
+                        {
+                            binding.head.setImageURI(Uri.parse(slideshowViewModel.getAvatar().getValue()));
+                        }
                     }
             }
         });
@@ -80,7 +84,7 @@ public class SlideshowFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent();
-                intent.setAction(Intent.ACTION_PICK);
+                intent.setAction(Intent.ACTION_OPEN_DOCUMENT);
                 intent.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
                 startActivityForResult(intent,555);
             }
@@ -117,6 +121,9 @@ public class SlideshowFragment extends Fragment {
                 });
                 binding.head.setImageURI(uri);
                 slideshowViewModel.getAvatar().setValue(uri.toString());
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                    getActivity().getContentResolver().takePersistableUriPermission(uri, Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+                }
             } catch (Exception e) {
                 e.printStackTrace();
             }
