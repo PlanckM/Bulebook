@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.content.UriPermission;
 import android.content.pm.PackageManager;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
@@ -23,16 +22,11 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.google.gson.Gson;
-import com.guet.demo_android.CollectedActivity;
 import com.guet.demo_android.HttpUtils;
-import com.guet.demo_android.LikedActivity;
 import com.guet.demo_android.MainActivity;
-import com.guet.demo_android.SavedActivity;
-import com.guet.demo_android.SharedActivity;
 import com.guet.demo_android.VolleyCallback;
 import com.guet.demo_android.databinding.FragmentSlideshowBinding;
 
-import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -55,6 +49,8 @@ public class SlideshowFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        MainActivity a= (MainActivity) getActivity();
+        a.setBottomVisible();
         slideshowViewModel.getAvatar().observe(getViewLifecycleOwner(),new Observer<String>(){
             @Override
             public void onChanged(String s){
@@ -123,33 +119,29 @@ public class SlideshowFragment extends Fragment {
         binding.liked.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent=new Intent(getActivity(), LikedActivity.class);
-                intent.putExtra("id",slideshowViewModel.getId().getValue());
-                startActivity(intent);
+                MainActivity main=(MainActivity)getActivity();
+                main.navigateF(MainActivity.FragmentLiked);
             }
         });
         binding.saved.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent=new Intent(getActivity(), SavedActivity.class);
-                intent.putExtra("id",slideshowViewModel.getId().getValue());
-                startActivity(intent);
+                MainActivity main=(MainActivity)getActivity();
+                main.navigateF(MainActivity.FragmentSaved);
             }
         });
         binding.shared.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent=new Intent(getActivity(), SharedActivity.class);
-                intent.putExtra("id",slideshowViewModel.getId().getValue());
-                startActivity(intent);
+                MainActivity main=(MainActivity)getActivity();
+                main.navigateF(MainActivity.FragmentShared);
             }
         });
         binding.collected.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent=new Intent(getActivity(), CollectedActivity.class);
-                intent.putExtra("id",slideshowViewModel.getId().getValue());
-                startActivity(intent);
+                MainActivity main=(MainActivity)getActivity();
+                main.navigateF(MainActivity.FragmentCollected);
             }
         });
     }

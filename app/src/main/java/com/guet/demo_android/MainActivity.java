@@ -3,6 +3,7 @@ package com.guet.demo_android;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.Menu;
+import android.view.View;
 import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -24,12 +25,17 @@ public class MainActivity extends AppCompatActivity {
     private AppBarConfiguration mAppBarConfiguration;
     public static String FragmentSetting="setting_fragment";
     public static String FragmentEditInfo="edit_info_fragment";
+    public static String FragmentLiked="liked_fragment";
+    public static String FragmentSaved="saved_fragment";
+    public static String FragmentCollected="collected_fragment";
+    public static String FragmentShared="shared_fragment";
+    private ActivityMainBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        ActivityMainBinding binding = ActivityMainBinding.inflate(getLayoutInflater());
+        binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         getIntent();
         Toast.makeText(MainActivity.this, "Login success !", Toast.LENGTH_SHORT).show();
@@ -102,7 +108,22 @@ public class MainActivity extends AppCompatActivity {
             case "edit_info_fragment":
                 Navigation.findNavController(this, R.id.nav_host_fragment_content_main).navigate(R.id.edit_info);
                 break;
+            case "shared_fragment":
+                Navigation.findNavController(this, R.id.nav_host_fragment_content_main).navigate(R.id.shared);
+                break;
+            case "collected_fragment":
+                Navigation.findNavController(this, R.id.nav_host_fragment_content_main).navigate(R.id.collected);
+                break;
+            case "saved_fragment":
+                Navigation.findNavController(this, R.id.nav_host_fragment_content_main).navigate(R.id.saved);
+                break;
+            case "liked_fragment":
+                Navigation.findNavController(this, R.id.nav_host_fragment_content_main).navigate(R.id.liked);
+                break;
         }
-
+        binding.appBarMain.contentMain.bottomNavView.setVisibility(View.INVISIBLE);
+    }
+    public void setBottomVisible(){
+        binding.appBarMain.contentMain.bottomNavView.setVisibility(View.VISIBLE);
     }
 }

@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.guet.demo_android.MainActivity;
 import com.guet.demo_android.databinding.FragmentReflowBinding;
 //是Fragment类的一个子类，表示应用程序用户界面的一部分。
 public class ReflowFragment extends Fragment {
@@ -25,7 +26,8 @@ public class ReflowFragment extends Fragment {
         //这里使用ViewModelProvider来创建或获取ReflowViewModel的实例。ViewModel是用来管理UI相关数据和业务逻辑的类，
         //使用ViewModel可以将数据与UI组件（如Fragment）分离，避免配置变更等情况下数据丢失，并提供更好的代码组织和维护。
         ReflowViewModel reflowViewModel = new ViewModelProvider(this).get(ReflowViewModel.class);
-
+        MainActivity a= (MainActivity) getActivity();
+        a.setBottomVisible();
         //创建View绑定（View Binding）：
         //这里使用FragmentReflowBinding.inflate()方法来实例化Fragment的布局，并得到与该布局相关联的FragmentReflowBinding对象。
         //FragmentReflowBinding是一个自动生成的绑定类，它能够让你轻松地访问布局中的视图和组件。

@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.guet.demo_android.MainActivity;
 import com.guet.demo_android.R;
 import com.guet.demo_android.databinding.FragmentTransformBinding;
 import com.guet.demo_android.databinding.ItemTransformBinding;
@@ -40,14 +41,14 @@ public class TransformFragment extends Fragment {
         TransformViewModel transformViewModel =
                 new ViewModelProvider(this).get(TransformViewModel.class);
 
-
         //绑定xml文件
         binding = FragmentTransformBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
         //绑定控件
         RecyclerView recyclerView = binding.recyclerviewTransform;
         ListAdapter<String, TransformViewHolder> adapter = new TransformAdapter();
-
+        MainActivity a= (MainActivity) getActivity();
+        a.setBottomVisible();
         recyclerView.setAdapter(adapter);
 
         //响应式
