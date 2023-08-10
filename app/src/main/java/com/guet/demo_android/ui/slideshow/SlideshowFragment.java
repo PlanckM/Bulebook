@@ -23,8 +23,12 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.google.gson.Gson;
+import com.guet.demo_android.CollectedActivity;
 import com.guet.demo_android.HttpUtils;
+import com.guet.demo_android.LikedActivity;
 import com.guet.demo_android.MainActivity;
+import com.guet.demo_android.SavedActivity;
+import com.guet.demo_android.SharedActivity;
 import com.guet.demo_android.VolleyCallback;
 import com.guet.demo_android.databinding.FragmentSlideshowBinding;
 
@@ -114,6 +118,38 @@ public class SlideshowFragment extends Fragment {
             public void onClick(View view) {
                 MainActivity main=(MainActivity)getActivity();
                 main.navigateF(MainActivity.FragmentSetting);
+            }
+        });
+        binding.liked.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent=new Intent(getActivity(), LikedActivity.class);
+                intent.putExtra("id",slideshowViewModel.getId().getValue());
+                startActivity(intent);
+            }
+        });
+        binding.saved.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent=new Intent(getActivity(), SavedActivity.class);
+                intent.putExtra("id",slideshowViewModel.getId().getValue());
+                startActivity(intent);
+            }
+        });
+        binding.shared.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent=new Intent(getActivity(), SharedActivity.class);
+                intent.putExtra("id",slideshowViewModel.getId().getValue());
+                startActivity(intent);
+            }
+        });
+        binding.collected.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent=new Intent(getActivity(), CollectedActivity.class);
+                intent.putExtra("id",slideshowViewModel.getId().getValue());
+                startActivity(intent);
             }
         });
     }
