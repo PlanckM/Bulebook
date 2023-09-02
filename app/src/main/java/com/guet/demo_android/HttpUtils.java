@@ -1,8 +1,9 @@
 package com.guet.demo_android;
 
-import androidx.annotation.NonNull;
 import android.os.NetworkOnMainThreadException;
 import android.util.Log;
+
+import androidx.annotation.NonNull;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
