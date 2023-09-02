@@ -9,6 +9,7 @@
 
     <string name="menu_transform">Home</string>
     <string name="menu_reflow">Add</string>
+    <string name="menu_edit">编辑信息</string>
     <string name="menu_slideshow">Me</string>
     <string name="menu_settings">Settings</string>
 
@@ -27,5 +28,8 @@
     <string name="login_account_name">login_account_name</string>
     <string name="login_password">login_password</string>
     <string name="login_remember_password">login_remember_password</string>
+    <string name="title_activity_sign_up">SignUp</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>

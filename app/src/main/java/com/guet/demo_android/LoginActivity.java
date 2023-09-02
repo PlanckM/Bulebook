@@ -14,10 +14,15 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -29,6 +34,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private EditText etAccount;
     private CheckBox cbRememberPwd;
+    private TextView sign_up;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,16 +100,20 @@ public class LoginActivity extends AppCompatActivity {
                 }
 
                 String Url="http://47.107.52.7:88/member/photo/user/login?";
-                Map<String,String> params=new HashMap<String,String>();
+                Map<String,Object> params=new HashMap<String,Object>();
                 params.put("password",password);
                 params.put("username",account);
-                HttpUtils.post(Url,params,new VolleyCallback() {
+                HttpUtils.post(Url,params,false,new VolleyCallback() {
                     @Override
-                    public void onSuccess(HttpUtils.ResponseBody responseBody) {
+                    public void onSuccess(String body, Gson gson) {
+                        Type jsonType=new TypeToken<HttpUtils.ResponseBody<User>>(){}.getType();
+                        HttpUtils.ResponseBody<User> responseBody= gson.fromJson(body,jsonType);
                         if(responseBody.getCode()==200){
+                            final AppContext app = (AppContext)getApplication();
+                            app.user=responseBody.getData();
                             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                            startActivity(intent);
 
+                            startActivity(intent);
                             //在string文件下获取键值
                             String spFileName = getResources()
                                     .getString(R.string.shared_preferences_file_name);
@@ -136,7 +146,7 @@ public class LoginActivity extends AppCompatActivity {
                         }
                         else{
                             Looper.prepare();
-                            Toast.makeText(LoginActivity.this, "密码或账号错误!", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(LoginActivity.this, "password or account is wrong !", Toast.LENGTH_SHORT).show();
                             Looper.loop();
                         }
                     }
@@ -163,6 +173,16 @@ public class LoginActivity extends AppCompatActivity {
                 }
             }
         });
+
+        sign_up = findViewById(R.id.tv_sign_up);
+        sign_up.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(LoginActivity.this, SignUpActivity.class);
+                startActivity(intent);
+            }
+        });
+
     }
 }
 

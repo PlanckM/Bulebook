@@ -1,7 +1,6 @@
 package com.guet.demo_android;
 
 import android.os.NetworkOnMainThreadException;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 
@@ -25,27 +24,31 @@ public class HttpUtils {
     private static final Gson gson = new Gson();
     // 请求头
     static Headers headers = new Headers.Builder()
-            .add("appId", "729d6594c5dd4628a25f5cd464c46632")
-            .add("appSecret", "61181ce28ab2605ed4b63b2889765d7eebdba")
+            .add("appId", "4d30717bfe774414a81c1198b1fe7d22")
+            .add("appSecret", "266335a3f6cde181842a1a34f62a633f927f5")
             .add("Accept", "application/json, text/plain, */*")
             .build();
 
-    public static void post(String url, Map<String,String> params,final VolleyCallback callback){
+    public static void post(String url, Map<String, Object> params, boolean inBody, final VolleyCallback callback){
         new Thread(() -> {
             MediaType MEDIA_TYPE_JSON = MediaType.parse("application/json; charset=utf-8");
             String strUrl=url;
-            for (String key : params.keySet()) {
-                strUrl=strUrl+key+'='+params.get(key)+'&';
+            String body="";
+            if(!inBody) {
+                for (String key : params.keySet()) {
+                    strUrl = strUrl + key + '=' + params.get(key) + '&';
+                }
+                strUrl = strUrl.substring(0, strUrl.length() - 1);
             }
-            strUrl = strUrl.substring(0,strUrl.length()-1);
-            Log.d(strUrl, "post: ");
-
+            else{
+                body=gson.toJson(params);
+            }
             //请求组合创建
             Request request = new Request.Builder()
                     .url(strUrl)
                     // 将请求头加至请求中
                     .headers(headers)
-                    .post(RequestBody.create(MEDIA_TYPE_JSON,""))
+                    .post(RequestBody.create(MEDIA_TYPE_JSON,body))
                     .build();
 
             try {
@@ -60,12 +63,9 @@ public class HttpUtils {
                     @Override
                     public void onResponse(@NonNull Call call, Response response) throws IOException {
                         //TODO 请求成功处理
-                        Type jsonType = new TypeToken<ResponseBody<Object>>(){}.getType();
                         // 获取响应体的json串
                         String body = response.body().string();
-                        // 解析json串到自己封装的状态
-                        ResponseBody<Object> dataResponseBody = gson.fromJson(body,jsonType);
-                        callback.onSuccess(dataResponseBody);
+                        callback.onSuccess(body,gson);
                     }
                 });
             }catch (NetworkOnMainThreadException ex){
@@ -77,10 +77,10 @@ public class HttpUtils {
     public static void get(String url, Map<String,String> params,final VolleyCallback callback){
         new Thread(() -> {
             String strUrl=url;
-            if(params!=null)
+            if(params!=null){
             for (String key : params.keySet()) {
                 strUrl=strUrl+key+'='+params.get(key)+'&';
-            }
+            }}
             // 请求头
             Headers headers = new Headers.Builder()
                     .add("appId", "729d6594c5dd4628a25f5cd464c46632")
@@ -110,9 +110,7 @@ public class HttpUtils {
                         Type jsonType = new TypeToken<ResponseBody<Object>>(){}.getType();
                         // 获取响应体的json串
                         String body = response.body().string();
-                        // 解析json串到自己封装的状态
-                        ResponseBody<Object> dataResponseBody = gson.fromJson(body,jsonType);
-                        callback.onSuccess(dataResponseBody);
+                        callback.onSuccess(body,gson);
                     }
                 });
             }catch (NetworkOnMainThreadException ex){
@@ -166,8 +164,5 @@ public class HttpUtils {
                     '}';
         }
     }
+}
 
-}
-interface VolleyCallback {
-    void onSuccess(HttpUtils.ResponseBody result);
-}

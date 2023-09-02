@@ -1,19 +1,49 @@
 package com.guet.demo_android.ui.slideshow;
 
-import androidx.lifecycle.LiveData;
+import android.app.Application;
+
+import androidx.annotation.NonNull;
+import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModel;
 
-public class SlideshowViewModel extends ViewModel {
+import com.guet.demo_android.AppContext;
+import com.guet.demo_android.User;
 
-    private final MutableLiveData<String> mText;
+public class SlideshowViewModel extends AndroidViewModel {
+    private MutableLiveData<String> avatar = new MutableLiveData<>();
+    private MutableLiveData<String> username = new MutableLiveData<>();
+    private MutableLiveData<String> id = new MutableLiveData<>();
+    private MutableLiveData<String> introduction = new MutableLiveData<>();
+    private MutableLiveData<String> sex = new MutableLiveData<>();
 
-    public SlideshowViewModel() {
-        mText = new MutableLiveData<>();
-        mText.setValue("This is slideshow fragment");
+    public MutableLiveData<String> getAvatar() {
+        return avatar;
     }
 
-    public LiveData<String> getText() {
-        return mText;
+    public MutableLiveData<String> getUsername() {
+        return username;
+    }
+
+    public MutableLiveData<String> getId() {
+        return id;
+    }
+
+    public MutableLiveData<String> getIntroduction() {
+        return introduction;
+    }
+
+    public MutableLiveData<String> getSex() {
+        return sex;
+    }
+
+    public SlideshowViewModel(@NonNull Application application) {
+        super(application);
+        AppContext app=(AppContext)application;
+        User user=app.user;
+        avatar.setValue(user.getAvatar());
+        username.setValue(user.getUsername());
+        id.setValue(user.getId());
+        introduction.setValue(user.getIntroduce());
+        sex.setValue(user.getSex()+"");
     }
 }
