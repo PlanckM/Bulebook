@@ -1,22 +1,239 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.reflow.ReflowFragment">
+    android:orientation="vertical">
+    <!--标题栏-->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="25dp"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp">
+    </RelativeLayout>
+    <!--表单布局-->
 
-    <TextView
-        android:id="@+id/text_reflow"
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:textAlignment="center"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+        android:orientation="vertical">
+
+        <!--标题-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginLeft="20dp"
+            android:background="@drawable/btn_border_add">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="标题:"
+                    android:layout_marginTop="10dp"
+                    android:textColor="@color/pink"
+                    android:textSize="20dp"
+                    android:textStyle="bold">
+                </TextView>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_border_bottom"
+                android:orientation="vertical"
+                android:paddingTop="6dp"
+                android:layout_marginBottom="2dp">
+                <!--TextView 文本  html的p标签-->
+                <EditText
+                    android:id="@+id/t_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="2dp"
+                    android:background="@null"
+                    android:gravity="start"
+                    android:hint="请输入标题信息"
+                    android:textColorHint="#BCB5CA"
+                    android:textSize="18dp" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <ImageView
+            android:layout_width="fill_parent"
+            android:layout_height="6dp" />
+
+        <!--添加图片-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:background="@drawable/btn_border_add"
+            >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="添加图片:"
+                    android:textColor="@color/pink"
+                    android:textSize="20dp"
+                    android:textStyle="bold">
+                </TextView>
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_border_bottom"
+                android:orientation="horizontal"
+                android:paddingTop="15dp"
+                android:paddingBottom="15dp"
+                android:layout_marginBottom="4dp">
+
+                <RelativeLayout
+                    android:id="@+id/add_rl_1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:visibility="gone">
+                    <ImageView
+                        android:id="@+id/add_1"
+                        android:layout_width="80dp"
+                        android:layout_height="80dp" />
+                </RelativeLayout>
+                <RelativeLayout
+                    android:id="@+id/add_rl_2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:visibility="gone">
+                    <ImageView
+                        android:id="@+id/add_2"
+                        android:layout_width="80dp"
+                        android:layout_height="80dp" />
+                </RelativeLayout>
+                <RelativeLayout
+                    android:id="@+id/add_rl_3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:visibility="gone">
+                    <ImageView
+                        android:id="@+id/add_3"
+                        android:layout_width="80dp"
+                        android:layout_height="80dp" />
+                </RelativeLayout>
+
+                <ImageButton
+                    android:id="@+id/btn_select_image"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:layout_gravity="center"
+                    android:layout_margin="5dp"
+                    android:src="@drawable/baseline_add_24"
+                    android:scaleType="fitXY"
+                    android:padding="25dp"
+                    android:background="@drawable/imagebtn_border_add"
+                    android:text="上传图片"
+                    android:textColorHint="#BCB5CA" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <!--  分割线  -->
+        <ImageView
+            android:layout_width="fill_parent"
+            android:layout_height="6dp" />
+
+
+        <!--内容-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:background="@drawable/btn_border_add"
+
+
+            >
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="内容:"
+                    android:textColor="@color/pink"
+                    android:layout_marginTop="10dp"
+                    android:textSize="20dp"
+                    android:textStyle="bold">
+                </TextView>
+            </LinearLayout>
+
+            <EditText
+                android:id="@+id/context"
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:layout_marginTop="2dp"
+                android:layout_marginBottom="2dp"
+                android:background="@drawable/bg_border_bottom"
+                android:hint="请输入内容信息"
+                android:textColorHint="#BCB5CA"
+                android:lines="6"
+                android:textSize="18dp"
+                android:gravity="start"/>
+
+        </LinearLayout>
+
+        <ImageView
+            android:layout_width="fill_parent"
+            android:layout_height="20dp"
+            />
+
+        <!--提交按钮-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp">
+            <Button
+                android:id="@+id/img_upload"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="提交"
+                android:background="@drawable/btn_border_fill"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textSize="22dp" />
+            <Button
+                android:id="@+id/img_saved"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="保存"
+                android:background="@drawable/btn_border_fill"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textSize="22dp" />
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>

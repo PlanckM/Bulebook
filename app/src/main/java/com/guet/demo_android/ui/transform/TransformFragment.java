@@ -23,12 +23,6 @@ import com.guet.demo_android.databinding.ItemTransformBinding;
 import java.util.Arrays;
 import java.util.List;
 
-/**
- * Fragment that demonstrates a responsive layout pattern where the format of the content
- * transforms depending on the size of the screen. Specifically this Fragment shows items in
- * the [RecyclerView] using LinearLayoutManager in a small screen
- * and shows items using GridLayoutManager in a large screen.
- */
 public class TransformFragment extends Fragment {
 
     private FragmentTransformBinding binding;
@@ -38,8 +32,7 @@ public class TransformFragment extends Fragment {
         //初始化ViewModel
         //这里使用ViewModelProvider来创建或获取TransformFragment的实例。ViewModel是用来管理UI相关数据和业务逻辑的类，
         //使用ViewModel可以将数据与UI组件（如Fragment）分离，避免配置变更等情况下数据丢失，并提供更好的代码组织和维护。
-        TransformViewModel transformViewModel =
-                new ViewModelProvider(this).get(TransformViewModel.class);
+        TransformViewModel transformViewModel = new ViewModelProvider(this).get(TransformViewModel.class);
 
         //绑定xml文件
         binding = FragmentTransformBinding.inflate(inflater, container, false);
@@ -66,7 +59,6 @@ public class TransformFragment extends Fragment {
     //TransformAdapter是TransformFragment类的一个内部类，它继承自ListAdapter，
     //是用来适配数据并在RecyclerView中显示列表项的适配器。它负责管理列表项的数据和视图，并在需要时更新显示。
     private static class TransformAdapter extends ListAdapter<String, TransformViewHolder> {
-
         private final List<Integer> drawables = Arrays.asList(
                 R.drawable.avatar_1,
                 R.drawable.avatar_2,
@@ -101,8 +93,6 @@ public class TransformFragment extends Fragment {
                 }
             });
         }
-
-
         //onCreateViewHolder()方法用于创建新的TransformViewHolder对象，即用于表示单个列表项的视图。
         @NonNull
         @Override
@@ -129,8 +119,9 @@ public class TransformFragment extends Fragment {
 
         public TransformViewHolder(ItemTransformBinding binding) {
             super(binding.getRoot());
-            imageView = binding.imageViewItemTransform;
-            textView = binding.textViewItemTransform;
+            imageView = binding.ivImage;
+            textView = binding.tvTitle;
+
         }
     }
 }

@@ -74,6 +74,40 @@ public class HttpUtils {
         }).start();
     }
 
+    public static void post(String url, RequestBody body, final VolleyCallback callback){
+        new Thread(() -> {
+            String strUrl=url;
+            //请求组合创建
+            Request request = new Request.Builder()
+                    .url(strUrl)
+                    // 将请求头加至请求中
+                    .headers(headers)
+                    .post(body)
+                    .build();
+
+            try {
+                OkHttpClient client = new OkHttpClient();
+                //发起请求，传入callback进行回调
+                client.newCall(request).enqueue(new Callback() {
+                    @Override
+                    public void onFailure(@NonNull Call call, IOException e) {
+                        //TODO 请求失败处理
+                        e.printStackTrace();
+                    }
+                    @Override
+                    public void onResponse(@NonNull Call call, Response response) throws IOException {
+                        //TODO 请求成功处理
+                        // 获取响应体的json串
+                        String body = response.body().string();
+                        callback.onSuccess(body,gson);
+                    }
+                });
+            }catch (NetworkOnMainThreadException ex){
+                ex.printStackTrace();
+            }
+        }).start();
+    }
+
     public static void get(String url, Map<String,String> params,final VolleyCallback callback){
         new Thread(() -> {
             String strUrl=url;

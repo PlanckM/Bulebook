@@ -7,7 +7,7 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.MutableLiveData;
 
 import com.guet.demo_android.AppContext;
-import com.guet.demo_android.User;
+import com.guet.demo_android.Type.User;
 
 public class SlideshowViewModel extends AndroidViewModel {
     private MutableLiveData<String> avatar = new MutableLiveData<>();

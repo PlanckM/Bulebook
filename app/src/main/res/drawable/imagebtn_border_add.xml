@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <shape>
+            <!-- 背景填充颜色 -->
+            <solid android:color="#0DE3E3E3" />
+            <!--角度-->
+            <corners
+                android:radius="20dp"/>
+            <!-- 描边，边框宽度、颜色 -->
+            <stroke
+                android:dashGap="10dp"
+                android:dashWidth="10dp"
+                android:width="1.2dp"
+                android:color="#4DCACACA" />
+        </shape>
+    </item>
+</selector>

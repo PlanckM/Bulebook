@@ -1,9 +1,9 @@
 package com.guet.demo_android;
-
 import android.os.Bundle;
+
 import android.view.MenuItem;
 import android.view.Menu;
-import android.view.View;
+
 import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -121,9 +121,9 @@ public class MainActivity extends AppCompatActivity {
                 Navigation.findNavController(this, R.id.nav_host_fragment_content_main).navigate(R.id.liked);
                 break;
         }
-        binding.appBarMain.contentMain.bottomNavView.setVisibility(View.INVISIBLE);
+//        binding.appBarMain.contentMain.bottomNavView.setVisibility(View.INVISIBLE);
     }
     public void setBottomVisible(){
-        binding.appBarMain.contentMain.bottomNavView.setVisibility(View.VISIBLE);
+//        binding.appBarMain.contentMain.bottomNavView.setVisibility(View.VISIBLE);
     }
 }
