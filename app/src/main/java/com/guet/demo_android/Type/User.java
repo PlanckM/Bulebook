@@ -1,4 +1,4 @@
-package com.guet.demo_android;
+package com.guet.demo_android.Type;
 
 public class User {
     String id;

@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.os.Looper;
 import android.text.InputType;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -21,6 +20,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.guet.demo_android.Type.User;
 
 import java.lang.reflect.Type;
 import java.util.HashMap;

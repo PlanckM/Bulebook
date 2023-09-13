@@ -18,8 +18,6 @@ import androidx.lifecycle.ViewModelProvider;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.guet.demo_android.HttpUtils;
-import com.guet.demo_android.LoginActivity;
-import com.guet.demo_android.User;
 import com.guet.demo_android.VolleyCallback;
 import com.guet.demo_android.databinding.FragmentEditInfoBinding;
 import com.guet.demo_android.ui.slideshow.SlideshowViewModel;

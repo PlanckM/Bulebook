@@ -1,57 +1,209 @@
 package com.guet.demo_android.ui.reflow;
 
+import android.app.Application;
+import android.content.Intent;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.os.Looper;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.reflect.TypeToken;
+import com.guet.demo_android.AppContext;
+import com.guet.demo_android.HttpUtils;
+import com.guet.demo_android.LoginActivity;
 import com.guet.demo_android.MainActivity;
+import com.guet.demo_android.Type.User;
+import com.guet.demo_android.VolleyCallback;
 import com.guet.demo_android.databinding.FragmentReflowBinding;
-//是Fragment类的一个子类，表示应用程序用户界面的一部分。
+import com.guet.demo_android.ui.PictureDetailActivity;
+import com.luck.picture.lib.basic.PictureSelector;
+import com.luck.picture.lib.config.SelectMimeType;
+import com.luck.picture.lib.entity.LocalMedia;
+import com.luck.picture.lib.interfaces.OnResultCallbackListener;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
+
 public class ReflowFragment extends Fragment {
 
     private FragmentReflowBinding binding;
-
-    //onCreateView()方法是由Android系统的Fragment管理器（FragmentManager）在需要显示Fragment时调用的。
-    //负责将片段的布局文件实例化，设置ViewModel，并将UI组件与ViewModel中的数据关联起来。
-    //LayoutInflater inflater: 用于将XML布局文件转换为对应的View对象。
-    //iewGroup container: 是Fragment所附加的父容器View。
+    private int localImage = 1;
+    private RelativeLayout rl1,rl2,rl3;
+    private ImageView image1,image2,image3;
+    private List<String> paths;
+    private AppContext app;
+    @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        //初始化ViewModel
-        //这里使用ViewModelProvider来创建或获取ReflowViewModel的实例。ViewModel是用来管理UI相关数据和业务逻辑的类，
-        //使用ViewModel可以将数据与UI组件（如Fragment）分离，避免配置变更等情况下数据丢失，并提供更好的代码组织和维护。
-        ReflowViewModel reflowViewModel = new ViewModelProvider(this).get(ReflowViewModel.class);
         MainActivity a= (MainActivity) getActivity();
         a.setBottomVisible();
-        //创建View绑定（View Binding）：
-        //这里使用FragmentReflowBinding.inflate()方法来实例化Fragment的布局，并得到与该布局相关联的FragmentReflowBinding对象。
-        //FragmentReflowBinding是一个自动生成的绑定类，它能够让你轻松地访问布局中的视图和组件。
-        //方法将Fragment的布局文件实例化为一个View对象，然后将该View对象添加到container中，最后返回该View对象作为Fragment的用户界面。
         binding = FragmentReflowBinding.inflate(inflater, container, false);
-        //获取根视图：
-        //通过getRoot()方法，可以得到Fragment的根视图。根视图是整个Fragment布局的最顶层视图。
         View root = binding.getRoot();
-
-        //设置数据与视图的关联：
-        //这里通过binding对象找到在布局中定义的名为textReflow的TextView，并将其赋值给textView变量。
-        final TextView textView = binding.textReflow;
-
-        //观察LiveData的变化：
-        //通过reflowViewModel.getText()方法获取ReflowViewModel中的LiveData对象mText，然后使用observe()方法观察该LiveData的变化。
-        //当mText的值发生变化时，这个观察者会自动被通知，然后调用textView::setText来更新textView的文本内容。
-        //这样，textView的文本将始终与mText的值保持同步。
-        reflowViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
-
-        //最后，将根视图root返回给系统，这样系统就能将这个视图显示在屏幕上，作为Fragment的用户界面。
-        //返回的视图添加到Activity的布局中
         return root;
     }
 
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState){
+        image1 = binding.add1;
+        image2 = binding.add2;
+        image3 = binding.add3;
+        rl1 = binding.addRl1;
+        rl2 = binding.addRl2;
+        rl3 = binding.addRl3;
+        app=(AppContext) getActivity().getApplication();
+        paths = new ArrayList<>();
+        binding.btnSelectImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (localImage > 3){
+                    Toast.makeText(getActivity(),"最多允许上传三张",
+                            Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                PictureSelector.create(getContext())
+                        .openSystemGallery(SelectMimeType.ofImage())
+                        .setSelectMaxFileSize(3)
+                        .setSelectMinFileSize(1)
+                        .forSystemResultActivity(new OnResultCallbackListener<LocalMedia>() {
+                            @Override
+                            public void onResult(ArrayList<LocalMedia> result) {
+                                for (LocalMedia media : result) {
+                                    System.out.println(media.getRealPath());
+                                    try {
+                                        FileInputStream stream = new FileInputStream(String.valueOf(media.getRealPath()));
+                                        if (localImage == 1){
+                                            image1.setImageBitmap(BitmapFactory.decodeStream(stream));
+                                            rl1.setVisibility(View.VISIBLE);
+                                        }else if (localImage == 2){
+                                            image2.setImageBitmap(BitmapFactory.decodeStream(stream));
+                                            rl2.setVisibility(View.VISIBLE);
+                                        }else if (localImage == 3){
+                                            image3.setImageBitmap(BitmapFactory.decodeStream(stream));
+                                            rl3.setVisibility(View.VISIBLE);
+                                        }
+                                        localImage ++;
+                                        paths.add(media.getRealPath());
+                                    } catch (FileNotFoundException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                            }
+                            @Override
+                            public void onCancel() {
+
+                            }
+                        });
+            }
+        });
+
+        binding.imgUpload.setOnClickListener(view1 -> {
+            MultipartBody.Builder builder = new MultipartBody.Builder().setType(MultipartBody.FORM);
+            for (int i = 0; i < paths.size(); i++) {
+                File file = new File(paths.get(i));
+
+                RequestBody body = RequestBody.create(MediaType.parse("multipart/form-data"), file);
+                builder.addFormDataPart("fileList",file.getName(),body);
+            }
+            RequestBody requestBody = builder.build();
+            HttpUtils.post("http://47.107.52.7:88/member/photo/image/upload", requestBody, (body, gson) -> {
+                Type jsonType=new TypeToken<HttpUtils.ResponseBody<JsonObject>>(){}.getType();
+                HttpUtils.ResponseBody<JsonObject> responseBody= gson.fromJson(body,jsonType);
+
+
+                String codes2 =  responseBody.getData().get("imageCode").toString();
+                String title=binding.tTitle.getText().toString();
+                String content=binding.context.getText().toString();
+                String userId=app.user.getId();
+                String code=codes2.substring(1,codes2.length()-1);
+
+                Map<String,Object> bodyMap=new HashMap<String,Object>();
+                bodyMap.put("content",content );
+                bodyMap.put("imageCode", code);
+                bodyMap.put("pUserId", userId);
+                bodyMap.put("title", title);
+                HttpUtils.post("http://47.107.52.7:88/member/photo/share/add", bodyMap, true, (responseBody1, gson1) -> {
+                    Type type=new TypeToken<HttpUtils.ResponseBody<Object>>(){}.getType();
+                    HttpUtils.ResponseBody<Object> responseBody2= gson1.fromJson(responseBody1,type);
+                    if(responseBody2.getCode()==200){
+                        Looper.prepare();
+                        Toast.makeText(getActivity(), "上传成功！", Toast.LENGTH_SHORT).show();
+                        Looper.loop();
+                    }
+                    else{
+                        Looper.prepare();
+                        Toast.makeText(getActivity(), "上传失败！", Toast.LENGTH_SHORT).show();
+                        Looper.loop();
+                    }
+                });
+
+            });
+        });
+
+        binding.imgSaved.setOnClickListener(view12 -> {
+            MultipartBody.Builder builder = new MultipartBody.Builder().setType(MultipartBody.FORM);
+            for (int i = 0; i < paths.size(); i++) {
+                File file = new File(paths.get(i));
+
+                RequestBody body = RequestBody.create(MediaType.parse("multipart/form-data"), file);
+                builder.addFormDataPart("fileList",file.getName(),body);
+            }
+            RequestBody requestBody = builder.build();
+            HttpUtils.post("http://47.107.52.7:88/member/photo/image/upload", requestBody, (body, gson) -> {
+                Type jsonType=new TypeToken<HttpUtils.ResponseBody<JsonObject>>(){}.getType();
+                HttpUtils.ResponseBody<JsonObject> responseBody= gson.fromJson(body,jsonType);
+
+
+                String codes2 =  responseBody.getData().get("imageCode").toString();
+                String title=binding.tTitle.getText().toString();
+                String content=binding.context.getText().toString();
+                String userId=app.user.getId();
+                String code=codes2.substring(1,codes2.length()-1);
+
+                Map<String,Object> bodyMap=new HashMap<String,Object>();
+                bodyMap.put("content",content );
+                bodyMap.put("imageCode", code);
+                bodyMap.put("pUserId", userId);
+                bodyMap.put("title", title);
+                HttpUtils.post("http://47.107.52.7:88/member/photo/share/save", bodyMap, true, (responseBody1, gson1) -> {
+                    Type type=new TypeToken<HttpUtils.ResponseBody<Object>>(){}.getType();
+                    HttpUtils.ResponseBody<Object> responseBody2= gson1.fromJson(responseBody1,type);
+                    if(responseBody2.getCode()==200){
+                        Looper.prepare();
+                        Toast.makeText(getActivity(), "保存成功！", Toast.LENGTH_SHORT).show();
+                        Looper.loop();
+                    }
+                    else{
+                        Looper.prepare();
+                        Toast.makeText(getActivity(), "保存失败！", Toast.LENGTH_SHORT).show();
+                        Looper.loop();
+                    }
+                });
+
+            });
+        });
+    }
     @Override
     public void onDestroyView() {
         super.onDestroyView();
