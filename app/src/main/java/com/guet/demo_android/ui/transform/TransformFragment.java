@@ -1,6 +1,10 @@
 package com.guet.demo_android.ui.transform;
 
+import static android.service.controls.ControlsProviderService.TAG;
+
 import android.os.Bundle;
+import android.os.NetworkOnMainThreadException;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,21 +16,38 @@ import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.DiffUtil;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import com.guet.demo_android.AppContext;
+import com.guet.demo_android.HttpUtils;
 import com.guet.demo_android.MainActivity;
 import com.guet.demo_android.R;
+import com.guet.demo_android.Type.PicList;
+import com.guet.demo_android.Type.User;
+import com.guet.demo_android.VolleyCallback;
 import com.guet.demo_android.databinding.FragmentTransformBinding;
 import com.guet.demo_android.databinding.ItemTransformBinding;
 
+import java.io.IOException;
+import java.lang.reflect.Type;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import okhttp3.Call;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 public class TransformFragment extends Fragment {
 
     private FragmentTransformBinding binding;
-
+    AppContext app;
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         //初始化ViewModel
@@ -40,13 +61,17 @@ public class TransformFragment extends Fragment {
         //绑定控件
         RecyclerView recyclerView = binding.recyclerviewTransform;
         ListAdapter<String, TransformViewHolder> adapter = new TransformAdapter();
+        GridLayoutManager glm=new GridLayoutManager(getContext(),2);
+
         MainActivity a= (MainActivity) getActivity();
         a.setBottomVisible();
+        recyclerView.setLayoutManager(glm);
         recyclerView.setAdapter(adapter);
-
+        app=(AppContext) getActivity().getApplication();
         //响应式
         //这样，控件上的数据将始终与viewModel上的值保持同步。
         transformViewModel.getTexts().observe(getViewLifecycleOwner(), adapter::submitList);
+        refreshData();
         return root;
     }
 
@@ -124,4 +149,43 @@ public class TransformFragment extends Fragment {
 
         }
     }
+   //多线程数据请求
+    private void refreshData() {
+        String userId=app.user.getId();
+        Map<String,String> params=new HashMap<>();
+        params.put("userId",userId);
+        HttpUtils.get("http://47.107.52.7:88/member/photo/share", params, (body, gson) -> {
+            Type jsonType=new TypeToken<HttpUtils.ResponseBody<PicList>>(){}.getType();
+            HttpUtils.ResponseBody<PicList> responseBody= gson.fromJson(body,jsonType);
+            PicList picList=responseBody.getData();
+        });
+    }
+    //结果回调
+//    private okhttp3.Callback callback = new okhttp3.Callback() {
+//        @Override
+//        public void onFailure(Call call, IOException e) {
+//            e.printStackTrace();
+//            Log.d(TAG, "onFailure: "+e.toString());
+//        }
+//        @Override
+//        public void onResponse(Call call, Response response) throws IOException {
+//            if (response.isSuccessful()) {
+//                final String body = response.body().string();
+//                Log.d(TAG, "onResponse: 11111111111111111111111111"+body);
+////                runOnUiThread(new Runnable() {
+////                    @Override
+////                    public void run() {
+////                        Gson gson = new Gson();
+////                        Type jsonType = new TypeToken<BaseResponse<List<News>>>() {}.getType();
+////                        BaseResponse<List<News>> newsListResponse = gson.fromJson(body, jsonType);
+////                        for (News news:newsListResponse.getData()) {
+////                            adapter.add(news);
+////                        }
+////                        adapter.notifyDataSetChanged();
+////                    }
+////                });
+//            } else {
+//            }
+//        }
+//    };
 }

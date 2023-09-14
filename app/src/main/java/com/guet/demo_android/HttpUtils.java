@@ -113,8 +113,9 @@ public class HttpUtils {
             String strUrl=url;
             if(params!=null){
             for (String key : params.keySet()) {
-                strUrl=strUrl+key+'='+params.get(key)+'&';
-            }}
+                strUrl=strUrl+"?"+key+'='+params.get(key)+'&';
+            }
+                strUrl = strUrl.substring(0, strUrl.length() - 1);}
             // 请求头
             Headers headers = new Headers.Builder()
                     .add("appId", "729d6594c5dd4628a25f5cd464c46632")
