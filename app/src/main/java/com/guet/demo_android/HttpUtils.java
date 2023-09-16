@@ -1,13 +1,16 @@
 package com.guet.demo_android;
 
-import androidx.annotation.NonNull;
 import android.os.NetworkOnMainThreadException;
+import android.util.Log;
+
+import androidx.annotation.NonNull;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
+import java.util.List;
 import java.util.Map;
 
 import okhttp3.Call;
@@ -28,26 +31,25 @@ public class HttpUtils {
             .add("Accept", "application/json, text/plain, */*")
             .build();
 
-    public static void post(String url, Map<String, Object> params, boolean inBody, final VolleyCallback callback){
+    public static void post(String url, Map<String, Object> params, boolean inBody, final VolleyCallback callback) {
         new Thread(() -> {
             MediaType MEDIA_TYPE_JSON = MediaType.parse("application/json; charset=utf-8");
-            String strUrl=url;
-            String body="";
-            if(!inBody) {
+            String strUrl = url;
+            String body = "";
+            if (!inBody) {
                 for (String key : params.keySet()) {
                     strUrl = strUrl + key + '=' + params.get(key) + '&';
                 }
                 strUrl = strUrl.substring(0, strUrl.length() - 1);
-            }
-            else{
-                body=gson.toJson(params);
+            } else {
+                body = gson.toJson(params);
             }
             //请求组合创建
             Request request = new Request.Builder()
                     .url(strUrl)
                     // 将请求头加至请求中
                     .headers(headers)
-                    .post(RequestBody.create(MEDIA_TYPE_JSON,body))
+                    .post(RequestBody.create(MEDIA_TYPE_JSON, body))
                     .build();
 
             try {
@@ -59,23 +61,24 @@ public class HttpUtils {
                         //TODO 请求失败处理
                         e.printStackTrace();
                     }
+
                     @Override
                     public void onResponse(@NonNull Call call, Response response) throws IOException {
                         //TODO 请求成功处理
                         // 获取响应体的json串
                         String body = response.body().string();
-                        callback.onSuccess(body,gson);
+                        callback.onSuccess(body, gson);
                     }
                 });
-            }catch (NetworkOnMainThreadException ex){
+            } catch (NetworkOnMainThreadException ex) {
                 ex.printStackTrace();
             }
         }).start();
     }
 
-    public static void post(String url, RequestBody body, final VolleyCallback callback){
+    public static void post(String url, RequestBody body, final VolleyCallback callback) {
         new Thread(() -> {
-            String strUrl=url;
+            String strUrl = url;
             //请求组合创建
             Request request = new Request.Builder()
                     .url(strUrl)
@@ -93,31 +96,35 @@ public class HttpUtils {
                         //TODO 请求失败处理
                         e.printStackTrace();
                     }
+
                     @Override
                     public void onResponse(@NonNull Call call, Response response) throws IOException {
                         //TODO 请求成功处理
                         // 获取响应体的json串
                         String body = response.body().string();
-                        callback.onSuccess(body,gson);
+                        callback.onSuccess(body, gson);
                     }
                 });
-            }catch (NetworkOnMainThreadException ex){
+            } catch (NetworkOnMainThreadException ex) {
                 ex.printStackTrace();
             }
         }).start();
     }
 
-    public static void get(String url, Map<String,String> params,final VolleyCallback callback){
+    public static void get(String url, Map<String, String> params, final VolleyCallback callback) {
         new Thread(() -> {
-            String strUrl=url;
-            if(params!=null){
-            for (String key : params.keySet()) {
-                strUrl=strUrl+key+'='+params.get(key)+'&';
-            }}
+            String strUrl = url;
+            if (params != null) {
+                for (String key : params.keySet()) {
+                    strUrl = strUrl + "?" + key + '=' + params.get(key) + '&';
+                }
+                strUrl = strUrl.substring(0, strUrl.length() - 1);
+                Log.d(" fffff",strUrl);
+            }
             // 请求头
             Headers headers = new Headers.Builder()
-                    .add("appId", "729d6594c5dd4628a25f5cd464c46632")
-                    .add("appSecret", "61181ce28ab2605ed4b63b2889765d7eebdba")
+                    .add("appId", "9d1dce6ba32a43a393d650f92cf191c0")
+                    .add("appSecret", "823318a54caf0ebaa41cc83319fc58ab2e209")
                     .add("Accept", "application/json, text/plain, */*")
                     .build();
 
@@ -137,16 +144,19 @@ public class HttpUtils {
                         //TODO 请求失败处理
                         e.printStackTrace();
                     }
+
                     @Override
                     public void onResponse(@NonNull Call call, Response response) throws IOException {
                         //TODO 请求成功处理
-                        Type jsonType = new TypeToken<ResponseBody<Object>>(){}.getType();
+                        Type jsonType = new TypeToken<ResponseBody<Object>>() {
+                        }.getType();
                         // 获取响应体的json串
                         String body = response.body().string();
-                        callback.onSuccess(body,gson);
+                        Log.d("body",body);
+                        callback.onSuccess(body, gson);
                     }
                 });
-            }catch (NetworkOnMainThreadException ex){
+            } catch (NetworkOnMainThreadException ex) {
                 ex.printStackTrace();
             }
         }).start();
@@ -158,9 +168,10 @@ public class HttpUtils {
 
     /**
      * http响应体的封装协议
+     *
      * @param <T> 泛型
      */
-    public static class ResponseBody <T> {
+    public static class ResponseBody<T> {
 
         /**
          * 业务响应码
@@ -175,14 +186,17 @@ public class HttpUtils {
          */
         private T data;
 
-        public ResponseBody(){}
+        public ResponseBody() {
+        }
 
         public int getCode() {
             return code;
         }
+
         public String getMsg() {
             return msg;
         }
+
         public T getData() {
             return data;
         }
