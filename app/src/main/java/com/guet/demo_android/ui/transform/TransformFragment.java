@@ -1,7 +1,7 @@
 package com.guet.demo_android.ui.transform;
 
 import static android.service.controls.ControlsProviderService.TAG;
-
+import com.bumptech.glide.Glide;
 import android.os.Bundle;
 import android.os.NetworkOnMainThreadException;
 import android.util.Log;
@@ -27,6 +27,7 @@ import com.guet.demo_android.HttpUtils;
 import com.guet.demo_android.MainActivity;
 import com.guet.demo_android.R;
 import com.guet.demo_android.Type.PicList;
+import com.guet.demo_android.Type.ShareDetail;
 import com.guet.demo_android.Type.User;
 import com.guet.demo_android.VolleyCallback;
 import com.guet.demo_android.databinding.FragmentTransformBinding;
@@ -34,6 +35,8 @@ import com.guet.demo_android.databinding.ItemTransformBinding;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -47,9 +50,13 @@ import okhttp3.Response;
 public class TransformFragment extends Fragment {
 
     private FragmentTransformBinding binding;
-    AppContext app;
+    private AppContext app;
+    public PicList picList;
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
+        app=(AppContext) getActivity().getApplication();
+        refreshData();
+
         //初始化ViewModel
         //这里使用ViewModelProvider来创建或获取TransformFragment的实例。ViewModel是用来管理UI相关数据和业务逻辑的类，
         //使用ViewModel可以将数据与UI组件（如Fragment）分离，避免配置变更等情况下数据丢失，并提供更好的代码组织和维护。
@@ -62,16 +69,11 @@ public class TransformFragment extends Fragment {
         RecyclerView recyclerView = binding.recyclerviewTransform;
         ListAdapter<String, TransformViewHolder> adapter = new TransformAdapter();
         GridLayoutManager glm=new GridLayoutManager(getContext(),2);
-
-        MainActivity a= (MainActivity) getActivity();
-        a.setBottomVisible();
         recyclerView.setLayoutManager(glm);
         recyclerView.setAdapter(adapter);
-        app=(AppContext) getActivity().getApplication();
         //响应式
         //这样，控件上的数据将始终与viewModel上的值保持同步。
         transformViewModel.getTexts().observe(getViewLifecycleOwner(), adapter::submitList);
-        refreshData();
         return root;
     }
 
@@ -83,7 +85,7 @@ public class TransformFragment extends Fragment {
 
     //TransformAdapter是TransformFragment类的一个内部类，它继承自ListAdapter，
     //是用来适配数据并在RecyclerView中显示列表项的适配器。它负责管理列表项的数据和视图，并在需要时更新显示。
-    private static class TransformAdapter extends ListAdapter<String, TransformViewHolder> {
+    private class TransformAdapter extends ListAdapter<String, TransformViewHolder> {
         private final List<Integer> drawables = Arrays.asList(
                 R.drawable.avatar_1,
                 R.drawable.avatar_2,
@@ -130,23 +132,28 @@ public class TransformFragment extends Fragment {
         @Override
         public void onBindViewHolder(@NonNull TransformViewHolder holder, int position) {
             holder.textView.setText(getItem(position));
+//            ShareDetail shareDetail=picList.getRecords().get(position);
+//           holder.textView.setText(picList.getRecords().get(position).getTitle());
+//            holder.textView1.setText(shareDetail.getUsername());
             holder.imageView.setImageDrawable(
                     ResourcesCompat.getDrawable(holder.imageView.getResources(),
                             drawables.get(position),
                             null));
+
+//            Glide.with(TransformFragment.this).load(shareDetail.getImageUrlList().get(position)).into(holder.imageView);
         }
     }
 
     private static class TransformViewHolder extends RecyclerView.ViewHolder {
 
         private final ImageView imageView;
-        private final TextView textView;
+        private final TextView textView,textView1 ;
 
         public TransformViewHolder(ItemTransformBinding binding) {
             super(binding.getRoot());
             imageView = binding.ivImage;
             textView = binding.tvTitle;
-
+            textView1=binding.userName;
         }
     }
    //多线程数据请求
@@ -157,35 +164,7 @@ public class TransformFragment extends Fragment {
         HttpUtils.get("http://47.107.52.7:88/member/photo/share", params, (body, gson) -> {
             Type jsonType=new TypeToken<HttpUtils.ResponseBody<PicList>>(){}.getType();
             HttpUtils.ResponseBody<PicList> responseBody= gson.fromJson(body,jsonType);
-            PicList picList=responseBody.getData();
+            picList=responseBody.getData();
         });
     }
-    //结果回调
-//    private okhttp3.Callback callback = new okhttp3.Callback() {
-//        @Override
-//        public void onFailure(Call call, IOException e) {
-//            e.printStackTrace();
-//            Log.d(TAG, "onFailure: "+e.toString());
-//        }
-//        @Override
-//        public void onResponse(Call call, Response response) throws IOException {
-//            if (response.isSuccessful()) {
-//                final String body = response.body().string();
-//                Log.d(TAG, "onResponse: 11111111111111111111111111"+body);
-////                runOnUiThread(new Runnable() {
-////                    @Override
-////                    public void run() {
-////                        Gson gson = new Gson();
-////                        Type jsonType = new TypeToken<BaseResponse<List<News>>>() {}.getType();
-////                        BaseResponse<List<News>> newsListResponse = gson.fromJson(body, jsonType);
-////                        for (News news:newsListResponse.getData()) {
-////                            adapter.add(news);
-////                        }
-////                        adapter.notifyDataSetChanged();
-////                    }
-////                });
-//            } else {
-//            }
-//        }
-//    };
 }

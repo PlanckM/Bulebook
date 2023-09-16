@@ -38,4 +38,14 @@ public class PicList {
     public void setCurrent(Integer current) {
         this.current = current;
     }
+
+    @Override
+    public String toString() {
+        return "PicList{" +
+                "records=" + records +
+                ", total=" + total +
+                ", size=" + size +
+                ", current=" + current +
+                '}';
+    }
 }
