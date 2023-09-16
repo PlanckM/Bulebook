@@ -89,10 +89,13 @@ public class TransformFragment extends Fragment {
 
         views.add(findView);
         views.add(focusView);
-        Log.d("", "onViewCreated: "+findrecyclerView);
         TransformAdapter adapter=new TransformAdapter();
+        List<String> texts = new ArrayList<>();
+        for (int i = 1; i <= 16; i++) {
+            texts.add("This is item # " + i);
+        }
+        adapter.submitList(texts);
         findrecyclerView.setAdapter(adapter);
-        Log.d("", "onViewCreated: "+adapter.getCurrentList());
         radioGroup.setOnCheckedChangeListener((radioGroup, i) -> {
                 if(i==R.id.label_find)  viewPager.setCurrentItem(0,false);
                 else if(i==R.id.label_focus) viewPager.setCurrentItem(1,false);
