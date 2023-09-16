@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.Menu;
 
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -11,6 +13,7 @@ import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
 
 import androidx.annotation.NonNull;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
@@ -121,9 +124,20 @@ public class MainActivity extends AppCompatActivity {
                 Navigation.findNavController(this, R.id.nav_host_fragment_content_main).navigate(R.id.liked);
                 break;
         }
-//        binding.appBarMain.contentMain.bottomNavView.setVisibility(View.INVISIBLE);
+        hideBottomNavigationView();
+    }
+    public void hideBottomNavigationView() {
+        binding.appBarMain.contentMain.bottomNavView.setVisibility(View.GONE);
+        // 调整底部导航栏的高度为零
+        CoordinatorLayout.LayoutParams layoutParams = (CoordinatorLayout.LayoutParams) binding.appBarMain.contentMain.bottomNavView.getLayoutParams();
+        layoutParams.height = 0;
+        binding.appBarMain.contentMain.bottomNavView.setLayoutParams(layoutParams);
     }
     public void setBottomVisible(){
-//        binding.appBarMain.contentMain.bottomNavView.setVisibility(View.VISIBLE);
+        binding.appBarMain.contentMain.bottomNavView.setVisibility(View.VISIBLE);
+//         恢复底部导航栏的高度
+        CoordinatorLayout.LayoutParams layoutParams = (CoordinatorLayout.LayoutParams) binding.appBarMain.contentMain.bottomNavView.getLayoutParams();
+        layoutParams.height = ViewGroup.LayoutParams.WRAP_CONTENT; // 或您希望的高度
+        binding.appBarMain.contentMain.bottomNavView.setLayoutParams(layoutParams);
     }
 }
