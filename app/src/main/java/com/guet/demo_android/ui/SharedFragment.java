@@ -11,13 +11,17 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 
+import com.guet.demo_android.Adapters.SharePhotoAdapter;
+import com.guet.demo_android.AppContext;
 import com.guet.demo_android.ItemDecoration.GridSpacingItemDecoration;
 import com.guet.demo_android.R;
+import com.guet.demo_android.SharedViewModelFactory;
 import com.guet.demo_android.databinding.FragmentSharedBinding;
 
 import java.util.ArrayList;
@@ -27,13 +31,14 @@ public class SharedFragment extends Fragment {
     private SharedViewModel sharedViewModel;
     private RecyclerView recyclerView;
     private SharePhotoAdapter adapter;
-
+    private AppContext app;
     private FragmentSharedBinding binding; // 使用ViewBinding声明绑定对象
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // 初始化ViewModel
-        sharedViewModel = new ViewModelProvider(this).get(SharedViewModel.class);
+        app=(AppContext) getActivity().getApplication();
+        sharedViewModel = new ViewModelProvider(this, new SharedViewModelFactory(app)).get(SharedViewModel.class);
 
         // 使用ViewBinding来绑定布局
         binding = FragmentSharedBinding.inflate(inflater, container, false);
@@ -52,11 +57,11 @@ public class SharedFragment extends Fragment {
         // 添加GridSpacingItemDecoration来设置间隔
         int spacingInPixels = getResources().getDimensionPixelSize(R.dimen.space); // 间隔的像素值
         boolean includeEdge = true; // 是否包括边缘
-        recyclerView.addItemDecoration(new GridSpacingItemDecoration(spanCount, spacingInPixels, includeEdge));
 
+        recyclerView.addItemDecoration(new GridSpacingItemDecoration(spanCount, spacingInPixels, includeEdge));
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
-
+        Log.d( "onCreateView: ", app.user.getId());
         return root;
     }
 
