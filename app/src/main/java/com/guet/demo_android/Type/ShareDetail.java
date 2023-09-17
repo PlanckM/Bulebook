@@ -138,4 +138,25 @@ public class ShareDetail {
     public void setUsername(String username) {
         this.username = username;
     }
+
+    @Override
+    public String toString() {
+        return "ShareDetail{" +
+                "id='" + id + '\'' +
+                ", pUserId='" + pUserId + '\'' +
+                ", imageCode='" + imageCode + '\'' +
+                ", title='" + title + '\'' +
+                ", content='" + content + '\'' +
+                ", createTime='" + createTime + '\'' +
+                ", imageUrlList=" + imageUrlList +
+                ", likeId='" + likeId + '\'' +
+                ", likeNum=" + likeNum +
+                ", hasLike=" + hasLike +
+                ", collectId='" + collectId + '\'' +
+                ", collectNum=" + collectNum +
+                ", hasCollect=" + hasCollect +
+                ", hasFocus=" + hasFocus +
+                ", username='" + username + '\'' +
+                '}';
+    }
 }
