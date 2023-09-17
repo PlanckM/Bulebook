@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.os.Looper;
 import android.text.InputType;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -108,6 +109,7 @@ public class LoginActivity extends AppCompatActivity {
                     public void onSuccess(String body, Gson gson) {
                         Type jsonType=new TypeToken<HttpUtils.ResponseBody<User>>(){}.getType();
                         HttpUtils.ResponseBody<User> responseBody= gson.fromJson(body,jsonType);
+                        Log.d("cyy", "onSuccess: "+responseBody.getData().toString());
                         if(responseBody.getCode()==200){
                             final AppContext app = (AppContext)getApplication();
                             app.user=responseBody.getData();
