@@ -40,7 +40,7 @@ public class SharePhotoAdapter extends RecyclerView.Adapter<SharePhotoAdapter.Im
         String title = sharedViewModel.getTitle().getValue();
         String content = sharedViewModel.getContent().getValue();
         holder.titleTextView.setText(title);
-        holder.contentTextView.setText(content);
+//        holder.contentTextView.setText(content);
         Glide.with(context)
                 .load(imageUrl)
                 .into(holder.imageView);
@@ -54,13 +54,13 @@ public class SharePhotoAdapter extends RecyclerView.Adapter<SharePhotoAdapter.Im
     public static class ImageViewHolder extends RecyclerView.ViewHolder {
         ImageView imageView;
         TextView titleTextView;
-        TextView contentTextView;
+//        TextView contentTextView;
 
         public ImageViewHolder(View itemView) {
             super(itemView);
             imageView = itemView.findViewById(R.id.iv_image);
             titleTextView = itemView.findViewById(R.id.tv_title_myshare);
-            contentTextView = itemView.findViewById(R.id.tv_subtitle);
+//            contentTextView = itemView.findViewById(R.id.tv_subtitle);
         }
     }
     public void setImageUrls(List<String> newImageUrls) {
