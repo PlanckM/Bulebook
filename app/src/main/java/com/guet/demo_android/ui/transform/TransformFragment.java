@@ -57,17 +57,15 @@ public class TransformFragment extends Fragment {
     private FragmentTransformBinding binding;
     private AppContext app;
     public List<ShareDetail> ShareDetail=new ArrayList<>();
-    PicList picList;
+    public List<ShareDetail> FocusShareDetail=new ArrayList<>();
+    public PicList picList;
     TransformViewModel transformViewModel;
     RecyclerView.Adapter<FindAdapter.myViewHodler> findAdapter;
+    RecyclerView.Adapter<FocusAdapter.myViewHodler> focusAdapter;
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         app=(AppContext) getActivity().getApplication();
-
-//        initData();
         //初始化ViewModel
-        //这里使用ViewModelProvider来创建或获取TransformFragment的实例。ViewModel是用来管理UI相关数据和业务逻辑的类，
-        //使用ViewModel可以将数据与UI组件（如Fragment）分离，避免配置变更等情况下数据丢失，并提供更好的代码组织和维护。
         transformViewModel = new ViewModelProvider(this).get(TransformViewModel.class);
         //绑定xml文件
         binding = FragmentTransformBinding.inflate(inflater, container, false);
@@ -75,11 +73,10 @@ public class TransformFragment extends Fragment {
         MainActivity a= (MainActivity) getActivity();
         a.setBottomVisible();
         findAdapter=new FindAdapter(getContext(),ShareDetail);
-        refreshData();
+        focusAdapter=new FocusAdapter(getContext(),FocusShareDetail);
+        refreshFindData();
+        refreshFocusData();
         app=(AppContext) getActivity().getApplication();
-        //响应式
-        //这样，控件上的数据将始终与viewModel上的值保持同步。
-//        transformViewModel.getTexts().observe(getViewLifecycleOwner(), adapter::submitList);
         return root;
     }
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState){
@@ -107,7 +104,7 @@ public class TransformFragment extends Fragment {
         views.add(findView);
         views.add(focusView);
         findrecyclerView.setAdapter(findAdapter);
-//        findrecyclerView.setAdapter(adapter);
+        focusrecyclerView.setAdapter(focusAdapter);
         radioGroup.setOnCheckedChangeListener((radioGroup, i) -> {
                 if(i==R.id.label_find)  viewPager.setCurrentItem(0,false);
                 else if(i==R.id.label_focus) viewPager.setCurrentItem(1,false);
@@ -171,8 +168,8 @@ public class TransformFragment extends Fragment {
         }
     }
 
-   //多线程数据请求
-    public void refreshData() {
+   //请求发现列表的数据
+    public void refreshFindData() {
         String userId=app.user.getId();
         Map<String,String> params=new HashMap<>();
         params.put("userId",userId);
@@ -187,6 +184,26 @@ public class TransformFragment extends Fragment {
                 shareDetail.setTitle(shareDetails.get(i).getTitle());
                 shareDetail.setImageUrlList(shareDetails.get(i).getImageUrlList());
                 ShareDetail.add(shareDetail);
+            }
+        });
+    }
+    //请求发现列表的数据请求关注列表的数据
+    public void refreshFocusData(){
+        String userId=app.user.getId();
+        Map<String,String> params=new HashMap<>();
+        params.put("userId",userId);
+        HttpUtils.get("http://47.107.52.7:88/member/photo/focus", params, (body, gson) -> {
+            Type jsonType=new TypeToken<HttpUtils.ResponseBody<PicList>>(){}.getType();
+            HttpUtils.ResponseBody<PicList> responseBody= gson.fromJson(body,jsonType);
+            picList=responseBody.getData();
+            List<ShareDetail> shareDetails=picList.getRecords();
+            Log.d(TAG, "refreshFocusData: "+shareDetails.toString());
+            for (int i=0;i<shareDetails.size();i++){
+                ShareDetail shareDetail=new ShareDetail();
+                shareDetail.setUsername(shareDetails.get(i).getUsername());
+                shareDetail.setTitle(shareDetails.get(i).getTitle());
+                shareDetail.setImageUrlList(shareDetails.get(i).getImageUrlList());
+                FocusShareDetail.add(shareDetail);
             }
         });
     }
