@@ -188,6 +188,7 @@ public class TransformFragment extends Fragment {
             for (int i=0;i<shareDetails.size();i++){
                 ShareDetail shareDetail=new ShareDetail();
                 shareDetail.setUsername(shareDetails.get(i).getUsername());
+
                 shareDetail.setTitle(shareDetails.get(i).getTitle());
                 shareDetail.setImageUrlList(shareDetails.get(i).getImageUrlList());
                 ShareDetail.add(shareDetail);
