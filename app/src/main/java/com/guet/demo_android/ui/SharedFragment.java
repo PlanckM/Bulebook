@@ -24,6 +24,7 @@ import com.guet.demo_android.SharedViewModelFactory;
 import com.guet.demo_android.Type.ShareDetail;
 import com.guet.demo_android.databinding.FragmentSharedBinding;
 
+
 import java.util.ArrayList;
 import java.util.List;
 

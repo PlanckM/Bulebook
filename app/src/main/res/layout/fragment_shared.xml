@@ -6,6 +6,7 @@
     android:divider="@drawable/your_divider_drawable"
     android:dividerHeight="8dp"
     tools:context=".ui.SharedFragment"
+    android:background="#FAF9FE"
     app:layoutManager="LinearLayoutManager"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
