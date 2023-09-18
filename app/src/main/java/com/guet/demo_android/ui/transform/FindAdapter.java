@@ -51,7 +51,6 @@ public class FindAdapter extends RecyclerView.Adapter<FindAdapter.myViewHodler> 
         //自定义viewhodler
         class myViewHodler extends RecyclerView.ViewHolder {
             public ImageView imageView;
-
             private TextView mItemUserName;
             private TextView mItemTitle;
             public myViewHodler(View itemView) {
