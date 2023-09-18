@@ -28,7 +28,7 @@ public class FocusAdapter extends RecyclerView.Adapter<FocusAdapter.myViewHodler
         @Override
         public FocusAdapter.myViewHodler onCreateViewHolder(ViewGroup parent, int viewType) {
             //创建自定义布局
-            View itemView = View.inflate(context, R.layout.item_transform, null);
+            View itemView = View.inflate(context, R.layout.item_image, null);
             return new FocusAdapter.myViewHodler(itemView);
         }
         @Override
@@ -51,9 +51,9 @@ public class FocusAdapter extends RecyclerView.Adapter<FocusAdapter.myViewHodler
             private TextView mItemTitle;
             public myViewHodler(View itemView) {
                 super(itemView);
-                imageView =itemView.findViewById(R.id.iv_image1);
-                mItemUserName =  itemView.findViewById(R.id.user_name);
-                mItemTitle =  itemView.findViewById(R.id.tv_title);
+                imageView =itemView.findViewById(R.id.iv_image);
+                mItemUserName =  itemView.findViewById(R.id.tv_subtitle);
+                mItemTitle =  itemView.findViewById(R.id.tv_title_myshare);
 //                每个item设置点击事件
                 itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
