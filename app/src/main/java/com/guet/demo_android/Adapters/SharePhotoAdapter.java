@@ -42,7 +42,7 @@ public class SharePhotoAdapter extends RecyclerView.Adapter<SharePhotoAdapter.Im
             // 获取标题和内容，并设置到对应的 TextView 中
             String title = record.getTitle();
             String username = record.getUsername(); // 用户名字段是 username
-            username = "guxuankun";
+            username = "9";
             holder.titleTextView.setText(title);
             holder.contentTextView.setText(username);
             Glide.with(context)
