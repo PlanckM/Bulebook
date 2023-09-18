@@ -1,4 +1,4 @@
-package com.guet.demo_android.ui;
+package com.guet.demo_android.Adapters;
 
 
 import android.content.Context;
@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.guet.demo_android.R;
+import com.guet.demo_android.ui.SharedViewModel;
 
 import java.util.List;
 
@@ -37,10 +38,10 @@ public class SharePhotoAdapter extends RecyclerView.Adapter<SharePhotoAdapter.Im
     public void onBindViewHolder(@NonNull ImageViewHolder holder, int position) {
         String imageUrl = imageUrls.get(position);
         // 获取标题和内容，并设置到对应的 TextView 中
-        String title = sharedViewModel.getTitle().getValue();
-        String content = sharedViewModel.getContent().getValue();
+        String title = "上海citywalk | 如果你只有1天时间和一部相机";
+        String username = "古烜坤的旅游本";
         holder.titleTextView.setText(title);
-//        holder.contentTextView.setText(content);
+        holder.contentTextView.setText(username);
         Glide.with(context)
                 .load(imageUrl)
                 .into(holder.imageView);
@@ -54,13 +55,13 @@ public class SharePhotoAdapter extends RecyclerView.Adapter<SharePhotoAdapter.Im
     public static class ImageViewHolder extends RecyclerView.ViewHolder {
         ImageView imageView;
         TextView titleTextView;
-//        TextView contentTextView;
+        TextView contentTextView;
 
         public ImageViewHolder(View itemView) {
             super(itemView);
             imageView = itemView.findViewById(R.id.iv_image);
             titleTextView = itemView.findViewById(R.id.tv_title_myshare);
-//            contentTextView = itemView.findViewById(R.id.tv_subtitle);
+            contentTextView = itemView.findViewById(R.id.tv_subtitle);
         }
     }
     public void setImageUrls(List<String> newImageUrls) {

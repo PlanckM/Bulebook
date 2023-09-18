@@ -36,7 +36,7 @@ public class LoginActivity extends AppCompatActivity {
     private EditText etAccount;
     private CheckBox cbRememberPwd;
     private TextView sign_up;
-
+    public static String userId;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
