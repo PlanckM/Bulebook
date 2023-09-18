@@ -30,6 +30,7 @@ import androidx.viewpager.widget.ViewPager;
 import com.google.gson.reflect.TypeToken;
 import com.guet.demo_android.AppContext;
 import com.guet.demo_android.HttpUtils;
+import com.guet.demo_android.ItemDecoration.GridSpacingItemDecoration;
 import com.guet.demo_android.MainActivity;
 import com.guet.demo_android.R;
 import com.guet.demo_android.Type.PicList;
@@ -90,8 +91,13 @@ public class TransformFragment extends Fragment {
         findrecyclerView=findView.findViewById(R.id.homepage_find);
         findrecyclerView.setHasFixedSize(true);
 
-        GridLayoutManager findLayoutManager=new GridLayoutManager(getContext(),2);
+        StaggeredGridLayoutManager findLayoutManager=new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
         findrecyclerView.setLayoutManager(findLayoutManager);
+
+        // 添加GridSpacingItemDecoration来设置间隔
+        int spacingInPixels = getResources().getDimensionPixelSize(R.dimen.space); // 间隔的像素值
+        boolean includeEdge = true; // 是否包括边缘
+        findrecyclerView.addItemDecoration(new GridSpacingItemDecoration(2, spacingInPixels, includeEdge));
 
         View focusView = LayoutInflater.from(getActivity()).inflate(R.layout.item_home_focus,null);
         focusrecyclerView=focusView.findViewById(R.id.homepage_focus);
@@ -100,6 +106,7 @@ public class TransformFragment extends Fragment {
         StaggeredGridLayoutManager focusLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
         focusLayoutManager.setGapStrategy(StaggeredGridLayoutManager.GAP_HANDLING_NONE);
         focusrecyclerView.setLayoutManager(focusLayoutManager);
+        focusrecyclerView.addItemDecoration(new GridSpacingItemDecoration(2, spacingInPixels, includeEdge));
 
         views.add(findView);
         views.add(focusView);
