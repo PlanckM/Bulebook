@@ -20,43 +20,29 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class TransformViewModel extends ViewModel {
-    private MutableLiveData<String> title = new MutableLiveData<>();
-    private MutableLiveData<String> content = new MutableLiveData<>();
+public class FocusViewModel extends ViewModel {
     private MutableLiveData<List<ShareDetail>> recordsLiveData = new MutableLiveData<>(new ArrayList<>()); // 初始化为一个空的ArrayList
-    private String URL = "http://47.107.52.7:88/member/photo/share";
-    private String userId = "1696496527540883456";
-    private Integer current;
-    private Integer size;
     private AppContext app;
 
-    public TransformViewModel() {
-        // 初始化 ViewModel 时获取数据
+    public FocusViewModel() {
+//        this.app = app;
         fetchData();
     }
 
-    // 添加公开方法以设置标题和内容
-    public void setTitle(String newTitle) {
-        title.setValue(newTitle);
-    }
-    public void setContent(String newContent) {
-        content.setValue(newContent);
-    }
-    // 公开 LiveData 以供视图观察
-    public LiveData<String> getTitle() {
-        return title;
-    }
-    public LiveData<String> getContent() {
-        return content;
-    }
-    public LiveData<List<ShareDetail>> getRecords() { // 修改为LiveData<List<ShareDetail>>
+    public LiveData<List<ShareDetail>> getRecords() {
         return recordsLiveData;
     }
 
     private void fetchData() {
+        String userId = "1696496527540883456";
         Map<String, String> params = new HashMap<>();
+        String current = "1";
+        String size = "20";
+        params.put("current", current);
+        params.put("size", size);
         params.put("userId", userId);
-        HttpUtils.get(URL, params, new VolleyCallback() {
+
+        HttpUtils.get("http://47.107.52.7:88/member/photo/focus", params, new VolleyCallback() {
             @Override
             public void onSuccess(String body, Gson gson) {
                 Type type = new TypeToken<HttpUtils.ResponseBody<PicList>>(){}.getType();
@@ -78,5 +64,4 @@ public class TransformViewModel extends ViewModel {
             }
         });
     }
-
 }

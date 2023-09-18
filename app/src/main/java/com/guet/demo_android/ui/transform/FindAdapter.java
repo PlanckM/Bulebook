@@ -16,14 +16,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FindAdapter extends RecyclerView.Adapter<FindAdapter.myViewHodler> {
-        private Context context;
-        private ArrayList<ShareDetail> shareDetailList;
+    private List<ShareDetail> records;
+    private Context context;
 
         //创建构造函数
-        public FindAdapter(Context context,List<ShareDetail> shareDetailList) {
+        public FindAdapter(List<ShareDetail> records, Context context) {
             //将传递过来的数据，赋值给本地变量
             this.context = context;//上下文
-            this.shareDetailList = (ArrayList<ShareDetail>) shareDetailList;//实体类数据ArrayList
+            this.records = records;//实体类数据ArrayList
         }
         @Override
         public myViewHodler onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -34,7 +34,7 @@ public class FindAdapter extends RecyclerView.Adapter<FindAdapter.myViewHodler> 
         @Override
         public void onBindViewHolder(myViewHodler holder, int position) {
             //根据位置绑定数据
-            ShareDetail data = shareDetailList.get(position);
+            ShareDetail data = records.get(position);
             if(data.getImageUrlList().size() == 0){
                 //
             }
@@ -46,7 +46,7 @@ public class FindAdapter extends RecyclerView.Adapter<FindAdapter.myViewHodler> 
         }
         @Override
         public int getItemCount() {
-            return shareDetailList.size();
+            return records.size();
         }
         //自定义viewhodler
         class myViewHodler extends RecyclerView.ViewHolder {

@@ -116,6 +116,7 @@ public class LoginActivity extends AppCompatActivity {
                             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
 
                             startActivity(intent);
+                            finishAffinity(); // 关闭当前Activity及其相关Activity
                             //在string文件下获取键值
                             String spFileName = getResources()
                                     .getString(R.string.shared_preferences_file_name);

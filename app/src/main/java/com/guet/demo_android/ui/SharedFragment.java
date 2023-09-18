@@ -73,7 +73,7 @@ public class SharedFragment extends Fragment {
             @Override
             public void onChanged(List<ShareDetail> records) {
                 // 初始化适配器并分配给recyclerView
-                adapter = new SharePhotoAdapter(records, requireContext(), sharedViewModel);
+                adapter = new SharePhotoAdapter(records, requireContext());
                 recyclerView.setAdapter(adapter);
             }
         });

@@ -19,7 +19,7 @@ public class SharePhotoAdapter extends RecyclerView.Adapter<SharePhotoAdapter.Im
     private List<ShareDetail> records;
     private Context context;
 
-    public SharePhotoAdapter(List<ShareDetail> records, Context context, SharedViewModel sharedViewModel) {
+    public SharePhotoAdapter(List<ShareDetail> records, Context context) {
         this.context = context;
         this.records = records;
     }

@@ -30,7 +30,7 @@
             android:paddingTop="8dp"
             android:paddingBottom="8dp"
             android:lineSpacingExtra="6dp"
-            android:textColor="#3C3B39"
+            android:textColor="#333333"
             android:textSize="15sp"
             android:textStyle="bold" />
 
@@ -47,7 +47,7 @@
                 android:layout_marginTop="2dp"
                 android:layout_marginBottom="8dp"
                 android:background="@drawable/circular_background"
-                android:padding="4dp"
+                android:padding="6dp"
                 android:src="@drawable/avatar_1"
                 android:scaleType="centerCrop"
                 />
@@ -55,7 +55,9 @@
                 android:id="@+id/tv_username"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
                 android:baselineAligned="true"
+                android:textColor="#606060"
                 android:paddingTop="8dp" />
             <!-- 添加 baseline_favorite_24.xml 图标 和 5000 文本 -->
             <LinearLayout
@@ -73,7 +75,7 @@
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="2dp"
+                        android:layout_marginTop="4dp"
                         android:padding="2dp"
                         android:src="@drawable/baseline_favorite_border_24" />
 
@@ -81,10 +83,11 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="1dp"
-                        android:layout_marginEnd="2dp"
+                        android:layout_marginEnd="4dp"
                         android:baselineAligned="true"
+                        android:paddingTop="6dp"
                         android:text="500"
-                        android:textColor="#AFAFAF" />
+                        android:textColor="#606060" />
                 </LinearLayout>
             </LinearLayout>
 
