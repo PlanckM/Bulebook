@@ -57,7 +57,7 @@ public class FindAdapter extends RecyclerView.Adapter<FindAdapter.myViewHodler> 
             public myViewHodler(View itemView) {
                 super(itemView);
                 imageView =itemView.findViewById(R.id.iv_image);
-                mItemUserName =  itemView.findViewById(R.id.tv_subtitle);
+                mItemUserName =  itemView.findViewById(R.id.tv_username);
                 mItemTitle =  itemView.findViewById(R.id.tv_title_myshare);
 //                每个item设置点击事件
                 itemView.setOnClickListener(new View.OnClickListener() {
