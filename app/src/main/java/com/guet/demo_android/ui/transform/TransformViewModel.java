@@ -22,8 +22,8 @@ public class TransformViewModel extends ViewModel {
     private MutableLiveData<String> title = new MutableLiveData<>();
     private MutableLiveData<String> content = new MutableLiveData<>();
     private MutableLiveData<List<String>> imageUrlsLiveData = new MutableLiveData<>();
-    private String URL = "http://47.107.52.7:88/member/photo/share";
-    private String userId = "1702291281314713600";
+    private String URL = "http://47.107.52.7:88/member/photo/share/myself";
+    private String userId = "1696496527540883456";
     private Integer current;
     private Integer size;
     private AppContext app;

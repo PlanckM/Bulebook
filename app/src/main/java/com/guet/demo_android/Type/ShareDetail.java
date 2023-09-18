@@ -1,5 +1,6 @@
 package com.guet.demo_android.Type;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ShareDetail {
@@ -18,6 +19,15 @@ public class ShareDetail {
     Boolean hasCollect;
     Boolean hasFocus;
     String username;
+    // 新增字段表示记录是否展开图片
+    private boolean isExpanded = false;
+    public boolean isExpanded() {
+        return isExpanded;
+    }
+
+    public void setExpanded(boolean expanded) {
+        isExpanded = expanded;
+    }
 
     public String getId() {
         return id;

@@ -22,7 +22,7 @@ import java.util.Map;
 public class SharedViewModel extends ViewModel {
     private MutableLiveData<String> title = new MutableLiveData<>();
     private MutableLiveData<String> content = new MutableLiveData<>();
-    private MutableLiveData<List<String>> imageUrlsLiveData = new MutableLiveData<>();
+    private MutableLiveData<List<ShareDetail>> recordsLiveData = new MutableLiveData<>(new ArrayList<>()); // 初始化为一个空的ArrayList
     private String URL = "http://47.107.52.7:88/member/photo/share/myself";
     private String userId;
     private AppContext app;
@@ -51,15 +51,15 @@ public class SharedViewModel extends ViewModel {
         return content;
     }
 
-    public LiveData<List<String>> getImageUrls() {
-        return imageUrlsLiveData;
+    public LiveData<List<ShareDetail>> getRecords() { // 修改为LiveData<List<ShareDetail>>
+        return recordsLiveData;
     }
 
     private void fetchData() {
         userId = app.user.getId();
         Map<String, String> params = new HashMap<>();
         String current = "1";
-        String size = "10";
+        String size = "20";
         params.put("current", current);
         params.put("size", size);
         params.put("userId", userId);
@@ -74,19 +74,14 @@ public class SharedViewModel extends ViewModel {
                     PicList picList = response.getData();
                     Log.d("","onSuccess: "+ picList);
                     List<ShareDetail> records = picList.getRecords();
-                    List<String> imageUrls = new ArrayList<>();
-
-                    for (ShareDetail record : records) {
-                        List<String> imageUrlList = record.getImageUrlList();
-                        imageUrls.addAll(imageUrlList);
-                    }
+                    Log.d("", "onSuccess: " + records);
                     // 更新 LiveData
-                    imageUrlsLiveData.postValue(imageUrls);
+                    recordsLiveData.postValue(records); // 修改为更新recordsLiveData
                 } else {
                     // 处理请求失败的情况
                     // 可以发送错误消息或采取其他适当的操作
-                    String msg = "f";
-                    Log.d( "2",msg);
+                    String msg = "ddsadf";
+                    Log.d("2", msg);
                 }
             }
         });

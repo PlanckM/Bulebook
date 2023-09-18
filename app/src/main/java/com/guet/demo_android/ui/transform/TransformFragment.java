@@ -176,7 +176,7 @@ public class TransformFragment extends Fragment {
         String userId=app.user.getId();
         Map<String,String> params=new HashMap<>();
         params.put("userId",userId);
-        HttpUtils.get("http://47.107.52.7:88/member/photo/share", params, (body, gson) -> {
+        HttpUtils.get("http://47.107.52.7:88/member/photo/share/myself", params, (body, gson) -> {
             Type jsonType=new TypeToken<HttpUtils.ResponseBody<PicList>>(){}.getType();
             HttpUtils.ResponseBody<PicList> responseBody= gson.fromJson(body,jsonType);
             picList=responseBody.getData();

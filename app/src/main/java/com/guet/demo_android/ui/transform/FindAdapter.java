@@ -33,11 +33,16 @@ public class FindAdapter extends RecyclerView.Adapter<FindAdapter.myViewHodler> 
         }
         @Override
         public void onBindViewHolder(myViewHodler holder, int position) {
-            //根据点击位置绑定数据
+            //根据位置绑定数据
             ShareDetail data = shareDetailList.get(position);
-            holder.mItemUserName.setText(data.getUsername());
-            holder.mItemTitle.setText(data.getTitle());
-            Glide.with(context).load(data.getImageUrlList().get(0)).into(holder.imageView);
+            if(data.getImageUrlList().size() == 0){
+                //
+            }
+            else{
+                holder.mItemUserName.setText(data.getUsername());
+                holder.mItemTitle.setText(data.getTitle());
+                Glide.with(context).load(data.getImageUrlList().get(0)).into(holder.imageView);
+            }
         }
         @Override
         public int getItemCount() {

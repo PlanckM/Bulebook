@@ -92,7 +92,8 @@ public class ReflowFragment extends Fragment {
                                 for (LocalMedia media : result) {
                                     System.out.println(media.getRealPath());
                                     try {
-                                        FileInputStream stream = new FileInputStream(String.valueOf(media.getRealPath()));
+                                        FileInputStream stream = new FileInputStream(media.getRealPath());
+                                        Log.d("", "onResult:  " + stream);
                                         if (localImage == 1){
                                             image1.setImageBitmap(BitmapFactory.decodeStream(stream));
                                             rl1.setVisibility(View.VISIBLE);
@@ -103,7 +104,7 @@ public class ReflowFragment extends Fragment {
                                             image3.setImageBitmap(BitmapFactory.decodeStream(stream));
                                             rl3.setVisibility(View.VISIBLE);
                                         }
-                                        localImage ++;
+                                        localImage++;
                                         paths.add(media.getRealPath());
                                     } catch (FileNotFoundException e) {
                                         e.printStackTrace();
