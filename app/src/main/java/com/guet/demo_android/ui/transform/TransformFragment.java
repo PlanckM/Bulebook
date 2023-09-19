@@ -1,10 +1,7 @@
 package com.guet.demo_android.ui.transform;
 
-import static android.service.controls.ControlsProviderService.TAG;
-
 import android.os.Bundle;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,40 +18,37 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
-import com.google.gson.reflect.TypeToken;
+import com.guet.demo_android.Adapters.SharePhotoAdapter;
 import com.guet.demo_android.AppContext;
-import com.guet.demo_android.HttpUtils;
 import com.guet.demo_android.ItemDecoration.GridSpacingItemDecoration;
 import com.guet.demo_android.MainActivity;
 import com.guet.demo_android.R;
-import com.guet.demo_android.Type.PicList;
 
 import com.guet.demo_android.Type.ShareDetail;
 import com.guet.demo_android.databinding.FragmentTransformBinding;
 
 import java.util.ArrayList;
-import java.lang.reflect.Type;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class TransformFragment extends Fragment {
+
+    //通用适配器
+    private SharePhotoAdapter findAdapter;
+    private SharePhotoAdapter focusAdapter;
 
     private List<View> views;
     private RadioGroup radioGroup;
     private RadioButton labelFind, labelFocus;
     private ViewPager viewPager;
+    //流式布局
     private RecyclerView findrecyclerView, focusrecyclerView;
     private FragmentTransformBinding binding;
 
-    private FindAdapter findAdapter;
-    private FocusAdapter focusAdapter;
-
+    private final String focusURL = "http://47.107.52.7:88/member/photo/focus";
+    private final String findURL = "http://47.107.52.7:88/member/photo/share";
     private AppContext app;
-    public List<ShareDetail> ShareDetail = new ArrayList<>();
-    public List<ShareDetail> FocusShareDetail = new ArrayList<>();
-    public PicList picList;
-    private TransformViewModel transformViewModel;
+
+    private FindViewModel findViewModel;
     private FocusViewModel focusViewModel;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -133,15 +127,17 @@ public class TransformFragment extends Fragment {
 
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-        transformViewModel = new ViewModelProvider(this).get(TransformViewModel.class);
+        app = (AppContext) getActivity().getApplication();
+        // 初始化viewModel
+//        sharedViewModel = new ViewModelProvider(this, new SharedViewModelFactory(app, URL)).get(SharedViewModel.class);
+        findViewModel = new ViewModelProvider(this).get(FindViewModel.class);
         focusViewModel = new ViewModelProvider(this).get(FocusViewModel.class);
 
-        transformViewModel.getRecords().observe(getViewLifecycleOwner(), new Observer<List<ShareDetail>>() {
+        findViewModel.getRecords().observe(getViewLifecycleOwner(), new Observer<List<ShareDetail>>() {
             @Override
             public void onChanged(List<ShareDetail> records) {
                 // 初始化适配器并分配给recyclerView
-                findAdapter = new FindAdapter(records, requireContext());
+                findAdapter = new SharePhotoAdapter(records, requireContext());
                 findrecyclerView.setAdapter(findAdapter);
             }
         });
@@ -150,7 +146,7 @@ public class TransformFragment extends Fragment {
             @Override
             public void onChanged(List<ShareDetail> records) {
                 // 初始化适配器并分配给recyclerView
-                focusAdapter = new FocusAdapter(records, requireContext());
+                focusAdapter = new SharePhotoAdapter(records, requireContext());
                 focusrecyclerView.setAdapter(focusAdapter);
             }
         });
@@ -159,7 +155,8 @@ public class TransformFragment extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        binding = null;
+        focusViewModel.getRecords().removeObservers(this);
+        findViewModel.getRecords().removeObservers(this);
     }
 
 

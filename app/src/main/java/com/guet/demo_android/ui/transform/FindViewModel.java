@@ -20,7 +20,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class TransformViewModel extends ViewModel {
+public class FindViewModel extends ViewModel {
     private MutableLiveData<String> title = new MutableLiveData<>();
     private MutableLiveData<String> content = new MutableLiveData<>();
     private MutableLiveData<List<ShareDetail>> recordsLiveData = new MutableLiveData<>(new ArrayList<>()); // 初始化为一个空的ArrayList
@@ -30,7 +30,7 @@ public class TransformViewModel extends ViewModel {
     private Integer size;
     private AppContext app;
 
-    public TransformViewModel() {
+    public FindViewModel() {
         // 初始化 ViewModel 时获取数据
         fetchData();
     }

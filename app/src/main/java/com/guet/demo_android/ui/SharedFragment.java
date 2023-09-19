@@ -34,6 +34,7 @@ public class SharedFragment extends Fragment {
     private SharePhotoAdapter adapter;
     private AppContext app;
     private FragmentSharedBinding binding; // 使用ViewBinding声明绑定对象
+    private final String URL = "http://47.107.52.7:88/member/photo/share/myself";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -64,7 +65,7 @@ public class SharedFragment extends Fragment {
 
         // 初始化ViewModel
         app = (AppContext) getActivity().getApplication();
-        sharedViewModel = new ViewModelProvider(this, new SharedViewModelFactory(app)).get(SharedViewModel.class);
+        sharedViewModel = new ViewModelProvider(this, new SharedViewModelFactory(app, URL)).get(SharedViewModel.class);
 
         Log.d("onCreateView: ", app.user.getId());
 

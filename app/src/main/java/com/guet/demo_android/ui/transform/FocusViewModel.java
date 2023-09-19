@@ -23,11 +23,32 @@ import java.util.Map;
 public class FocusViewModel extends ViewModel {
     private MutableLiveData<List<ShareDetail>> recordsLiveData = new MutableLiveData<>(new ArrayList<>()); // 初始化为一个空的ArrayList
     private AppContext app;
+    private MutableLiveData<String> title = new MutableLiveData<>();
+    private MutableLiveData<String> content = new MutableLiveData<>();
 
     public FocusViewModel() {
 //        this.app = app;
         fetchData();
     }
+
+    // 添加公开方法以设置标题和内容
+    public void setTitle(String newTitle) {
+        title.setValue(newTitle);
+    }
+
+    public void setContent(String newContent) {
+        content.setValue(newContent);
+    }
+
+    // 公开 LiveData 以供视图观察
+    public LiveData<String> getTitle() {
+        return title;
+    }
+
+    public LiveData<String> getContent() {
+        return content;
+    }
+
 
     public LiveData<List<ShareDetail>> getRecords() {
         return recordsLiveData;

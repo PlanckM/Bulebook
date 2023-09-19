@@ -23,13 +23,16 @@ public class SharedViewModel extends ViewModel {
     private MutableLiveData<String> title = new MutableLiveData<>();
     private MutableLiveData<String> content = new MutableLiveData<>();
     private MutableLiveData<List<ShareDetail>> recordsLiveData = new MutableLiveData<>(new ArrayList<>()); // 初始化为一个空的ArrayList
-    private String URL = "http://47.107.52.7:88/member/photo/share/myself";
+//    private String URL = "http://47.107.52.7:88/member/photo/share/myself";
+    private String url;
     private String userId;
     private AppContext app;
 
-    public SharedViewModel(AppContext app) {
+    public SharedViewModel(AppContext app, String url) {
         // 初始化 ViewModel 时获取数据
         this.app = app;
+        this.url = url;
+        Log.d("", "SharedViewModel00000000000: "+url);
         fetchData();
     }
 
@@ -64,7 +67,7 @@ public class SharedViewModel extends ViewModel {
         params.put("size", size);
         params.put("userId", userId);
 
-        HttpUtils.get(URL, params, new VolleyCallback() {
+        HttpUtils.get(url, params, new VolleyCallback() {
             @Override
             public void onSuccess(String body, Gson gson) {
                 Type type = new TypeToken<HttpUtils.ResponseBody<PicList>>(){}.getType();
@@ -74,7 +77,7 @@ public class SharedViewModel extends ViewModel {
                     PicList picList = response.getData();
                     Log.d("","onSuccess: "+ picList);
                     List<ShareDetail> records = picList.getRecords();
-                    Log.d("", "onSuccess: " + records);
+                    Log.d("", "onSuccess:111 " + records);
                     // 更新 LiveData
                     recordsLiveData.postValue(records); // 修改为更新recordsLiveData
                 } else {
