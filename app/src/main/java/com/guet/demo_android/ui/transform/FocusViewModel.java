@@ -1,5 +1,7 @@
 package com.guet.demo_android.ui.transform;
 
+import android.util.Log;
+
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -18,18 +20,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class TransformViewModel extends ViewModel {
+public class FocusViewModel extends ViewModel {
+    private MutableLiveData<List<ShareDetail>> recordsLiveData = new MutableLiveData<>(new ArrayList<>()); // 初始化为一个空的ArrayList
+    private AppContext app;
     private MutableLiveData<String> title = new MutableLiveData<>();
     private MutableLiveData<String> content = new MutableLiveData<>();
-    private MutableLiveData<List<String>> imageUrlsLiveData = new MutableLiveData<>();
-    private String URL = "http://47.107.52.7:88/member/photo/share/myself";
-    private String userId = "1696496527540883456";
-    private Integer current;
-    private Integer size;
-    private AppContext app;
 
-    public TransformViewModel() {
-        // 初始化 ViewModel 时获取数据
+    public FocusViewModel() {
+//        this.app = app;
         fetchData();
     }
 
@@ -37,23 +35,35 @@ public class TransformViewModel extends ViewModel {
     public void setTitle(String newTitle) {
         title.setValue(newTitle);
     }
+
     public void setContent(String newContent) {
         content.setValue(newContent);
     }
+
     // 公开 LiveData 以供视图观察
     public LiveData<String> getTitle() {
         return title;
     }
+
     public LiveData<String> getContent() {
         return content;
     }
-    public LiveData<List<String>> getImageUrls() {
-        return imageUrlsLiveData;
+
+
+    public LiveData<List<ShareDetail>> getRecords() {
+        return recordsLiveData;
     }
+
     private void fetchData() {
+        String userId = "1696496527540883456";
         Map<String, String> params = new HashMap<>();
+        String current = "1";
+        String size = "20";
+        params.put("current", current);
+        params.put("size", size);
         params.put("userId", userId);
-        HttpUtils.get(URL, params, new VolleyCallback() {
+
+        HttpUtils.get("http://47.107.52.7:88/member/photo/focus", params, new VolleyCallback() {
             @Override
             public void onSuccess(String body, Gson gson) {
                 Type type = new TypeToken<HttpUtils.ResponseBody<PicList>>(){}.getType();
@@ -61,20 +71,18 @@ public class TransformViewModel extends ViewModel {
 
                 if (response != null && response.getCode() == 200) {
                     PicList picList = response.getData();
+                    Log.d("","onSuccess: "+ picList);
                     List<ShareDetail> records = picList.getRecords();
-                    List<String> imageUrls = new ArrayList<>();
-
-                    for (ShareDetail record : records) {
-                        List<String> imageUrlList = record.getImageUrlList();
-                        imageUrls.addAll(imageUrlList);
-                    }
+                    Log.d("", "onSuccess: " + records);
                     // 更新 LiveData
-                    imageUrlsLiveData.postValue(imageUrls);
+                    recordsLiveData.postValue(records); // 修改为更新recordsLiveData
                 } else {
-                    // 处理请求失败的情
+                    // 处理请求失败的情况
+                    // 可以发送错误消息或采取其他适当的操作
+                    String msg = "ddsadf";
+                    Log.d("2", msg);
                 }
             }
         });
     }
-
 }

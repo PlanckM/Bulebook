@@ -49,24 +49,22 @@ public class CircleImageView extends AppCompatImageView {
     @SuppressLint("DrawAllocation")
     @Override
     protected void onDraw(Canvas canvas) {
-
         mPaint = new Paint();
-
         Drawable drawable = getDrawable();
 
-        if (null != drawable) {
+        if (drawable instanceof BitmapDrawable) { // 检查类型是否为BitmapDrawable
             Bitmap bitmap = ((BitmapDrawable) drawable).getBitmap();
 
-            //初始化BitmapShader，传入bitmap对象
+            // 初始化BitmapShader，传入bitmap对象
             BitmapShader bitmapShader = new BitmapShader(bitmap, Shader.TileMode.CLAMP, Shader.TileMode.CLAMP);
-            //计算缩放比例
+            // 计算缩放比例
             mScale = (mRadius * 2.0f) / Math.min(bitmap.getHeight(), bitmap.getWidth());
 
             Matrix matrix = new Matrix();
             matrix.setScale(mScale, mScale);
             bitmapShader.setLocalMatrix(matrix);
             mPaint.setShader(bitmapShader);
-            //画圆形，指定好坐标，半径，画笔
+            // 画圆形，指定好坐标，半径，画笔
             canvas.drawCircle(mRadius, mRadius, mRadius, mPaint);
         } else {
             super.onDraw(canvas);

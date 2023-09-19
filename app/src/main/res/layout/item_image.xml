@@ -21,12 +21,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
+            android:layout_marginTop="6dp"
             android:maxLines="2"
             android:ellipsize="end"
             android:paddingStart="8dp"
             android:paddingTop="8dp"
             android:paddingBottom="8dp"
-            android:textColor="#000000"
+            android:lineSpacingExtra="6dp"
+            android:text="总以为一生还有很多时间，但很多东西在等待中失去"
+            android:textColor="#333333"
             android:textSize="15sp"
             android:textStyle="bold" />
 
@@ -34,10 +37,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
-
-            <Space
-                android:layout_width="4dp"
-                android:layout_height="wrap_content" />
 
             <ImageView
                 android:id="@+id/circularImageView"
@@ -47,25 +46,18 @@
                 android:layout_marginTop="2dp"
                 android:layout_marginBottom="8dp"
                 android:background="@drawable/circular_background"
-                android:padding="4dp"
+                android:padding="6dp"
+                android:src="@drawable/avatar_1"
                 android:scaleType="centerCrop"
-                android:src="@drawable/avatar_1" />
-            <!--            <com.guet.demo_android.CustomizeView.CircleImageView-->
-            <!--                android:id="@+id/circularImageView"-->
-            <!--                android:layout_width="30dp"-->
-            <!--                android:layout_height="30dp"-->
-            <!--                android:layout_marginTop="2dp"-->
-            <!--                android:layout_marginStart="4dp"-->
-            <!--                android:layout_marginBottom="8dp"-->
-            <!--                android:padding="4dp"-->
-            <!--                android:src="@drawable/avatar_1"-->
-            <!--                android:scaleType="centerCrop"/>-->
+                />
             <TextView
                 android:id="@+id/tv_username"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
                 android:baselineAligned="true"
-                android:paddingTop="4dp" />
+                android:textColor="#606060"
+                android:paddingTop="8dp" />
             <!-- 添加 baseline_favorite_24.xml 图标 和 5000 文本 -->
             <LinearLayout
                 android:layout_width="match_parent"
@@ -76,23 +68,25 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="8dp"
+                    android:layout_marginEnd="6dp"
                     android:gravity="center_vertical">
 
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="2dp"
-                        android:padding="4dp"
+                        android:layout_marginTop="4dp"
+                        android:padding="2dp"
                         android:src="@drawable/baseline_favorite_border_24" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="1dp"
-                        android:layout_marginEnd="2dp"
+                        android:layout_marginEnd="4dp"
                         android:baselineAligned="true"
+                        android:paddingTop="6dp"
                         android:text="500"
-                        android:textColor="#C8C8C8" />
+                        android:textColor="#606060" />
                 </LinearLayout>
             </LinearLayout>
 

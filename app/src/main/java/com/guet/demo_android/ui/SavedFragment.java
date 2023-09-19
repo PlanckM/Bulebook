@@ -33,7 +33,7 @@ public class SavedFragment extends Fragment {
     private SharePhotoAdapter adapter;
     private AppContext app;
     private FragmentSavedBinding binding; // 使用ViewBinding声明绑定对象
-
+    private String url = "http://47.107.52.7:88/member/photo/share/save";
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // 使用ViewBinding来绑定布局
@@ -64,7 +64,7 @@ public class SavedFragment extends Fragment {
 
         // 初始化ViewModel
         app = (AppContext) getActivity().getApplication();
-        sharedViewModel = new ViewModelProvider(this, new SharedViewModelFactory(app)).get(SharedViewModel.class);
+        sharedViewModel = new ViewModelProvider(this, new SharedViewModelFactory(app, url)).get(SharedViewModel.class);
 
         Log.d("onCreateView: ", app.user.getId());
 
@@ -73,7 +73,7 @@ public class SavedFragment extends Fragment {
             @Override
             public void onChanged(List<ShareDetail> records) {
                 // 初始化适配器并分配给recyclerView
-                adapter = new SharePhotoAdapter(records, requireContext(), sharedViewModel);
+                adapter = new SharePhotoAdapter(records, requireContext());
                 recyclerView.setAdapter(adapter);
             }
         });

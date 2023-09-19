@@ -22,6 +22,7 @@
                 android:button="@null"
                 android:gravity="center"
                 android:textSize="20sp"
+                android:textStyle="bold"
                 android:textColor="@drawable/user_page_text_select"
                 android:layout_gravity="center"/>
             <RadioButton
@@ -30,13 +31,19 @@
                 android:layout_height="wrap_content"
                 android:text="关注"
                 android:textSize="20dp"
+                android:textStyle="bold"
                 android:button="@null"
                 android:gravity="center"
                 android:textColor="@drawable/user_page_text_select"
                 android:layout_gravity="center"/>
 
         </RadioGroup>
+
     </HorizontalScrollView>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#1A000000"/>
     <androidx.viewpager.widget.ViewPager
         android:background="#FAF9FE"
         android:id="@+id/vp_style"
