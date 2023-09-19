@@ -2,6 +2,7 @@ package com.guet.demo_android.ui;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.guet.demo_android.R;

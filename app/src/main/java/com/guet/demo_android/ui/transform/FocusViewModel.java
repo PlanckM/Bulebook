@@ -22,12 +22,20 @@ import java.util.Map;
 
 public class FocusViewModel extends ViewModel {
     private MutableLiveData<List<ShareDetail>> recordsLiveData = new MutableLiveData<>(new ArrayList<>()); // 初始化为一个空的ArrayList
-    private AppContext app;
+
     private MutableLiveData<String> title = new MutableLiveData<>();
     private MutableLiveData<String> content = new MutableLiveData<>();
+    private AppContext appContext;
+    private String url;
+    private String userId;
 
     public FocusViewModel() {
-//        this.app = app;
+        fetchData();
+    }
+
+    public FocusViewModel(AppContext appContext, String url) {
+        this.appContext = appContext;
+        this.url = url;
         fetchData();
     }
 
@@ -49,13 +57,12 @@ public class FocusViewModel extends ViewModel {
         return content;
     }
 
-
     public LiveData<List<ShareDetail>> getRecords() {
         return recordsLiveData;
     }
 
     private void fetchData() {
-        String userId = "1696496527540883456";
+        userId = appContext.user.getId();
         Map<String, String> params = new HashMap<>();
         String current = "1";
         String size = "20";
@@ -66,12 +73,13 @@ public class FocusViewModel extends ViewModel {
         HttpUtils.get("http://47.107.52.7:88/member/photo/focus", params, new VolleyCallback() {
             @Override
             public void onSuccess(String body, Gson gson) {
-                Type type = new TypeToken<HttpUtils.ResponseBody<PicList>>(){}.getType();
+                Type type = new TypeToken<HttpUtils.ResponseBody<PicList>>() {
+                }.getType();
                 HttpUtils.ResponseBody<PicList> response = gson.fromJson(body, type);
 
                 if (response != null && response.getCode() == 200) {
                     PicList picList = response.getData();
-                    Log.d("","onSuccess: "+ picList);
+                    Log.d("", "onSuccess: " + picList);
                     List<ShareDetail> records = picList.getRecords();
                     Log.d("", "onSuccess: " + records);
                     // 更新 LiveData

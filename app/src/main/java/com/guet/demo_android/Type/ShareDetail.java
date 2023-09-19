@@ -12,7 +12,7 @@ public class ShareDetail {
     String createTime;
     List<String> imageUrlList;
     String likeId;
-    Integer likeNum;
+    int likeNum;
     Boolean hasLike;
     String collectId;
     Integer collectNum;
@@ -93,7 +93,7 @@ public class ShareDetail {
         this.likeId = likeId;
     }
 
-    public Integer getLikeNum() {
+    public int getLikeNum() {
         return likeNum;
     }
 

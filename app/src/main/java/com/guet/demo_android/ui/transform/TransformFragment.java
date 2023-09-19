@@ -1,10 +1,12 @@
 package com.guet.demo_android.ui.transform;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
@@ -25,7 +27,10 @@ import com.guet.demo_android.MainActivity;
 import com.guet.demo_android.R;
 
 import com.guet.demo_android.Type.ShareDetail;
+
+import com.guet.demo_android.ViewModelFactory.SharedViewModelFactory;
 import com.guet.demo_android.databinding.FragmentTransformBinding;
+import com.guet.demo_android.ui.PictureDetailActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -129,16 +134,51 @@ public class TransformFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         app = (AppContext) getActivity().getApplication();
+
         // 初始化viewModel
-//        sharedViewModel = new ViewModelProvider(this, new SharedViewModelFactory(app, URL)).get(SharedViewModel.class);
-        findViewModel = new ViewModelProvider(this).get(FindViewModel.class);
-        focusViewModel = new ViewModelProvider(this).get(FocusViewModel.class);
+//        findViewModel = new ViewModelProvider(this).get(FindViewModel.class);
+//        focusViewModel = new ViewModelProvider(this).get(FocusViewModel.class);
+        findViewModel = new ViewModelProvider(this, new SharedViewModelFactory(app, findURL)).get(FindViewModel.class);
+        focusViewModel = new ViewModelProvider(this, new SharedViewModelFactory(app, focusURL)).get(FocusViewModel.class);
 
         findViewModel.getRecords().observe(getViewLifecycleOwner(), new Observer<List<ShareDetail>>() {
             @Override
             public void onChanged(List<ShareDetail> records) {
                 // 初始化适配器并分配给recyclerView
                 findAdapter = new SharePhotoAdapter(records, requireContext());
+
+                // 设置RecyclerView的item点击事件监听器
+                findAdapter.setOnImageClickListener(new SharePhotoAdapter.OnImageClickListener() {
+                    @Override
+                    public void onImageClick(int position) {
+                        // 处理图片 ImageView 的点击事件，position 是被点击的 item 的位置
+                        ShareDetail clickedItem = records.get(position);
+                        // 在这里执行相应的操作，例如查看大图或者其他操作
+                        Intent intent = new Intent(getContext(), PictureDetailActivity.class);
+                        intent.putExtra("userId", clickedItem.getpUserId());
+                        intent.putExtra("username",clickedItem.getUsername());
+                        intent.putExtra("shareId", clickedItem.getId());
+                        startActivity(intent);
+                    }
+                });
+
+                findAdapter.setOnIsLikeClickListener(new SharePhotoAdapter.OnIsLikeClickListener() {
+                    @Override
+                    public void onIsLikeClick(int position) {
+                        // 处理is_like ImageView 的点击事件，position 是被点击的 item 的位置
+                        ShareDetail clickedItem = records.get(position);
+                        // 在这里执行相应的操作，例如切换点赞状态等
+                        boolean isLiked = clickedItem.getHasLike();// 获取当前点赞状态
+                        // 根据点赞状态执行操作，例如发送点赞请求或者取消点赞请求
+                        if (isLiked) {
+                            // 已点赞，执行取消点赞操作
+
+                        } else {
+                            // 未点赞，执行点赞操作
+                        }
+                    }
+                });
+
                 findrecyclerView.setAdapter(findAdapter);
             }
         });
@@ -148,6 +188,31 @@ public class TransformFragment extends Fragment {
             public void onChanged(List<ShareDetail> records) {
                 // 初始化适配器并分配给recyclerView
                 focusAdapter = new SharePhotoAdapter(records, requireContext());
+
+                // 设置RecyclerView的item点击事件监听器
+                focusAdapter.setOnImageClickListener(new SharePhotoAdapter.OnImageClickListener() {
+                    @Override
+                    public void onImageClick(int position) {
+                        // 处理图片 ImageView 的点击事件，position 是被点击的 item 的位置
+                        ShareDetail clickedItem = records.get(position);
+                        // 在这里执行相应的操作，例如查看大图或者其他操作
+                        Intent intent = new Intent(getContext(), PictureDetailActivity.class);
+                        intent.putExtra("userId", clickedItem.getpUserId());
+                        intent.putExtra("username",clickedItem.getUsername());
+                        intent.putExtra("shareId", clickedItem.getId());
+                        startActivity(intent);
+                    }
+                });
+
+                focusAdapter.setOnIsLikeClickListener(new SharePhotoAdapter.OnIsLikeClickListener() {
+                    @Override
+                    public void onIsLikeClick(int position) {
+                        // 处理is_like ImageView 的点击事件，position 是被点击的 item 的位置
+                        ShareDetail clickedItem = records.get(position);
+                        // 在这里执行相应的操作，例如切换点赞状态等
+                    }
+                });
+
                 focusrecyclerView.setAdapter(focusAdapter);
             }
         });

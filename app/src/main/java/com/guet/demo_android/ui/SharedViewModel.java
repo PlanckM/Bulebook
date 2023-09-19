@@ -1,5 +1,7 @@
 package com.guet.demo_android.ui;
 
+import static androidx.constraintlayout.widget.ConstraintLayoutStates.TAG;
+
 import android.util.Log;
 
 import androidx.lifecycle.LiveData;
@@ -60,6 +62,7 @@ public class SharedViewModel extends ViewModel {
 
     private void fetchData() {
         userId = app.user.getId();
+        Log.d(TAG, "fetchData: "+userId);
         Map<String, String> params = new HashMap<>();
         String current = "1";
         String size = "20";
@@ -67,7 +70,6 @@ public class SharedViewModel extends ViewModel {
         params.put("size", size);
         params.put("userId", userId);
         HttpUtils.get(url, params, new VolleyCallback() {
-
             @Override
             public void onSuccess(String body, Gson gson) {
                 Type type = new TypeToken<HttpUtils.ResponseBody<PicList>>(){}.getType();
