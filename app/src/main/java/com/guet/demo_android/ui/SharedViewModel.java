@@ -30,6 +30,7 @@ public class SharedViewModel extends ViewModel {
     public SharedViewModel(AppContext app) {
         // 初始化 ViewModel 时获取数据
         this.app = app;
+
         fetchData();
     }
 
@@ -63,7 +64,6 @@ public class SharedViewModel extends ViewModel {
         params.put("current", current);
         params.put("size", size);
         params.put("userId", userId);
-
         HttpUtils.get(URL, params, new VolleyCallback() {
             @Override
             public void onSuccess(String body, Gson gson) {

@@ -40,20 +40,15 @@ public class SharedFragment extends Fragment {
         // 使用ViewBinding来绑定布局
         binding = FragmentSharedBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
-
         recyclerView = binding.recyclerviewShared;
-
         // 使用StaggeredGridLayoutManager来设置交错网格布局
         int spanCount = 2; // 列数
         StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(spanCount, StaggeredGridLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(layoutManager);
-
         // 添加GridSpacingItemDecoration来设置间隔
         int spacingInPixels = getResources().getDimensionPixelSize(R.dimen.space); // 间隔的像素值
         boolean includeEdge = true; // 是否包括边缘
-
         recyclerView.addItemDecoration(new GridSpacingItemDecoration(spanCount, spacingInPixels, includeEdge));
-
         return root;
     }
 
@@ -61,13 +56,10 @@ public class SharedFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
         // 初始化ViewModel
         app = (AppContext) getActivity().getApplication();
         sharedViewModel = new ViewModelProvider(this, new SharedViewModelFactory(app)).get(SharedViewModel.class);
-
         Log.d("onCreateView: ", app.user.getId());
-
         // 观察LiveData以获取图片URL列表
         sharedViewModel.getRecords().observe(getViewLifecycleOwner(), new Observer<List<ShareDetail>>() {
             @Override

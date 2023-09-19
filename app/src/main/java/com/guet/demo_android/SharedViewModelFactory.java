@@ -7,9 +7,7 @@ import androidx.lifecycle.ViewModelProvider;
 import com.guet.demo_android.ui.SharedViewModel;
 
 public class SharedViewModelFactory implements ViewModelProvider.Factory {
-
     private AppContext appContext;
-
     public SharedViewModelFactory(AppContext appContext) {
         this.appContext = appContext;
     }
