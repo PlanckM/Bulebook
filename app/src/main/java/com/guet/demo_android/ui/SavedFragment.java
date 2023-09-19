@@ -19,9 +19,8 @@ import com.guet.demo_android.Adapters.SharePhotoAdapter;
 import com.guet.demo_android.AppContext;
 import com.guet.demo_android.ItemDecoration.GridSpacingItemDecoration;
 import com.guet.demo_android.R;
-import com.guet.demo_android.SharedViewModelFactory;
+import com.guet.demo_android.ViewModelFactory.SharedViewModelFactory;
 import com.guet.demo_android.Type.ShareDetail;
-import com.guet.demo_android.databinding.FragmentLikedBinding;
 import com.guet.demo_android.databinding.FragmentSavedBinding;
 
 import java.util.List;
