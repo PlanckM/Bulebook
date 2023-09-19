@@ -67,6 +67,7 @@ public class SharedFragment extends Fragment {
                 // 初始化适配器并分配给recyclerView
                 adapter = new SharePhotoAdapter(records, requireContext());
                 recyclerView.setAdapter(adapter);
+                Log.d("cyy", "onChanged: " + records.toString());
             }
         });
     }
