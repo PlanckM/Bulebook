@@ -34,8 +34,7 @@ public class SharedFragment extends Fragment {
     private SharePhotoAdapter adapter;
     private AppContext app;
     private FragmentSharedBinding binding; // 使用ViewBinding声明绑定对象
-    private final String URL = "http://47.107.52.7:88/member/photo/share/myself";
-
+    private String url = "http://47.107.52.7:88/member/photo/share/myself";
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // 使用ViewBinding来绑定布局
@@ -59,7 +58,7 @@ public class SharedFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         // 初始化ViewModel
         app = (AppContext) getActivity().getApplication();
-
+        sharedViewModel = new ViewModelProvider(this, new SharedViewModelFactory(app, url)).get(SharedViewModel.class);
         Log.d("onCreateView: ", app.user.getId());
         // 观察LiveData以获取图片URL列表
         sharedViewModel.getRecords().observe(getViewLifecycleOwner(), new Observer<List<ShareDetail>>() {
