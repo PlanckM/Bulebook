@@ -86,24 +86,39 @@ public class FindViewModel extends ViewModel {
     private void fetchData() {
         Map<String, String> params = new HashMap<>();
         String userId = appContext.user.getId();
+
+        params.put("current", "1");
+        params.put("size", "20");
         params.put("userId", userId);
+
         HttpUtils.get(url, params, new VolleyCallback() {
             @Override
             public void onSuccess(String body, Gson gson) {
-                Type type = new TypeToken<HttpUtils.ResponseBody<PicList>>(){}.getType();
+                Type type = new TypeToken<HttpUtils.ResponseBody<PicList>>() {
+                }.getType();
                 HttpUtils.ResponseBody<PicList> response = gson.fromJson(body, type);
 
                 if (response != null && response.getCode() == 200) {
                     PicList picList = response.getData();
-                    Log.d("","onSuccess: "+ picList);
+                    Log.d("", "onSuccess: " + picList);
                     records = picList.getRecords();
                     Log.d("", "onSuccess: " + records);
-                    for(int i = 0; i < records.size(); i++){
+                    // 避免了渲染空图片的情况
+                    int size = records.size();
+                    for (int i = 0; i < size; ) {
+                        if (records.get(i).getImageUrlList().size() == 0) {
+                            records.remove(i);
+                            size--;
+                        } else {
+                            i++;
+                        }
+                    }
+                    for (int i = 0; i < records.size(); i++) {
                         ShareDetail record = records.get(i);
                         getUserInfo(record, i);
+                        // 更新 LiveData
+                        recordsLiveData.postValue(records); // 修改为更新recordsLiveData
                     }
-                    // 更新 LiveData
-                    recordsLiveData.postValue(records); // 修改为更新recordsLiveData
                 } else {
                     // 处理请求失败的情况
                     // 可以发送错误消息或采取其他适当的操作
@@ -113,5 +128,4 @@ public class FindViewModel extends ViewModel {
             }
         });
     }
-
 }

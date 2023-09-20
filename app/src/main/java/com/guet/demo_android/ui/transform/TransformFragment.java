@@ -15,6 +15,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 import androidx.viewpager.widget.PagerAdapter;
@@ -81,10 +82,13 @@ public class TransformFragment extends Fragment {
         focusrecyclerView = focusView.findViewById(R.id.homepage_focus);
         focusrecyclerView.setHasFixedSize(true);
 
-        StaggeredGridLayoutManager focusLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
-        focusLayoutManager.setGapStrategy(StaggeredGridLayoutManager.GAP_HANDLING_NONE);
+//        StaggeredGridLayoutManager focusLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
+//        focusLayoutManager.setGapStrategy(StaggeredGridLayoutManager.GAP_HANDLING_NONE);
+//        focusrecyclerView.setLayoutManager(focusLayoutManager);
+//        focusrecyclerView.addItemDecoration(new GridSpacingItemDecoration(2, spacingInPixels, includeEdge));
+//
+        LinearLayoutManager focusLayoutManager = new LinearLayoutManager(getContext());
         focusrecyclerView.setLayoutManager(focusLayoutManager);
-        focusrecyclerView.addItemDecoration(new GridSpacingItemDecoration(2, spacingInPixels, includeEdge));
 
         views = new ArrayList<>();
         radioGroup = binding.homeRadioGroup;
@@ -189,19 +193,16 @@ public class TransformFragment extends Fragment {
                 // 初始化适配器并分配给recyclerView
                 focusAdapter = new SharePhotoAdapter(records, requireContext(), app.user.getId());
 
-                // 设置RecyclerView的item点击事件监听器
-                focusAdapter.setOnImageClickListener(new SharePhotoAdapter.OnImageClickListener() {
-                    @Override
-                    public void onImageClick(int position) {
-                        // 处理图片 ImageView 的点击事件，position 是被点击的 item 的位置
-                        ShareDetail clickedItem = records.get(position);
-                        // 在这里执行相应的操作，例如查看大图或者其他操作
-                        Intent intent = new Intent(getContext(), PictureDetailActivity.class);
-                        intent.putExtra("userId", clickedItem.getpUserId());
-                        intent.putExtra("username",clickedItem.getUsername());
-                        intent.putExtra("shareId", clickedItem.getId());
-                        startActivity(intent);
-                    }
+                // 设置RecyclerView的ImageItem点击事件监听器
+                focusAdapter.setOnImageClickListener(position -> {
+                    // 处理图片 ImageView 的点击事件，position 是被点击的 item 的位置
+                    ShareDetail clickedItem = records.get(position);
+                    // 在这里执行相应的操作，例如查看大图或者其他操作
+                    Intent intent = new Intent(getContext(), PictureDetailActivity.class);
+                    intent.putExtra("userId", clickedItem.getpUserId());
+                    intent.putExtra("username",clickedItem.getUsername());
+                    intent.putExtra("shareId", clickedItem.getId());
+                    startActivity(intent);
                 });
 
                 focusAdapter.setOnIsLikeClickListener(new SharePhotoAdapter.OnIsLikeClickListener() {
