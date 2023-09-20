@@ -65,7 +65,7 @@ public class SharePhotoAdapter extends RecyclerView.Adapter<SharePhotoAdapter.Im
 
             if (headImage == null){
                 // 如果用户没有设置头像，则使用默认头像。
-                headImage = "https://guet-lab.oss-cn-hangzhou.aliyuncs.com/api/2023/09/20/ad8d218f-f673-4570-9709-7406a6e8f6b1.jpg";
+                headImage = "https://guet-lab.oss-cn-hangzhou.aliyuncs.com/api/2023/09/20/db9adc6b-228b-44fa-9d00-b8ce16e8e40a.jpg";
             }
             holder.titleTextView.setText(title);
             holder.contentTextView.setText(username);
