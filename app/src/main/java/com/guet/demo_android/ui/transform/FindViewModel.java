@@ -60,7 +60,11 @@ public class FindViewModel extends ViewModel {
     private void fetchData() {
         Map<String, String> params = new HashMap<>();
         String userId = appContext.user.getId();
+
+        params.put("current", "1");
+        params.put("size", "20");
         params.put("userId", userId);
+
         HttpUtils.get(url, params, new VolleyCallback() {
             @Override
             public void onSuccess(String body, Gson gson) {
@@ -72,6 +76,17 @@ public class FindViewModel extends ViewModel {
                     Log.d("","onSuccess: "+ picList);
                     List<ShareDetail> records = picList.getRecords();
                     Log.d("", "onSuccess: " + records);
+                    // 避免了渲染空图片的情况
+                    int size = records.size();
+                    for(int i = 0; i < size; ){
+                        if(records.get(i).getImageUrlList().size() == 0){
+                            records.remove(i);
+                            size--;
+                        }
+                        else {
+                            i++;
+                        }
+                    }
                     // 更新 LiveData
                     recordsLiveData.postValue(records); // 修改为更新recordsLiveData
                 } else {
