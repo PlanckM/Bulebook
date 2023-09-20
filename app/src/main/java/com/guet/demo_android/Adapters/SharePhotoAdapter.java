@@ -64,6 +64,7 @@ public class SharePhotoAdapter extends RecyclerView.Adapter<SharePhotoAdapter.Im
             final boolean[] islike = {record.getHasLike()};
 
             if (headImage == null){
+                // 如果用户没有设置头像，则使用默认头像。
                 headImage = "https://guet-lab.oss-cn-hangzhou.aliyuncs.com/api/2023/09/20/ad8d218f-f673-4570-9709-7406a6e8f6b1.jpg";
             }
             holder.titleTextView.setText(title);
@@ -101,7 +102,6 @@ public class SharePhotoAdapter extends RecyclerView.Adapter<SharePhotoAdapter.Im
                     }
                 }
             });
-
             //每一个图标绑定点击事件
             holder.isLikeImageView.setOnClickListener(clickListener);
         }
@@ -188,9 +188,9 @@ public class SharePhotoAdapter extends RecyclerView.Adapter<SharePhotoAdapter.Im
             sendLikeRequest(record.getId(), "http://47.107.52.7:88/member/photo/like?");
         }
 
-        if (onIsLikeClickListener != null) {
-            onIsLikeClickListener.onIsLikeClick(position);
-        }
+//        if (onIsLikeClickListener != null) {
+//            onIsLikeClickListener.onIsLikeClick(position);
+//        }
     }
 
     //取消点赞
@@ -257,7 +257,6 @@ public class SharePhotoAdapter extends RecyclerView.Adapter<SharePhotoAdapter.Im
             likeNumTextView = itemView.findViewById(R.id.like_num);
             isLikeImageView = itemView.findViewById(R.id.is_like);
             headImageView = itemView.findViewById(R.id.headImageView);
-
         }
     }
 
