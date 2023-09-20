@@ -83,6 +83,7 @@ public class SharedFragment extends Fragment {
                 });
 
                 recyclerView.setAdapter(adapter);
+                Log.d("cyy", "onChanged: " + records.toString());
             }
         });
     }

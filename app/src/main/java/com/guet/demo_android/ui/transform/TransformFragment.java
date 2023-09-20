@@ -40,6 +40,7 @@ public class TransformFragment extends Fragment {
 
     //通用适配器
     private SharePhotoAdapter findAdapter;
+
     private SharePhotoAdapter focusAdapter;
 
     private List<View> views;
