@@ -21,6 +21,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.google.gson.reflect.TypeToken;
+import com.guet.demo_android.AppContext;
 import com.guet.demo_android.HttpUtils;
 import com.guet.demo_android.R;
 import com.guet.demo_android.Type.Chat1;
@@ -95,8 +96,9 @@ public class PictureDetailActivity extends AppCompatActivity {
 
         a=binding.a;
         Intent intent = getIntent();
-        userId = intent.getStringExtra("userId");
-        shareId = intent.getStringExtra("sharedId");
+        AppContext app=(AppContext)getApplication();
+        userId = app.user.getId();
+        shareId = intent.getStringExtra("shareId");
         username=intent.getStringExtra("username");
 
         mHandler = new Handler(Looper.getMainLooper()) {

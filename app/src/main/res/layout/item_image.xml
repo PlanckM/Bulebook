@@ -4,55 +4,94 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    app:cardCornerRadius="10dp">
+    app:cardElevation="0dp"
+    app:cardCornerRadius="4dp">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="128dp"
-        android:orientation="horizontal">
-
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
         <ImageView
             android:id="@+id/iv_image"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="220dp"
             android:scaleType="centerCrop" />
+        <TextView
+            android:id="@+id/tv_title_myshare"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="6dp"
+            android:maxLines="2"
+            android:ellipsize="end"
+            android:paddingStart="8dp"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
+            android:lineSpacingExtra="6dp"
+            android:text="总以为一生还有很多时间，但很多东西在等待中失去"
+            android:textColor="#333333"
+            android:textSize="15sp"
+            android:textStyle="bold" />
+
         <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="2"
-            android:orientation="vertical">
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
 
+            <ImageView
+                android:id="@+id/circularImageView"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginStart="4dp"
+                android:layout_marginTop="2dp"
+                android:layout_marginBottom="8dp"
+                android:background="@drawable/circular_background"
+                android:padding="6dp"
+                android:src="@drawable/avatar_1"
+                android:scaleType="centerCrop"
+                />
             <TextView
-                style="@style/TextAppearance.AppCompat.Subhead"
+                android:id="@+id/tv_username"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:baselineAligned="true"
+                android:textColor="#606060"
+                android:paddingTop="8dp" />
+            <!-- 添加 baseline_favorite_24.xml 图标 和 5000 文本 -->
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="0.5"
-                android:text="标题:"
-                android:textSize="18sp"
-                android:textStyle="bold" />
-            <TextView
-                android:id="@+id/tv_title_myshare"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:textSize="18sp"
-                android:textStyle="bold"/>
-            <TextView
+                android:layout_height="wrap_content"
+                android:gravity="end">
 
-                style="@style/TextAppearance.AppCompat.Subhead"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="0.5"
-                android:text="内容:" />
-            <TextView
-                android:id="@+id/tv_subtitle"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:textSize="18sp"
-                android:textStyle="bold"/>
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginEnd="6dp"
+                    android:gravity="center_vertical">
+
+                    <ImageView
+                        android:id="@+id/is_like"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:padding="2dp"
+                        android:src="@drawable/baseline_favorite_border_24" />
+
+                    <TextView
+                        android:id="@+id/like_num"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="0.70dp"
+                        android:layout_marginEnd="4dp"
+                        android:baselineAligned="true"
+                        android:paddingTop="6dp"
+                        android:text="500"
+                        android:textColor="#606060" />
+                </LinearLayout>
+            </LinearLayout>
+
         </LinearLayout>
     </LinearLayout>
-
 </androidx.cardview.widget.CardView>

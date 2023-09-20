@@ -77,49 +77,45 @@ public class ReflowFragment extends Fragment {
         binding.btnSelectImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                if (localImage > 3){
-//                    Toast.makeText(getActivity(),"最多允许上传三张",
-//                            Toast.LENGTH_SHORT).show();
-//                    return;
-//                }
-//                PictureSelector.create(getContext())
-//                        .openSystemGallery(SelectMimeType.ofImage())
-//                        .setSelectMaxFileSize(3)
-//                        .setSelectMinFileSize(1)
-//                        .forSystemResultActivity(new OnResultCallbackListener<LocalMedia>() {
-//                            @Override
-//                            public void onResult(ArrayList<LocalMedia> result) {
-//                                for (LocalMedia media : result) {
-//                                    System.out.println(media.getRealPath());
-//                                    try {
-//                                        FileInputStream stream = new FileInputStream(String.valueOf(media.getRealPath()));
-//                                        if (localImage == 1){
-//                                            image1.setImageBitmap(BitmapFactory.decodeStream(stream));
-//                                            rl1.setVisibility(View.VISIBLE);
-//                                        }else if (localImage == 2){
-//                                            image2.setImageBitmap(BitmapFactory.decodeStream(stream));
-//                                            rl2.setVisibility(View.VISIBLE);
-//                                        }else if (localImage == 3){
-//                                            image3.setImageBitmap(BitmapFactory.decodeStream(stream));
-//                                            rl3.setVisibility(View.VISIBLE);
-//                                        }
-//                                        localImage ++;
-//                                        paths.add(media.getRealPath());
-//                                    } catch (FileNotFoundException e) {
-//                                        e.printStackTrace();
-//                                    }
-//                                }
-//                            }
-//                            @Override
-//                            public void onCancel() {
-//
-//                            }
-//                        });
-                Intent intent=new Intent(getActivity(),PictureDetailActivity.class);
-                intent.putExtra("username","gxk");
-                intent.putExtra("sharedId","5378");
-                intent.putExtra("userId","1696496527540883456");
-                startActivity(intent);
+                if (localImage > 3){
+                    Toast.makeText(getActivity(),"最多允许上传三张",
+                            Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                PictureSelector.create(getContext())
+                        .openSystemGallery(SelectMimeType.ofImage())
+                        .setSelectMaxFileSize(3)
+                        .setSelectMinFileSize(1)
+                        .forSystemResultActivity(new OnResultCallbackListener<LocalMedia>() {
+                            @Override
+                            public void onResult(ArrayList<LocalMedia> result) {
+                                for (LocalMedia media : result) {
+                                    System.out.println(media.getRealPath());
+                                    try {
+                                        FileInputStream stream = new FileInputStream(media.getRealPath());
+                                        Log.d("", "onResult:  " + stream);
+                                        if (localImage == 1){
+                                            image1.setImageBitmap(BitmapFactory.decodeStream(stream));
+                                            rl1.setVisibility(View.VISIBLE);
+                                        }else if (localImage == 2){
+                                            image2.setImageBitmap(BitmapFactory.decodeStream(stream));
+                                            rl2.setVisibility(View.VISIBLE);
+                                        }else if (localImage == 3){
+                                            image3.setImageBitmap(BitmapFactory.decodeStream(stream));
+                                            rl3.setVisibility(View.VISIBLE);
+                                        }
+                                        localImage++;
+                                        paths.add(media.getRealPath());
+                                    } catch (FileNotFoundException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                            }
+                            @Override
+                            public void onCancel() {
+
+                            }
+                        });
             }
         });
 

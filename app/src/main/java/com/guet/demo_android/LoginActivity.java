@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.os.Looper;
 import android.text.InputType;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -35,7 +36,7 @@ public class LoginActivity extends AppCompatActivity {
     private EditText etAccount;
     private CheckBox cbRememberPwd;
     private TextView sign_up;
-
+    public static String userId;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -108,12 +109,14 @@ public class LoginActivity extends AppCompatActivity {
                     public void onSuccess(String body, Gson gson) {
                         Type jsonType=new TypeToken<HttpUtils.ResponseBody<User>>(){}.getType();
                         HttpUtils.ResponseBody<User> responseBody= gson.fromJson(body,jsonType);
+                        Log.d("cyy", "onSuccess: "+responseBody.getData().toString());
                         if(responseBody.getCode()==200){
                             final AppContext app = (AppContext)getApplication();
                             app.user=responseBody.getData();
                             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
 
                             startActivity(intent);
+                            finishAffinity(); // 关闭当前Activity及其相关Activity
                             //在string文件下获取键值
                             String spFileName = getResources()
                                     .getString(R.string.shared_preferences_file_name);

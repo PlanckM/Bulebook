@@ -113,9 +113,8 @@ public class HttpUtils {
 
     public static void get(String url, Map<String, String> params, final VolleyCallback callback) {
         new Thread(() -> {
-            String strUrl = url;
+            String strUrl = url + "?";
             if (params != null) {
-                strUrl = strUrl + "?";
                 for (String key : params.keySet()) {
                     strUrl = strUrl + key + '=' + params.get(key) + '&';
                 }

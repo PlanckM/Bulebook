@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- 分隔线的颜色和高度 -->
+    <item android:height="1dp">
+        <color android:color="#00FFFFFF" /> <!-- 使用透明的颜色 -->
+    </item>
+</layer-list>

@@ -1,5 +1,6 @@
 package com.guet.demo_android.Type;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ShareDetail {
@@ -11,13 +12,22 @@ public class ShareDetail {
     String createTime;
     List<String> imageUrlList;
     String likeId;
-    Integer likeNum;
+    int likeNum;
     Boolean hasLike;
     String collectId;
     Integer collectNum;
     Boolean hasCollect;
     Boolean hasFocus;
     String username;
+    // 新增字段表示记录是否展开图片
+    private boolean isExpanded = false;
+    public boolean isExpanded() {
+        return isExpanded;
+    }
+
+    public void setExpanded(boolean expanded) {
+        isExpanded = expanded;
+    }
 
     public String getId() {
         return id;
@@ -83,7 +93,7 @@ public class ShareDetail {
         this.likeId = likeId;
     }
 
-    public Integer getLikeNum() {
+    public int getLikeNum() {
         return likeNum;
     }
 
@@ -137,5 +147,26 @@ public class ShareDetail {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    @Override
+    public String toString() {
+        return "ShareDetail{" +
+                "id='" + id + '\'' +
+                ", pUserId='" + pUserId + '\'' +
+                ", imageCode='" + imageCode + '\'' +
+                ", title='" + title + '\'' +
+                ", content='" + content + '\'' +
+                ", createTime='" + createTime + '\'' +
+                ", imageUrlList=" + imageUrlList +
+                ", likeId='" + likeId + '\'' +
+                ", likeNum=" + likeNum +
+                ", hasLike=" + hasLike +
+                ", collectId='" + collectId + '\'' +
+                ", collectNum=" + collectNum +
+                ", hasCollect=" + hasCollect +
+                ", hasFocus=" + hasFocus +
+                ", username='" + username + '\'' +
+                '}';
     }
 }
