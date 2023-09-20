@@ -60,8 +60,13 @@ public class SharePhotoAdapter extends RecyclerView.Adapter<SharePhotoAdapter.Im
             String title = record.getTitle();
             String username = record.getUsername(); // 用户名字段是 username
             String likeNum = String.valueOf(record.getLikeNum());
+            String headImage = record.getAvatar();
             final boolean[] islike = {record.getHasLike()};
 
+            if (headImage == null){
+                // 如果用户没有设置头像，则使用默认头像。
+                headImage = "https://guet-lab.oss-cn-hangzhou.aliyuncs.com/api/2023/09/20/ad8d218f-f673-4570-9709-7406a6e8f6b1.jpg";
+            }
             holder.titleTextView.setText(title);
             holder.contentTextView.setText(username);
             holder.likeNumTextView.setText(likeNum);
@@ -69,6 +74,10 @@ public class SharePhotoAdapter extends RecyclerView.Adapter<SharePhotoAdapter.Im
             Glide.with(context)
                     .load(imageUrl)
                     .into(holder.imageView);
+            Glide.with(context)
+                    .load(headImage)
+                    .into(holder.headImageView);
+
             //初始化图标的状态
             if (islike[0]) {
                 holder.isLikeImageView.setImageResource(R.drawable.baseline_favorite_20); // 已点赞状态
@@ -93,7 +102,6 @@ public class SharePhotoAdapter extends RecyclerView.Adapter<SharePhotoAdapter.Im
                     }
                 }
             });
-
             //每一个图标绑定点击事件
             holder.isLikeImageView.setOnClickListener(clickListener);
         }
@@ -180,9 +188,9 @@ public class SharePhotoAdapter extends RecyclerView.Adapter<SharePhotoAdapter.Im
             sendLikeRequest(record.getId(), "http://47.107.52.7:88/member/photo/like?");
         }
 
-        if (onIsLikeClickListener != null) {
-            onIsLikeClickListener.onIsLikeClick(position);
-        }
+//        if (onIsLikeClickListener != null) {
+//            onIsLikeClickListener.onIsLikeClick(position);
+//        }
     }
 
     //取消点赞
@@ -240,6 +248,7 @@ public class SharePhotoAdapter extends RecyclerView.Adapter<SharePhotoAdapter.Im
         TextView contentTextView;
         TextView likeNumTextView;
         ImageView isLikeImageView;
+        ImageView headImageView;
 
         public ImageViewHolder(View itemView) {
             super(itemView);
@@ -248,7 +257,7 @@ public class SharePhotoAdapter extends RecyclerView.Adapter<SharePhotoAdapter.Im
             contentTextView = itemView.findViewById(R.id.tv_username);
             likeNumTextView = itemView.findViewById(R.id.like_num);
             isLikeImageView = itemView.findViewById(R.id.is_like);
-
+            headImageView = itemView.findViewById(R.id.headImageView);
         }
     }
 

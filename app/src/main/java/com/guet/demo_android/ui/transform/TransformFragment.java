@@ -166,24 +166,6 @@ public class TransformFragment extends Fragment {
                         startActivity(intent);
                     }
                 });
-
-                findAdapter.setOnIsLikeClickListener(new SharePhotoAdapter.OnIsLikeClickListener() {
-                    @Override
-                    public void onIsLikeClick(int position) {
-                        // 处理is_like ImageView 的点击事件，position 是被点击的 item 的位置
-                        ShareDetail clickedItem = records.get(position);
-                        // 在这里执行相应的操作，例如切换点赞状态等
-                        boolean isLiked = clickedItem.getHasLike();// 获取当前点赞状态
-                        // 根据点赞状态执行操作，例如发送点赞请求或者取消点赞请求
-                        if (isLiked) {
-                            // 已点赞，执行取消点赞操作
-
-                        } else {
-                            // 未点赞，执行点赞操作
-                        }
-                    }
-                });
-
                 findrecyclerView.setAdapter(findAdapter);
             }
         });
