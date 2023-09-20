@@ -12,6 +12,7 @@ import com.guet.demo_android.AppContext;
 import com.guet.demo_android.HttpUtils;
 import com.guet.demo_android.Type.PicList;
 import com.guet.demo_android.Type.ShareDetail;
+import com.guet.demo_android.Type.User;
 import com.guet.demo_android.VolleyCallback;
 
 import java.lang.reflect.Type;
@@ -24,10 +25,20 @@ public class FindViewModel extends ViewModel {
     private final MutableLiveData<String> title = new MutableLiveData<>();
     private final MutableLiveData<String> content = new MutableLiveData<>();
     private MutableLiveData<List<ShareDetail>> recordsLiveData = new MutableLiveData<>(new ArrayList<>()); // 初始化为一个空的ArrayList
-//    private String URL = "http://47.107.52.7:88/member/photo/share";
+
+    public MutableLiveData<List<String>> getAvatarListLiveData() {
+        return AvatarListLiveData;
+    }
+
+    public void setAvatarListLiveData(MutableLiveData<List<String>> avatarListLiveData) {
+        AvatarListLiveData = avatarListLiveData;
+    }
+
+    //    private String URL = "http://47.107.52.7:88/member/photo/share";
+    private MutableLiveData<List<String>> AvatarListLiveData = new MutableLiveData<>(new ArrayList<>());
     private String url;
     private AppContext appContext;
-
+    private List<ShareDetail> records;
     public FindViewModel() {
         // 初始化 ViewModel 时获取数据
         fetchData();
@@ -56,6 +67,21 @@ public class FindViewModel extends ViewModel {
     public LiveData<List<ShareDetail>> getRecords() { // 修改为LiveData<List<ShareDetail>>
         return recordsLiveData;
     }
+    private List<String> AvatarList;
+    private void getUserInfo(ShareDetail record, int i){
+        Map<String, String> params = new HashMap<>();
+        params.put("username", record.getUsername());
+        HttpUtils.get(url, params, new VolleyCallback() {
+            @Override
+            public void onSuccess(String body, Gson gson) {
+                Type type = new TypeToken<HttpUtils.ResponseBody<User>>() {}.getType();
+                HttpUtils.ResponseBody<User> response = gson.fromJson(body, type);
+                Log.d("TAG", "onSuccess: " + response);
+                record.getAvatar(response.getData().getAvatar());
+            }
+        });
+    }
+
 
     private void fetchData() {
         Map<String, String> params = new HashMap<>();
@@ -70,8 +96,12 @@ public class FindViewModel extends ViewModel {
                 if (response != null && response.getCode() == 200) {
                     PicList picList = response.getData();
                     Log.d("","onSuccess: "+ picList);
-                    List<ShareDetail> records = picList.getRecords();
+                    records = picList.getRecords();
                     Log.d("", "onSuccess: " + records);
+                    for(int i = 0; i < records.size(); i++){
+                        ShareDetail record = records.get(i);
+                        getUserInfo(record, i);
+                    }
                     // 更新 LiveData
                     recordsLiveData.postValue(records); // 修改为更新recordsLiveData
                 } else {

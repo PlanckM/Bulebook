@@ -1,6 +1,5 @@
 package com.guet.demo_android.Type;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class ShareDetail {
@@ -19,6 +18,16 @@ public class ShareDetail {
     Boolean hasCollect;
     Boolean hasFocus;
     String username;
+
+    public String getAvatar(String avatar) {
+        return this.avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
+    }
+
+    String avatar;
     // 新增字段表示记录是否展开图片
     private boolean isExpanded = false;
     public boolean isExpanded() {

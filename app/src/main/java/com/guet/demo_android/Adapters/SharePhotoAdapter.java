@@ -33,10 +33,16 @@ import java.util.Map;
 public class SharePhotoAdapter extends RecyclerView.Adapter<SharePhotoAdapter.ImageViewHolder> {
     private List<ShareDetail> records;
     private Context context;
-    private AppContext app;
+    private String userId;
     public SharePhotoAdapter(List<ShareDetail> records, Context context) {
         this.context = context;
         this.records = records;
+    }
+
+    public SharePhotoAdapter(List<ShareDetail> records, Context context, String userId) {
+        this.context = context;
+        this.records = records;
+        this.userId = userId;
     }
 
     @NonNull
@@ -125,36 +131,19 @@ public class SharePhotoAdapter extends RecyclerView.Adapter<SharePhotoAdapter.Im
         HttpUtils.post(url,  params,false, new VolleyCallback() {
             @Override
             public void onSuccess(String body, Gson gson) {
-                Type type = new TypeToken<HttpUtils.ResponseBody<PicList>>(){}.getType();
-                HttpUtils.ResponseBody<PicList> response = gson.fromJson(body, type);
-                Log.d(TAG, "onSuccess: 1111"+response.getCode());
-                if (response != null && response.getCode() == 200) {
-//                    Toast.makeText(context.getApplicationContext(), "点击成功!", Toast.LENGTH_SHORT).show();
-                } else {
-                }
+
             }
         });
     }
     //点赞
-    private void sendLikeRequest(String id,String url){
-        Log.d(TAG, "sendLikeRequest: share"+id);
-//        Log.d(TAG, "sendLikeRequest: userid"+userId);
-
+    private void sendLikeRequest(String shareId,String url){
         Map<String,Object> params=new HashMap<String,Object>();
-        params.put("shareId",id);
-        params.put("userId","1696496527540883456");
+        params.put("shareId",shareId);
+        params.put("userId",userId);
         HttpUtils.post(url,  params,false, new VolleyCallback() {
             @Override
             public void onSuccess(String body, Gson gson) {
-                Type type = new TypeToken<HttpUtils.ResponseBody<PicList>>(){}.getType();
-                HttpUtils.ResponseBody<PicList> response = gson.fromJson(body, type);
-                Log.d(TAG, "onSuccess: 00000"+response.getCode());
-                if (response != null && response.getCode() == 200) {
-//                    Toast.makeText(context.getApplicationContext(), "点击成功!", Toast.LENGTH_SHORT).show();
-                } else {
 
-
-                }
             }
         });
     }

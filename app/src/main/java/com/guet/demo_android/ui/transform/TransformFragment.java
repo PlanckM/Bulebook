@@ -187,7 +187,7 @@ public class TransformFragment extends Fragment {
             @Override
             public void onChanged(List<ShareDetail> records) {
                 // 初始化适配器并分配给recyclerView
-                focusAdapter = new SharePhotoAdapter(records, requireContext());
+                focusAdapter = new SharePhotoAdapter(records, requireContext(), app.user.getId());
 
                 // 设置RecyclerView的item点击事件监听器
                 focusAdapter.setOnImageClickListener(new SharePhotoAdapter.OnImageClickListener() {
