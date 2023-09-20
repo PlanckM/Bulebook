@@ -115,16 +115,17 @@ public class HttpUtils {
         new Thread(() -> {
             String strUrl = url;
             if (params != null) {
+                strUrl = strUrl + "?";
                 for (String key : params.keySet()) {
-                    strUrl = strUrl + "?" + key + '=' + params.get(key) + '&';
+                    strUrl = strUrl + key + '=' + params.get(key) + '&';
                 }
                 strUrl = strUrl.substring(0, strUrl.length() - 1);
                 Log.d(" fffff",strUrl);
             }
             // 请求头
             Headers headers = new Headers.Builder()
-                    .add("appId", "9d1dce6ba32a43a393d650f92cf191c0")
-                    .add("appSecret", "823318a54caf0ebaa41cc83319fc58ab2e209")
+                    .add("appId", "4d30717bfe774414a81c1198b1fe7d22")
+                    .add("appSecret", "266335a3f6cde181842a1a34f62a633f927f5")
                     .add("Accept", "application/json, text/plain, */*")
                     .build();
 
