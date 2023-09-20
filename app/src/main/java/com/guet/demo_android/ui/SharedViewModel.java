@@ -77,9 +77,8 @@ public class SharedViewModel extends ViewModel {
 
                 if (response != null && response.getCode() == 200) {
                     PicList picList = response.getData();
-                    Log.d("","onSuccess: "+ picList);
-                    List<ShareDetail> records = picList.getRecords();
-                    Log.d("", "onSuccess:111 " + records);
+                    List<ShareDetail> records=null;
+                    records = picList.getRecords();
                     // 更新 LiveData
                     recordsLiveData.postValue(records); // 修改为更新recordsLiveData
                 } else {

@@ -238,6 +238,7 @@ public class SharePhotoAdapter extends RecyclerView.Adapter<SharePhotoAdapter.Im
 
     @Override
     public int getItemCount() {
+        if(records==null) return 0;
         return records.size();
     }
 

@@ -79,9 +79,9 @@ public class FocusViewModel extends ViewModel {
 
                 if (response != null && response.getCode() == 200) {
                     PicList picList = response.getData();
-                    Log.d("", "onSuccess: " + picList);
-                    List<ShareDetail> records = picList.getRecords();
-                    Log.d("", "onSuccess: " + records);
+                    List<ShareDetail> records=null;
+                    if(picList!=null)
+                        records = picList.getRecords();
                     // 更新 LiveData
                     recordsLiveData.postValue(records); // 修改为更新recordsLiveData
                 } else {
