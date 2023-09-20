@@ -18,8 +18,13 @@ public class ShareDetail {
     Boolean hasCollect;
     Boolean hasFocus;
     String username;
+    String avatar;
 
-    public String getAvatar(String avatar) {
+    public ShareDetail(String avatar) {
+        this.avatar = avatar;
+    }
+
+    public String getAvatar() {
         return this.avatar;
     }
 
@@ -27,7 +32,7 @@ public class ShareDetail {
         this.avatar = avatar;
     }
 
-    String avatar;
+
     // 新增字段表示记录是否展开图片
     private boolean isExpanded = false;
     public boolean isExpanded() {
