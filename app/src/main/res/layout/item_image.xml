@@ -47,7 +47,6 @@
                 android:layout_marginBottom="8dp"
                 android:background="@drawable/circular_background"
                 android:padding="6dp"
-                android:src="@drawable/avatar_3"
                 android:scaleType="centerCrop"
                 />
             <TextView
