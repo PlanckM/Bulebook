@@ -34,7 +34,7 @@ import java.util.Map;
 public class SharePhotoAdapter extends RecyclerView.Adapter<SharePhotoAdapter.ImageViewHolder> {
     private List<ShareDetail> records;
     private Context context;
-    private AppContext app;
+
 
     public SharePhotoAdapter(List<ShareDetail> records, Context context) {
         this.context = context;

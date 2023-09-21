@@ -12,6 +12,7 @@ import com.guet.demo_android.AppContext;
 import com.guet.demo_android.HttpUtils;
 import com.guet.demo_android.Type.PicList;
 import com.guet.demo_android.Type.ShareDetail;
+import com.guet.demo_android.Type.User;
 import com.guet.demo_android.VolleyCallback;
 
 import java.lang.reflect.Type;
@@ -60,7 +61,29 @@ public class FocusViewModel extends ViewModel {
     public LiveData<List<ShareDetail>> getRecords() {
         return recordsLiveData;
     }
+    private void getUserInfo(List<ShareDetail> records, int i){
+        Map<String, String> params = new HashMap<>();
+        params.put("username", records.get(i).getUsername());
+        Log.d("TAG", "getUserInfo: "+records.get(i).getUsername());
+        HttpUtils.get("http://47.107.52.7:88/member/photo/user/getUserByName", params, new VolleyCallback() {
+            @Override
+            public void onSuccess(String body, Gson gson) {
+                Type type = new TypeToken<HttpUtils.ResponseBody<User>>() {}.getType();
+                HttpUtils.ResponseBody<User> response = gson.fromJson(body, type);
+                Log.d("TAG", "onSuccess: " + response);
+                String Avatar = null;
+                if(response.getData() != null){
+                    Avatar = response.getData().getAvatar();
+                }
+                if(Avatar == null){
+                    Avatar = "content://com.android.providers.media.documents/document/image%3A1000000101";
+                } else {
+                    records.get(i).setAvatar(Avatar);
+                }
 
+            }
+        });
+    }
     private void fetchData() {
         userId = appContext.user.getId();
         Map<String, String> params = new HashMap<>();
@@ -82,6 +105,12 @@ public class FocusViewModel extends ViewModel {
                     List<ShareDetail> records=null;
                     if(picList!=null)
                         records = picList.getRecords();
+                    for (int i = 0; i < records.size(); i++) {
+                        getUserInfo(records, i);
+                        // 更新 LiveData
+                        Log.d("TAG", "onSuccess: "+records);
+                        Log.d("TAG", "onSuccess: "+records.get(i).getAvatar());
+                    }
                     // 更新 LiveData
                     recordsLiveData.postValue(records); // 修改为更新recordsLiveData
                 } else {
