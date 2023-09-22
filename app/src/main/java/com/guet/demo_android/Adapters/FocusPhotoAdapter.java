@@ -49,59 +49,62 @@ public class FocusPhotoAdapter extends RecyclerView.Adapter<FocusPhotoAdapter.Fo
 
     @Override
     public void onBindViewHolder(@NonNull FocusImageViewHolder holder, @SuppressLint("RecyclerView") int position) {
-        if (records.get(position).getImageUrlList().size() == 0) {
-            // 处理数据为空的情况，例如显示默认数据或者隐藏视图等操作
-        } else {
-            ShareDetail record = records.get(position);
-            String imageUrl = record.getImageUrlList().get(0); // 获取第一个图片链接
-            // 获取标题和内容，并设置到对应的 TextView 中
-            String title = record.getTitle();
-            String username = record.getUsername(); // 用户名字段是 username
-            String likeNum = String.valueOf(record.getLikeNum());
-            String headImage = record.getAvatar();
-            final boolean[] islike = {record.getHasLike()};
-
-            if (headImage == null){
-                // 如果用户没有设置头像，则使用默认头像。
-                headImage = "https://guet-lab.oss-cn-hangzhou.aliyuncs.com/api/2023/09/20/db9adc6b-228b-44fa-9d00-b8ce16e8e40a.jpg";
-            }
-            holder.titleTextView.setText(title);
-            holder.contentTextView.setText(username);
-            holder.likeNumTextView.setText(likeNum);
-
-            Glide.with(context)
-                    .load(imageUrl)
-                    .into(holder.imageView);
-            Glide.with(context)
-                    .load(headImage)
-                    .into(holder.headImageView);
-
-            //初始化图标的状态
-            if (islike[0]) {
-                holder.isLikeImageView.setImageResource(R.drawable.baseline_favorite_32); // 已点赞状态
+        if(records!=null)
+        {
+            if (records.get(position).getImageUrlList().size() == 0) {
+                // 处理数据为空的情况，例如显示默认数据或者隐藏视图等操作
             } else {
-                holder.isLikeImageView.setImageResource(R.drawable.baseline_favorite_border_32); // 未点赞状态
-            }
+                ShareDetail record = records.get(position);
+                String imageUrl = record.getImageUrlList().get(0); // 获取第一个图片链接
+                // 获取标题和内容，并设置到对应的 TextView 中
+                String title = record.getTitle();
+                String username = record.getUsername(); // 用户名字段是 username
+                String likeNum = String.valueOf(record.getLikeNum());
+                String headImage = record.getAvatar();
+                final boolean[] islike = {record.getHasLike()};
 
-            // 点击事件监听器
-            View.OnClickListener clickListener = new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    handleLikeClick(holder, record, position);
+                if (headImage == null) {
+                    // 如果用户没有设置头像，则使用默认头像。
+                    headImage = "https://guet-lab.oss-cn-hangzhou.aliyuncs.com/api/2023/09/20/db9adc6b-228b-44fa-9d00-b8ce16e8e40a.jpg";
                 }
-            };
+                holder.titleTextView.setText(title);
+                holder.contentTextView.setText(username);
+                holder.likeNumTextView.setText(likeNum);
 
-            //点击图片跳转页面
-            holder.imageView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if (onImageClickListener != null) {
-                        onImageClickListener.onImageClick(position);
+                Glide.with(context)
+                        .load(imageUrl)
+                        .into(holder.imageView);
+                Glide.with(context)
+                        .load(headImage)
+                        .into(holder.headImageView);
+
+                //初始化图标的状态
+                if (islike[0]) {
+                    holder.isLikeImageView.setImageResource(R.drawable.baseline_favorite_32); // 已点赞状态
+                } else {
+                    holder.isLikeImageView.setImageResource(R.drawable.baseline_favorite_border_32); // 未点赞状态
+                }
+
+                // 点击事件监听器
+                View.OnClickListener clickListener = new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        handleLikeClick(holder, record, position);
                     }
-                }
-            });
-            //每一个图标绑定点击事件
-            holder.isLikeImageView.setOnClickListener(clickListener);
+                };
+
+                //点击图片跳转页面
+                holder.imageView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        if (onImageClickListener != null) {
+                            onImageClickListener.onImageClick(position);
+                        }
+                    }
+                });
+                //每一个图标绑定点击事件
+                holder.isLikeImageView.setOnClickListener(clickListener);
+            }
         }
     }
 

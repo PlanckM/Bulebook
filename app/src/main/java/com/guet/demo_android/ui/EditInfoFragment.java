@@ -74,9 +74,7 @@ public class EditInfoFragment extends Fragment {
                 Integer sex=null;
                 if(binding.sexEdit.getText().toString().equals("男")) sex=1;
                 else if(binding.sexEdit.getText().toString().equals("女")) sex=-1;
-                Log.d("", sex+"onClick: ");
                 params.put("sex",sex);
-                Log.d("", sex+"EditInfoFragment: ");
                 params.put("username",binding.usernameEdit.getText().toString());
                 params.put("id",slideshowViewModel.getId().getValue());
                 String Url="http://47.107.52.7:88/member/photo/user/update";
