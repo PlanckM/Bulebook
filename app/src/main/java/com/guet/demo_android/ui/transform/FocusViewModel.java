@@ -105,6 +105,16 @@ public class FocusViewModel extends ViewModel {
                     List<ShareDetail> records=null;
                     if(picList!=null)
                         records = picList.getRecords();
+                    // 避免了渲染空图片的情况
+                    int size = records.size();
+                    for (int i = 0; i < size; ) {
+                        if (records.get(i).getImageUrlList().size() == 0) {
+                            records.remove(i);
+                            size--;
+                        } else {
+                            i++;
+                        }
+                    }
                     for (int i = 0; i < records.size(); i++) {
                         getUserInfo(records, i);
                         // 更新 LiveData

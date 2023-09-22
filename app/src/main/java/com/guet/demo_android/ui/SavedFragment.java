@@ -48,7 +48,7 @@ public class SavedFragment extends Fragment {
 
         // 添加GridSpacingItemDecoration来设置间隔
         int spacingInPixels = getResources().getDimensionPixelSize(R.dimen.space); // 间隔的像素值
-        boolean includeEdge = true; // 是否包括边缘
+        boolean includeEdge = false; // 是否包括边缘
 
 
         recyclerView.addItemDecoration(new GridSpacingItemDecoration(spanCount, spacingInPixels, includeEdge));
