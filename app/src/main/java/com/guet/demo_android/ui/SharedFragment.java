@@ -47,7 +47,7 @@ public class SharedFragment extends Fragment {
         recyclerView.setLayoutManager(layoutManager);
         // 添加GridSpacingItemDecoration来设置间隔
         int spacingInPixels = getResources().getDimensionPixelSize(R.dimen.space); // 间隔的像素值
-        boolean includeEdge = true; // 是否包括边缘
+        boolean includeEdge = false; // 是否包括边缘
         recyclerView.addItemDecoration(new GridSpacingItemDecoration(spanCount, spacingInPixels, includeEdge));
         return root;
     }
@@ -75,8 +75,8 @@ public class SharedFragment extends Fragment {
                         ShareDetail clickedItem = records.get(position);
                         // 在这里执行相应的操作，例如查看大图或者其他操作
                         Intent intent = new Intent(getContext(), PictureDetailActivity.class);
-                        intent.putExtra("userId", clickedItem.getpUserId());
-                        intent.putExtra("username",clickedItem.getUsername());
+                        intent.putExtra("userId", app.user.getId());
+                        intent.putExtra("username",app.user.getUsername());
                         intent.putExtra("shareId", clickedItem.getId());
                         startActivity(intent);
                     }

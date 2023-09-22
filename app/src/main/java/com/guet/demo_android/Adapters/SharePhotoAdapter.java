@@ -34,7 +34,7 @@ import java.util.Map;
 public class SharePhotoAdapter extends RecyclerView.Adapter<SharePhotoAdapter.ImageViewHolder> {
     private List<ShareDetail> records;
     private Context context;
-    private AppContext app;
+
 
     public SharePhotoAdapter(List<ShareDetail> records, Context context) {
         this.context = context;
@@ -82,7 +82,7 @@ public class SharePhotoAdapter extends RecyclerView.Adapter<SharePhotoAdapter.Im
             if (islike[0]) {
                 holder.isLikeImageView.setImageResource(R.drawable.baseline_favorite_20); // 已点赞状态
             } else {
-                holder.isLikeImageView.setImageResource(R.drawable.baseline_favorite_border_24); // 未点赞状态
+                holder.isLikeImageView.setImageResource(R.drawable.baseline_favorite_border_20); // 未点赞状态
             }
 
             // 点击事件监听器
@@ -216,7 +216,7 @@ public class SharePhotoAdapter extends RecyclerView.Adapter<SharePhotoAdapter.Im
     private void sendLikeRequest(String id, String url) {
         Map<String, Object> params = new HashMap<>();
         params.put("shareId", id);
-        app=(AppContext) context.getApplicationContext();
+        AppContext app = (AppContext) context.getApplicationContext();
         params.put("userId", app.user.getId());
         HttpUtils.post(url, params, false, new VolleyCallback() {
             @Override

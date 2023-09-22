@@ -1,5 +1,6 @@
 package com.guet.demo_android.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -48,7 +49,7 @@ public class SavedFragment extends Fragment {
 
         // 添加GridSpacingItemDecoration来设置间隔
         int spacingInPixels = getResources().getDimensionPixelSize(R.dimen.space); // 间隔的像素值
-        boolean includeEdge = true; // 是否包括边缘
+        boolean includeEdge = false; // 是否包括边缘
 
 
         recyclerView.addItemDecoration(new GridSpacingItemDecoration(spanCount, spacingInPixels, includeEdge));
@@ -73,6 +74,19 @@ public class SavedFragment extends Fragment {
             public void onChanged(List<ShareDetail> records) {
                 // 初始化适配器并分配给recyclerView
                 adapter = new SharePhotoAdapter(records, requireContext());
+                adapter.setOnImageClickListener(new SharePhotoAdapter.OnImageClickListener() {
+                    @Override
+                    public void onImageClick(int position) {
+                        // 处理图片 ImageView 的点击事件，position 是被点击的 item 的位置
+                        ShareDetail clickedItem = records.get(position);
+                        // 在这里执行相应的操作，例如查看大图或者其他操作
+                        Intent intent = new Intent(getContext(), PictureDetailActivity.class);
+                        intent.putExtra("userId", app.user.getId());
+                        intent.putExtra("username",app.user.getUsername());
+                        intent.putExtra("shareId", clickedItem.getId());
+                        startActivity(intent);
+                    }
+                });
                 recyclerView.setAdapter(adapter);
             }
         });
