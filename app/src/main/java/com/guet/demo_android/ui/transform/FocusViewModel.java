@@ -30,13 +30,13 @@ public class FocusViewModel extends ViewModel {
     private String userId;
 
     public FocusViewModel() {
-        fetchData();
+        fetchData(1);
     }
 
     public FocusViewModel(AppContext appContext, String url) {
         this.appContext = appContext;
         this.url = url;
-        fetchData();
+        fetchData(1);
     }
 
     // 添加公开方法以设置标题和内容
@@ -61,12 +61,11 @@ public class FocusViewModel extends ViewModel {
         return recordsLiveData;
     }
 
-    private void fetchData() {
+    public void fetchData(int current) {
         userId = appContext.user.getId();
         Map<String, String> params = new HashMap<>();
-        String current = "1";
         String size = "20";
-        params.put("current", current);
+        params.put("current", current+"");
         params.put("size", size);
         params.put("userId", userId);
 
@@ -83,7 +82,9 @@ public class FocusViewModel extends ViewModel {
                     if(picList!=null)
                         records = picList.getRecords();
                     // 更新 LiveData
-                    recordsLiveData.postValue(records); // 修改为更新recordsLiveData
+                    List<ShareDetail> list = (List<ShareDetail>)recordsLiveData.getValue();
+                    list.addAll(records); // 修改为更新recordsLiveData
+                    recordsLiveData.postValue(list); // 修改为更新recordsLiveData
                 } else {
                     // 处理请求失败的情况
                     // 可以发送错误消息或采取其他适当的操作

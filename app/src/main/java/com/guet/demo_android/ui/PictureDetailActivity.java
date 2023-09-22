@@ -196,6 +196,7 @@ public class PictureDetailActivity extends AppCompatActivity {
                             chat.setUserName(username);
                             myExpandableListViewAdapter.mData.get(position).add(chat);
                             myExpandableListViewAdapter.notifyDataSetChanged();
+                            updateH();
                         }
                         editText.setText("");
                     }

@@ -41,13 +41,14 @@ public class FindViewModel extends ViewModel {
     private List<ShareDetail> records;
     public FindViewModel() {
         // 初始化 ViewModel 时获取数据
-        fetchData();
+        fetchData(1);
     }
 
     public FindViewModel(AppContext appContext, String url) {
         this.appContext = appContext;
         this.url = url;
-        fetchData();
+        this.AvatarListLiveData.setValue(new ArrayList<>());
+        fetchData(1);
     }
 
     // 添加公开方法以设置标题和内容
@@ -93,12 +94,12 @@ public class FindViewModel extends ViewModel {
     }
 
 
-    private void fetchData() {
+    public void fetchData(int current) {
         Map<String, String> params = new HashMap<>();
         String userId = appContext.user.getId();
 
-        params.put("current", "1");
-        params.put("size", "20");
+        params.put("current", current+"");
+        params.put("size", "10");
         params.put("userId", userId);
 
         HttpUtils.get(url, params, new VolleyCallback() {
@@ -112,7 +113,6 @@ public class FindViewModel extends ViewModel {
                     PicList picList = response.getData();
                     Log.d("", "onSuccess: " + picList);
                     records = picList.getRecords();
-                    Log.d("", "onSuccess: " + records);
                     // 避免了渲染空图片的情况
                     int size = records.size();
                     for (int i = 0; i < size; ) {
@@ -126,11 +126,10 @@ public class FindViewModel extends ViewModel {
                     for (int i = 0; i < records.size(); i++) {
                         getUserInfo(records, i);
                         // 更新 LiveData
-                        Log.d("TAG", "onSuccess: "+records);
-                        Log.d("TAG", "onSuccess: "+records.get(i).getAvatar());
                     }
-
-                    recordsLiveData.postValue(records); // 修改为更新recordsLiveData
+                    List<ShareDetail> list = (List<ShareDetail>)recordsLiveData.getValue();
+                    list.addAll(records); // 修改为更新recordsLiveData
+                    recordsLiveData.postValue(list);
                 } else {
                     // 处理请求失败的情况
                     // 可以发送错误消息或采取其他适当的操作

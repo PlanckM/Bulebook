@@ -58,6 +58,8 @@ public class TransformFragment extends Fragment {
 
     private FindViewModel findViewModel;
     private FocusViewModel focusViewModel;
+    private int current_focus=2;
+    private int current_find=2;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -146,12 +148,60 @@ public class TransformFragment extends Fragment {
         findViewModel = new ViewModelProvider(this, new SharedViewModelFactory(app, findURL)).get(FindViewModel.class);
         focusViewModel = new ViewModelProvider(this, new SharedViewModelFactory(app, focusURL)).get(FocusViewModel.class);
 
+        findAdapter = new SharePhotoAdapter(null, requireContext());
+        focusAdapter = new SharePhotoAdapter(null, requireContext());
+        findrecyclerView.setAdapter(findAdapter);
+        focusrecyclerView.setAdapter(focusAdapter);
+
+        findrecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+
+                int totalItemCount = findAdapter.getItemCount();
+                StaggeredGridLayoutManager layoutManager=(StaggeredGridLayoutManager) findrecyclerView.getLayoutManager();
+                assert layoutManager != null;
+                int [] lastItems = new int[layoutManager.getSpanCount()];
+                layoutManager.findLastVisibleItemPositions(lastItems);
+                int lastVisibleItemPosition = findMax(lastItems);
+
+                // 检查是否已经滚动到底部
+                if (lastVisibleItemPosition>=totalItemCount-1) {
+                    // 在这里触发你的事件，例如加载更多数据
+                    // 这里只是一个示例，你可以根据你的需求进行操作
+                    findViewModel.fetchData(current_find);
+                    current_find++;
+                }
+            }
+        });
+
+        focusrecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+
+                LinearLayoutManager layoutManager=(LinearLayoutManager) focusrecyclerView.getLayoutManager();
+                assert layoutManager != null;
+                int visibleItemCount = layoutManager.getChildCount();
+                int totalItemCount = layoutManager.getItemCount();
+                int firstVisibleItemPosition = layoutManager.findFirstVisibleItemPosition();
+
+                // 检查是否已经滚动到底部
+                if ((visibleItemCount + firstVisibleItemPosition) >= totalItemCount
+                        && firstVisibleItemPosition >= 0) {
+                    // 在这里触发你的事件，例如加载更多数据
+                    // 这里只是一个示例，你可以根据你的需求进行操作
+                    focusViewModel.fetchData(current_focus);
+                    current_focus++;
+                }
+            }
+        });
+
         findViewModel.getRecords().observe(getViewLifecycleOwner(), new Observer<List<ShareDetail>>() {
             @Override
             public void onChanged(List<ShareDetail> records) {
                 // 初始化适配器并分配给recyclerView
-                findAdapter = new SharePhotoAdapter(records, requireContext());
-
+                findAdapter.setRecords(records);
                 // 设置RecyclerView的item点击事件监听器
                 findAdapter.setOnImageClickListener(position -> {
                     // 处理图片 ImageView 的点击事件，position 是被点击的 item 的位置
@@ -159,11 +209,10 @@ public class TransformFragment extends Fragment {
                     // 在这里执行相应的操作，例如查看大图或者其他操作
                     Intent intent = new Intent(getContext(), PictureDetailActivity.class);
                     intent.putExtra("userId", clickedItem.getpUserId());
-                    intent.putExtra("username",app.user.getUsername());
+                    intent.putExtra("username",clickedItem.getUsername());
                     intent.putExtra("shareId", clickedItem.getId());
                     startActivity(intent);
                 });
-                findrecyclerView.setAdapter(findAdapter);
             }
         });
 
@@ -171,8 +220,8 @@ public class TransformFragment extends Fragment {
             @Override
             public void onChanged(List<ShareDetail> records) {
                 // 初始化适配器并分配给recyclerView
-                focusAdapter = new SharePhotoAdapter(records, requireContext());
 
+                focusAdapter.setRecords(records);
                 // 设置RecyclerView的ImageItem点击事件监听器
                 focusAdapter.setOnImageClickListener(position -> {
                     // 处理图片 ImageView 的点击事件，position 是被点击的 item 的位置
@@ -193,8 +242,6 @@ public class TransformFragment extends Fragment {
                         // 在这里执行相应的操作，例如切换点赞状态等
                     }
                 });
-
-                focusrecyclerView.setAdapter(focusAdapter);
             }
         });
     }
@@ -204,6 +251,17 @@ public class TransformFragment extends Fragment {
         super.onDestroyView();
         focusViewModel.getRecords().removeObservers(this);
         findViewModel.getRecords().removeObservers(this);
+    }
+
+
+    private int findMax(int[] positions) {
+        int max = positions[0];
+        for (int position : positions) {
+            if (position > max) {
+                max = position;
+            }
+        }
+        return max;
     }
 
 

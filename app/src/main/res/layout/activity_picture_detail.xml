@@ -168,7 +168,7 @@
                 android:id="@+id/likes"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:background="@drawable/btn_zan_selector"
+                android:src="@drawable/baseline_favorite_border_24"
                 android:textAllCaps="false"
                 android:textColor="@color/white" />
             <TextView
@@ -212,7 +212,7 @@
                 android:id="@+id/collect"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:background="@drawable/btn_collect_selector" />
+                android:src="@drawable/baseline_star_border_24" />
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
