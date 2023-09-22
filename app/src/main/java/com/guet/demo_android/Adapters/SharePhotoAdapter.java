@@ -216,7 +216,7 @@ public class SharePhotoAdapter extends RecyclerView.Adapter<SharePhotoAdapter.Im
     private void sendLikeRequest(String id, String url) {
         Map<String, Object> params = new HashMap<>();
         params.put("shareId", id);
-        app=(AppContext) context.getApplicationContext();
+        AppContext app = (AppContext) context.getApplicationContext();
         params.put("userId", app.user.getId());
         HttpUtils.post(url, params, false, new VolleyCallback() {
             @Override

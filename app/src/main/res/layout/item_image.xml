@@ -46,12 +46,9 @@
                 android:layout_marginTop="2dp"
                 android:layout_marginBottom="8dp"
                 android:background="@drawable/circular_background"
-<<<<<<< HEAD
                 android:padding="6dp"
                 android:scaleType="centerCrop" />
-=======
-                android:padding="6dp" />
->>>>>>> 303395d623140fdbc2b3209688d8b531704080dd
+
             <TextView
                 android:id="@+id/tv_username"
                 android:layout_width="wrap_content"
