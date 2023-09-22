@@ -159,18 +159,15 @@ public class TransformFragment extends Fragment {
                 findAdapter = new SharePhotoAdapter(records, requireContext());
 
                 // 设置RecyclerView的item点击事件监听器
-                findAdapter.setOnImageClickListener(new SharePhotoAdapter.OnImageClickListener() {
-                    @Override
-                    public void onImageClick(int position) {
-                        // 处理图片 ImageView 的点击事件，position 是被点击的 item 的位置
-                        ShareDetail clickedItem = records.get(position);
-                        // 在这里执行相应的操作，例如查看大图或者其他操作
-                        Intent intent = new Intent(getContext(), PictureDetailActivity.class);
-                        intent.putExtra("userId", clickedItem.getpUserId());
-                        intent.putExtra("username",clickedItem.getUsername());
-                        intent.putExtra("shareId", clickedItem.getId());
-                        startActivity(intent);
-                    }
+                findAdapter.setOnImageClickListener(position -> {
+                    // 处理图片 ImageView 的点击事件，position 是被点击的 item 的位置
+                    ShareDetail clickedItem = records.get(position);
+                    // 在这里执行相应的操作，例如查看大图或者其他操作
+                    Intent intent = new Intent(getContext(), PictureDetailActivity.class);
+                    intent.putExtra("userId", clickedItem.getpUserId());
+                    intent.putExtra("username",app.user.getUsername());
+                    intent.putExtra("shareId", clickedItem.getId());
+                    startActivity(intent);
                 });
                 findrecyclerView.setAdapter(findAdapter);
             }

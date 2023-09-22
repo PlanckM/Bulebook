@@ -46,9 +46,7 @@
                 android:layout_marginTop="2dp"
                 android:layout_marginBottom="8dp"
                 android:background="@drawable/circular_background"
-                android:padding="6dp"
-                android:scaleType="centerCrop"
-                />
+                android:padding="6dp" />
             <TextView
                 android:id="@+id/tv_username"
                 android:layout_width="wrap_content"
@@ -57,7 +55,7 @@
                 android:baselineAligned="true"
                 android:textColor="#606060"
                 android:paddingTop="8dp" />
-            <!-- 添加 baseline_favorite_24.xml 图标 和 5000 文本 -->
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
