@@ -22,15 +22,19 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
+import com.guet.demo_android.Adapters.FocusPhotoAdapter;
 import com.guet.demo_android.Adapters.SharePhotoAdapter;
 import com.guet.demo_android.AppContext;
 import com.guet.demo_android.ItemDecoration.GridSpacingItemDecoration;
+import com.guet.demo_android.ItemDecoration.VerticalSpaceItemDecoration;
 import com.guet.demo_android.MainActivity;
 import com.guet.demo_android.R;
 
 import com.guet.demo_android.Type.ShareDetail;
 
 import com.guet.demo_android.ViewModelFactory.SharedViewModelFactory;
+
+
 import com.guet.demo_android.databinding.FragmentTransformBinding;
 import com.guet.demo_android.ui.PictureDetailActivity;
 
@@ -42,7 +46,7 @@ public class TransformFragment extends Fragment {
     //通用适配器
     private SharePhotoAdapter findAdapter;
 
-    private SharePhotoAdapter focusAdapter;
+    private FocusPhotoAdapter focusAdapter;
 
     private List<View> views;
     private RadioGroup radioGroup;
@@ -67,7 +71,7 @@ public class TransformFragment extends Fragment {
         View root = binding.getRoot();
 
         int spacingInPixels = getResources().getDimensionPixelSize(R.dimen.space); // 间隔的像素值
-        boolean includeEdge = true; // 是否包括边缘
+        boolean includeEdge = false; // 是否包括边缘
         //发现
         View findView = LayoutInflater.from(getActivity()).inflate(R.layout.item_home_find, null);
         findrecyclerView = findView.findViewById(R.id.homepage_find);
@@ -81,7 +85,7 @@ public class TransformFragment extends Fragment {
         //关注
         View focusView = LayoutInflater.from(getActivity()).inflate(R.layout.item_home_focus, null);
         focusrecyclerView = focusView.findViewById(R.id.homepage_focus);
-        focusrecyclerView.setHasFixedSize(true);
+        focusrecyclerView.setHasFixedSize(false);
 
 //        StaggeredGridLayoutManager focusLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
 //        focusLayoutManager.setGapStrategy(StaggeredGridLayoutManager.GAP_HANDLING_NONE);
@@ -90,6 +94,8 @@ public class TransformFragment extends Fragment {
 //
         LinearLayoutManager focusLayoutManager = new LinearLayoutManager(getContext());
         focusrecyclerView.setLayoutManager(focusLayoutManager);
+        int verticalSpaceHeight = getResources().getDimensionPixelSize(R.dimen.space1); // 设置你想要的上下边距的像素值
+        focusrecyclerView.addItemDecoration(new VerticalSpaceItemDecoration(verticalSpaceHeight));
 
         views = new ArrayList<>();
         radioGroup = binding.homeRadioGroup;
@@ -171,7 +177,7 @@ public class TransformFragment extends Fragment {
             @Override
             public void onChanged(List<ShareDetail> records) {
                 // 初始化适配器并分配给recyclerView
-                focusAdapter = new SharePhotoAdapter(records, requireContext());
+                focusAdapter = new FocusPhotoAdapter(records, requireContext());
 
                 // 设置RecyclerView的ImageItem点击事件监听器
                 focusAdapter.setOnImageClickListener(position -> {

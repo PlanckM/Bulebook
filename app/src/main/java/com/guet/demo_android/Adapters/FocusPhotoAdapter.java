@@ -16,10 +16,10 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.guet.demo_android.AppContext;
 import com.guet.demo_android.HttpUtils;
 import com.guet.demo_android.R;
 import com.guet.demo_android.Type.PicList;
@@ -31,26 +31,24 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class SharePhotoAdapter extends RecyclerView.Adapter<SharePhotoAdapter.ImageViewHolder> {
+public class FocusPhotoAdapter extends RecyclerView.Adapter<FocusPhotoAdapter.FocusImageViewHolder>{
     private List<ShareDetail> records;
     private Context context;
 
-
-    public SharePhotoAdapter(List<ShareDetail> records, Context context) {
-        this.context = context;
+    public FocusPhotoAdapter(List<ShareDetail> records, Context context) {
         this.records = records;
+        this.context = context;
     }
 
     @NonNull
     @Override
-    public ImageViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        // 布局资源item_image文件加载为View对象
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_image, parent, false);
-        return new ImageViewHolder(view);
+    public FocusImageViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_focus, parent, false);
+        return new FocusPhotoAdapter.FocusImageViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ImageViewHolder holder, @SuppressLint("RecyclerView") int position) {
+    public void onBindViewHolder(@NonNull FocusImageViewHolder holder, @SuppressLint("RecyclerView") int position) {
         if (records.get(position).getImageUrlList().size() == 0) {
             // 处理数据为空的情况，例如显示默认数据或者隐藏视图等操作
         } else {
@@ -80,9 +78,9 @@ public class SharePhotoAdapter extends RecyclerView.Adapter<SharePhotoAdapter.Im
 
             //初始化图标的状态
             if (islike[0]) {
-                holder.isLikeImageView.setImageResource(R.drawable.baseline_favorite_20); // 已点赞状态
+                holder.isLikeImageView.setImageResource(R.drawable.baseline_favorite_32); // 已点赞状态
             } else {
-                holder.isLikeImageView.setImageResource(R.drawable.baseline_favorite_border_20); // 未点赞状态
+                holder.isLikeImageView.setImageResource(R.drawable.baseline_favorite_border_32); // 未点赞状态
             }
 
             // 点击事件监听器
@@ -107,8 +105,9 @@ public class SharePhotoAdapter extends RecyclerView.Adapter<SharePhotoAdapter.Im
         }
     }
 
+
     // 处理点赞点击事件
-    private void handleLikeClick(ImageViewHolder holder, ShareDetail record, int position) {
+    private void handleLikeClick(FocusImageViewHolder holder, ShareDetail record, int position) {
         boolean isLiked = record.getHasLike();
         int currentLikeNum = record.getLikeNum();
         final boolean[] islike = {record.getHasLike()};
@@ -174,7 +173,7 @@ public class SharePhotoAdapter extends RecyclerView.Adapter<SharePhotoAdapter.Im
                 islike[0] = false;
                 record.setHasLike(false);
             }
-            holder.isLikeImageView.setImageResource(R.drawable.baseline_favorite_border_24); // 未点赞状态
+            holder.isLikeImageView.setImageResource(R.drawable.baseline_favorite_border_32); // 未点赞状态
             sendCancelLikeRequest(record.getLikeId(), "http://47.107.52.7:88/member/photo/like/cancel?");
         } else {
             // 点赞逻辑...
@@ -182,7 +181,7 @@ public class SharePhotoAdapter extends RecyclerView.Adapter<SharePhotoAdapter.Im
             record.setLikeNum(currentLikeNum);
             // 更新点赞数量的显示
             holder.likeNumTextView.setText(String.valueOf(currentLikeNum));
-            holder.isLikeImageView.setImageResource(R.drawable.baseline_favorite_20); // 已点赞状态
+            holder.isLikeImageView.setImageResource(R.drawable.baseline_favorite_32); // 已点赞状态
             islike[0] = true;
             record.setHasLike(true);
             sendLikeRequest(record.getId(), "http://47.107.52.7:88/member/photo/like?");
@@ -214,10 +213,12 @@ public class SharePhotoAdapter extends RecyclerView.Adapter<SharePhotoAdapter.Im
 
     //点赞
     private void sendLikeRequest(String id, String url) {
-        Map<String, Object> params = new HashMap<>();
+        Log.d(TAG, "sendLikeRequest: share" + id);
+//        Log.d(TAG, "sendLikeRequest: userid"+userId);
+
+        Map<String, Object> params = new HashMap<String, Object>();
         params.put("shareId", id);
-        app=(AppContext) context.getApplicationContext();
-        params.put("userId", app.user.getId());
+        params.put("userId", "1696496527540883456");
         HttpUtils.post(url, params, false, new VolleyCallback() {
             @Override
             public void onSuccess(String body, Gson gson) {
@@ -233,14 +234,13 @@ public class SharePhotoAdapter extends RecyclerView.Adapter<SharePhotoAdapter.Im
             }
         });
     }
-
     @Override
     public int getItemCount() {
         if(records==null) return 0;
         return records.size();
     }
 
-    public static class ImageViewHolder extends RecyclerView.ViewHolder {
+    public static class FocusImageViewHolder extends RecyclerView.ViewHolder {
         ImageView imageView;
         TextView titleTextView;
         TextView contentTextView;
@@ -248,7 +248,7 @@ public class SharePhotoAdapter extends RecyclerView.Adapter<SharePhotoAdapter.Im
         ImageView isLikeImageView;
         ImageView headImageView;
 
-        public ImageViewHolder(View itemView) {
+        public FocusImageViewHolder(View itemView) {
             super(itemView);
             imageView = itemView.findViewById(R.id.iv_image);
             titleTextView = itemView.findViewById(R.id.tv_title_myshare);
@@ -256,6 +256,8 @@ public class SharePhotoAdapter extends RecyclerView.Adapter<SharePhotoAdapter.Im
             likeNumTextView = itemView.findViewById(R.id.like_num);
             isLikeImageView = itemView.findViewById(R.id.is_like);
             headImageView = itemView.findViewById(R.id.headImageView);
+            float letterSpacing = 0.05f; // 设置字间距，可以根据需要调整这个值
+            titleTextView.setLetterSpacing(letterSpacing);
         }
     }
 
@@ -264,15 +266,14 @@ public class SharePhotoAdapter extends RecyclerView.Adapter<SharePhotoAdapter.Im
         this.records = newRecords;
         notifyDataSetChanged(); // 刷新 RecyclerView
     }
-
-    private OnIsLikeClickListener onIsLikeClickListener;
-    private OnImageClickListener onImageClickListener;
+    private SharePhotoAdapter.OnIsLikeClickListener onIsLikeClickListener;
+    private SharePhotoAdapter.OnImageClickListener onImageClickListener;
 
     public interface OnIsLikeClickListener {
         void onIsLikeClick(int position);
     }
 
-    public void setOnIsLikeClickListener(OnIsLikeClickListener listener) {
+    public void setOnIsLikeClickListener(SharePhotoAdapter.OnIsLikeClickListener listener) {
         this.onIsLikeClickListener = listener;
     }
 
@@ -280,7 +281,7 @@ public class SharePhotoAdapter extends RecyclerView.Adapter<SharePhotoAdapter.Im
         void onImageClick(int position);
     }
 
-    public void setOnImageClickListener(OnImageClickListener listener) {
+    public void setOnImageClickListener(SharePhotoAdapter.OnImageClickListener listener) {
         this.onImageClickListener = listener;
     }
 }
