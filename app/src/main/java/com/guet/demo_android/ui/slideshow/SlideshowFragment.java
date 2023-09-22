@@ -134,7 +134,7 @@ public class SlideshowFragment extends Fragment {
                                             }
                                             String url=responseBody.getData().get("imageUrlList").getAsJsonArray().get(0).toString();
                                             url=url.substring(1,url.length()-1);
-
+                                            slideshowViewModel.getAvatar().postValue(url);
                                             Map<String,Object> params=new HashMap<String,Object>();
                                             params.put("avatar",url);
                                             params.put("id",slideshowViewModel.getId().getValue());
