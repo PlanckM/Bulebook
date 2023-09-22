@@ -101,6 +101,7 @@ public class SharedViewModel extends ViewModel {
                 if (response != null && response.getCode() == 200) {
                     PicList picList = response.getData();
                     List<ShareDetail> records=null;
+                    if(picList==null) return;
                     records = picList.getRecords();
                     for (int i = 0; i < records.size(); i++) {
                         getUserInfo(records, i);

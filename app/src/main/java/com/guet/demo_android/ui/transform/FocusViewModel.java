@@ -100,10 +100,12 @@ public class FocusViewModel extends ViewModel {
 
                 if (response != null && response.getCode() == 200) {
                     PicList picList = response.getData();
-                    List<ShareDetail> records=null;
-                    if(picList!=null)
-                        records = picList.getRecords();
+                    List<ShareDetail> records;
+                    if(picList==null) {
+                        return;
+                    }
                     // 避免了渲染空图片的情况
+                    records = picList.getRecords();
                     int size = records.size();
                     for (int i = 0; i < size; ) {
                         if (records.get(i).getImageUrlList().size() == 0) {
