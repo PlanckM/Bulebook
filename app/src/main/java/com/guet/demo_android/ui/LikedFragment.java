@@ -79,8 +79,8 @@ public class LikedFragment extends Fragment {
                         ShareDetail clickedItem = records.get(position);
                         // 在这里执行相应的操作，例如查看大图或者其他操作
                         Intent intent = new Intent(getContext(), PictureDetailActivity.class);
-                        intent.putExtra("userId", clickedItem.getpUserId());
-                        intent.putExtra("username",clickedItem.getUsername());
+                        intent.putExtra("userId", app.user.getId());
+                        intent.putExtra("username",app.user.getUsername());
                         intent.putExtra("shareId", clickedItem.getId());
                         startActivity(intent);
                     }

@@ -214,12 +214,10 @@ public class SharePhotoAdapter extends RecyclerView.Adapter<SharePhotoAdapter.Im
 
     //点赞
     private void sendLikeRequest(String id, String url) {
-        Log.d(TAG, "sendLikeRequest: share" + id);
-//        Log.d(TAG, "sendLikeRequest: userid"+userId);
-
-        Map<String, Object> params = new HashMap<String, Object>();
+        Map<String, Object> params = new HashMap<>();
         params.put("shareId", id);
-        params.put("userId", "1696496527540883456");
+        app=(AppContext) context.getApplicationContext();
+        params.put("userId", app.user.getId());
         HttpUtils.post(url, params, false, new VolleyCallback() {
             @Override
             public void onSuccess(String body, Gson gson) {

@@ -122,6 +122,7 @@ public class PictureDetailActivity extends AppCompatActivity {
                             isfocus=true;
                         }
                         if(pictureDetail.getLikeNum()!=null) likeNum.setText(pictureDetail.getLikeNum()+"");
+                        else likeNum.setText("0");
                         if(pictureDetail.getCollectNum()!=null) collectNum.setText(pictureDetail.getCollectNum()+"");
                         else collectNum.setText("0");
                     }
