@@ -37,6 +37,14 @@ public class FocusPhotoAdapter extends RecyclerView.Adapter<FocusPhotoAdapter.Fo
     private List<ShareDetail> records;
     private Context context;
 
+    public Context getContext() {
+        return context;
+    }
+
+    public List<ShareDetail> getRecords() {
+        return records;
+    }
+
     public FocusPhotoAdapter(List<ShareDetail> records, Context context) {
         this.records = records;
         this.context = context;
@@ -79,7 +87,8 @@ public class FocusPhotoAdapter extends RecyclerView.Adapter<FocusPhotoAdapter.Fo
                         .into(holder.headImageView);
 
                 //
-                CarouselAdapter carouselAdapter = new CarouselAdapter(record.getImageUrlList());
+                CarouselAdapter carouselAdapter = new CarouselAdapter(record.getImageUrlList(),position);
+                carouselAdapter.setAdapter(this);
                 holder.viewPager.setAdapter(carouselAdapter); //
                 //初始化图标的状态
                 if (islike[0]) {
