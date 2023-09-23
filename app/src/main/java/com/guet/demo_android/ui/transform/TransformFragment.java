@@ -154,6 +154,8 @@ public class TransformFragment extends Fragment {
             @Override
             public void onRefresh() {
                 // 在这里执行加载新数据的操作，例如从网络或本地加载数据
+                findViewModel.freshData();
+                current_find=2;
                 // 加载完成后，记得调用swipeRefreshLayout.setRefreshing(false)来停止刷新动画
                 swipeRefreshLayout_find.setRefreshing(false);
             }
@@ -163,6 +165,8 @@ public class TransformFragment extends Fragment {
             @Override
             public void onRefresh() {
                 // 在这里执行加载新数据的操作，例如从网络或本地加载数据
+                focusViewModel.freshData();
+                current_focus=2;
                 // 加载完成后，记得调用swipeRefreshLayout.setRefreshing(false)来停止刷新动画
                 swipeRefreshLayout_focus.setRefreshing(false);
             }
