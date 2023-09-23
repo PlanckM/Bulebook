@@ -335,7 +335,7 @@ public class PictureDetailActivity extends AppCompatActivity {
                 params.put("content",editText.getText().toString());
                 params.put("shareId",shareId);
                 params.put("userId",userId);
-                params.put("userName",username);
+                params.put("userName",app.user.getUsername());
                 HttpUtils.post(url, params, true, (body, gson) -> {
                     Type jsonType=new TypeToken<HttpUtils.ResponseBody<Object>>(){}.getType();
                     HttpUtils.ResponseBody<Object> responseBody= gson.fromJson(body,jsonType);
@@ -365,7 +365,7 @@ public class PictureDetailActivity extends AppCompatActivity {
                 params.put("replyCommentUserId",parentCommentUserId);
                 params.put("shareId",shareId);
                 params.put("userId",userId);
-                params.put("userName",username);
+                params.put("userName",app.user.getUsername());
                 HttpUtils.post(url, params, true, (body, gson) -> {
                     Type jsonType=new TypeToken<HttpUtils.ResponseBody<Object>>(){}.getType();
                     HttpUtils.ResponseBody<Object> responseBody= gson.fromJson(body,jsonType);

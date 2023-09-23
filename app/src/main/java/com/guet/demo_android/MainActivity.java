@@ -1,6 +1,8 @@
 package com.guet.demo_android;
+import android.content.Intent;
 import android.os.Bundle;
 
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.Menu;
 
@@ -89,8 +91,9 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.nav_settings) {
-            NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
-            navController.navigate(R.id.nav_settings);
+            Intent intent=new Intent(this,LoginActivity.class);
+            finish();
+            startActivity(intent);
         }
         return super.onOptionsItemSelected(item);
     }
