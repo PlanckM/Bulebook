@@ -29,6 +29,16 @@
             android:layout_centerInParent="true"
             android:text="图片标题"
             android:textSize="17dp" />
+        <Button
+            android:id="@+id/save_it"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="保存"
+            android:textSize="17dp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:visibility="gone"
+            />
     </RelativeLayout>
     <!--发布人-->
     <LinearLayout
