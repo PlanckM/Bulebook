@@ -25,7 +25,6 @@
                 android:layout_width="32dp"
                 android:layout_height="32dp"
                 android:background="@drawable/circular_background"
-
                 android:scaleType="centerCrop"
                 />
 
@@ -48,8 +47,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="end"
-                android:layout_marginEnd="16dp"
-                >
+                android:layout_marginEnd="16dp">
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -57,11 +55,26 @@
             </LinearLayout>
         </LinearLayout>
 
-        <ImageView
-            android:id="@+id/iv_image"
+        <!-- 轮播图开始 -->
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/viewPager"
             android:layout_width="match_parent"
+            android:layout_height="250dp" /> <!-- 设置轮播图高度，根据需要调整 -->
+
+        <!-- 这里可以添加指示器或其他轮播图控制器 -->
+        <LinearLayout
+            android:id="@+id/dotIndicator"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:scaleType="fitXY" />
+            android:layout_gravity="center_horizontal"
+            android:orientation="horizontal"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp">
+
+            <!-- 添加更多的小圆点，根据需要 -->
+        </LinearLayout>
+
+        <!-- 轮播图结束 -->
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -69,9 +82,9 @@
             android:orientation="horizontal"
             android:gravity="center"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="32dp"
-            android:layout_marginBottom="16dp"
-            >
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp">
+
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
@@ -83,8 +96,7 @@
                 android:layout_height="match_parent"
                 android:gravity="end"
                 android:orientation="horizontal"
-                android:layout_marginEnd="16dp"
-                >
+                android:layout_marginEnd="16dp">
                 <ImageView
                     android:id="@+id/is_like"
                     android:layout_width="wrap_content"
@@ -100,6 +112,7 @@
                     android:textSize="14sp"
                     android:text="点赞"/>
                 <ImageView
+                    android:id="@+id/collect_img"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_marginStart="8dp"
@@ -131,8 +144,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="32dp"
-            >
+            android:layout_marginBottom="32dp">
             <TextView
                 android:id="@+id/tv_title_myshare"
                 android:layout_width="wrap_content"
@@ -145,7 +157,7 @@
                 android:textColor="#333333"
                 android:textSize="16sp"
                 android:textStyle="bold"
-                 />
+                />
         </LinearLayout>
-        </LinearLayout>
+    </LinearLayout>
 </androidx.cardview.widget.CardView>
