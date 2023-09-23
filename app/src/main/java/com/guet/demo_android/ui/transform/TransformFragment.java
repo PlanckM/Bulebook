@@ -1,5 +1,6 @@
 package com.guet.demo_android.ui.transform;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -19,6 +20,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
@@ -54,6 +56,8 @@ public class TransformFragment extends Fragment {
     private ViewPager viewPager;
     //流式布局
     private RecyclerView findrecyclerView, focusrecyclerView;
+    private SwipeRefreshLayout swipeRefreshLayout_find;
+    private SwipeRefreshLayout swipeRefreshLayout_focus;
     private FragmentTransformBinding binding;
 
     private final String focusURL = "http://47.107.52.7:88/member/photo/focus";
@@ -64,6 +68,7 @@ public class TransformFragment extends Fragment {
     private FocusViewModel focusViewModel;
     private int current_focus=2;
     private int current_find=2;
+
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -76,6 +81,8 @@ public class TransformFragment extends Fragment {
         boolean includeEdge = false; // 是否包括边缘
         //发现
         View findView = LayoutInflater.from(getActivity()).inflate(R.layout.item_home_find, null);
+        // 在布局中查找SwipeRefreshLayout和RecyclerView的引用
+        swipeRefreshLayout_find = findView.findViewById(R.id.swipeRefreshLayout_find);
         findrecyclerView = findView.findViewById(R.id.homepage_find);
         findrecyclerView.setHasFixedSize(true);
 
@@ -86,6 +93,7 @@ public class TransformFragment extends Fragment {
 
         //关注
         View focusView = LayoutInflater.from(getActivity()).inflate(R.layout.item_home_focus, null);
+        swipeRefreshLayout_focus = focusView.findViewById(R.id.swipeRefreshLayout_focus);
         focusrecyclerView = focusView.findViewById(R.id.homepage_focus);
         focusrecyclerView.setHasFixedSize(false);
 
@@ -141,6 +149,24 @@ public class TransformFragment extends Fragment {
 
         MainActivity a = (MainActivity) getActivity();
         a.setBottomVisible();
+
+        swipeRefreshLayout_find.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                // 在这里执行加载新数据的操作，例如从网络或本地加载数据
+                // 加载完成后，记得调用swipeRefreshLayout.setRefreshing(false)来停止刷新动画
+                swipeRefreshLayout_find.setRefreshing(false);
+            }
+        });
+
+        swipeRefreshLayout_focus.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                // 在这里执行加载新数据的操作，例如从网络或本地加载数据
+                // 加载完成后，记得调用swipeRefreshLayout.setRefreshing(false)来停止刷新动画
+                swipeRefreshLayout_focus.setRefreshing(false);
+            }
+        });
         return root;
     }
 
