@@ -20,11 +20,11 @@ import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.guet.demo_android.AppContext;
-import com.guet.demo_android.HttpUtils;
+import com.guet.demo_android.Utils.HttpUtils;
 import com.guet.demo_android.R;
-import com.guet.demo_android.Type.PicList;
-import com.guet.demo_android.Type.ShareDetail;
-import com.guet.demo_android.VolleyCallback;
+import com.guet.demo_android.Entity.PicList;
+import com.guet.demo_android.Entity.ShareDetail;
+import com.guet.demo_android.Utils.VolleyCallback;
 
 import java.lang.reflect.Type;
 import java.util.HashMap;

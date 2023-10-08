@@ -7,50 +7,50 @@
 
     <fragment
         android:id="@+id/nav_transform"
-        android:name="com.guet.demo_android.ui.transform.TransformFragment"
+        android:name="com.guet.demo_android.UI.HomeUI.HomeFragment"
         android:label="@string/menu_transform"
         tools:layout="@layout/fragment_transform" />
 
     <fragment
         android:id="@+id/edit_info"
-        android:name="com.guet.demo_android.ui.EditInfoFragment"
+        android:name="com.guet.demo_android.UI.PersonalInfo.Details.EditInfoFragment"
         android:label="@string/menu_edit"
         tools:layout="@layout/fragment_transform" />
 
     <fragment
         android:id="@+id/nav_reflow"
-        android:name="com.guet.demo_android.ui.reflow.ReflowFragment"
+        android:name="com.guet.demo_android.UI.UploadImageUI.UploadImageFragment"
         android:label="@string/menu_reflow"
         tools:layout="@layout/fragment_reflow" />
     <fragment
         android:id="@+id/collected"
-        android:name="com.guet.demo_android.ui.CollectedFragment"
+        android:name="com.guet.demo_android.UI.PersonalInfo.Details.CollectedFragment"
         android:label="我的收藏"
         tools:layout="@layout/fragment_collected" />
     <fragment
         android:id="@+id/liked"
-        android:name="com.guet.demo_android.ui.LikedFragment"
+        android:name="com.guet.demo_android.UI.PersonalInfo.Details.LikedFragment"
         android:label="我的喜欢"
         tools:layout="@layout/fragment_liked" />
     <fragment
         android:id="@+id/saved"
-        android:name="com.guet.demo_android.ui.SavedFragment"
+        android:name="com.guet.demo_android.UI.PersonalInfo.Details.SavedFragment"
         android:label="保存的分享"
         tools:layout="@layout/fragment_saved" />
     <fragment
         android:id="@+id/shared"
-        android:name="com.guet.demo_android.ui.SharedFragment"
+        android:name="com.guet.demo_android.UI.PersonalInfo.Details.SharedFragment"
         android:label="我的分享"
         tools:layout="@layout/fragment_shared" />
     <fragment
         android:id="@+id/nav_slideshow"
-        android:name="com.guet.demo_android.ui.slideshow.SlideshowFragment"
+        android:name="com.guet.demo_android.UI.PersonalInfo.PersonalInfoFragment"
         android:label="@string/menu_slideshow"
         tools:layout="@layout/fragment_slideshow" />
 
     <fragment
         android:id="@+id/nav_settings"
-        android:name="com.guet.demo_android.ui.settings.SettingsFragment"
+        android:name="com.guet.demo_android.UI.Settings.SettingsFragment"
         android:label="@string/menu_settings"
         tools:layout="@layout/fragment_settings" />
 </navigation>
