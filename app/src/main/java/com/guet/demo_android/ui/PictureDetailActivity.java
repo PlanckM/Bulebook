@@ -20,19 +20,26 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.guet.demo_android.AppContext;
 import com.guet.demo_android.HttpUtils;
+import com.guet.demo_android.LoginActivity;
 import com.guet.demo_android.R;
 import com.guet.demo_android.Type.Chat1;
 import com.guet.demo_android.Type.ChatList1;
 import com.guet.demo_android.Type.PictureDetail;
+import com.guet.demo_android.Type.User;
+import com.guet.demo_android.VolleyCallback;
 import com.guet.demo_android.databinding.ActivityPictureDetailBinding;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
 //详情，点赞，收藏，关注
 public class PictureDetailActivity extends AppCompatActivity {
 
@@ -100,6 +107,10 @@ public class PictureDetailActivity extends AppCompatActivity {
         userId = app.user.getId();
         shareId = intent.getStringExtra("shareId");
         username=intent.getStringExtra("username");
+        Boolean isSave=intent.getBooleanExtra("isSave",false);
+        if(isSave){
+            binding.saveIt.setVisibility(View.VISIBLE);
+        }
 
         mHandler = new Handler(Looper.getMainLooper()) {
             @Override
@@ -209,6 +220,24 @@ public class PictureDetailActivity extends AppCompatActivity {
         iniAllData();
         iniChat();
         usernameView.setText(username);
+        binding.saveIt.setOnClickListener(view -> {
+            Map<String, Object> bodyMap = new HashMap<>();
+            bodyMap.put("content", pictureDetail.getContent());
+            bodyMap.put("id", pictureDetail.getId());
+            bodyMap.put("imageCode", pictureDetail.getImageCode());
+            bodyMap.put("pUserId", app.user.getId());
+            bodyMap.put("title", pictureDetail.getTitle());
+            String url = "http://47.107.52.7:88/member/photo/share/change";
+            HttpUtils.post(url, bodyMap, true, (body, gson) -> {
+                Type jsonType=new TypeToken<HttpUtils.ResponseBody<User>>(){}.getType();
+                HttpUtils.ResponseBody<User> responseBody= gson.fromJson(body,jsonType);
+                if(responseBody.getCode()==200){
+                    Looper.prepare();
+                    Toast.makeText(this, "发布成功!", Toast.LENGTH_SHORT).show();
+                    Looper.loop();
+                }
+            });
+        });
         focusButton.setOnClickListener(view -> {
             if(!isfocus){
                 String url="http://47.107.52.7:88/member/photo/focus?";

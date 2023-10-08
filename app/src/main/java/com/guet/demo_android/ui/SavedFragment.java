@@ -84,6 +84,7 @@ public class SavedFragment extends Fragment {
                         intent.putExtra("userId", app.user.getId());
                         intent.putExtra("username",app.user.getUsername());
                         intent.putExtra("shareId", clickedItem.getId());
+                        intent.putExtra("isSave",true);
                         startActivity(intent);
                     }
                 });

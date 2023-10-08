@@ -134,4 +134,53 @@ public class FocusViewModel extends ViewModel {
             }
         });
     }
+    public void freshData() {
+        userId = appContext.user.getId();
+        Map<String, String> params = new HashMap<>();
+        String size = "20";
+        params.put("current", "1");
+        params.put("size", size);
+        params.put("userId", userId);
+
+        HttpUtils.get("http://47.107.52.7:88/member/photo/focus", params, new VolleyCallback() {
+            @Override
+            public void onSuccess(String body, Gson gson) {
+                Type type = new TypeToken<HttpUtils.ResponseBody<PicList>>() {
+                }.getType();
+                HttpUtils.ResponseBody<PicList> response = gson.fromJson(body, type);
+
+                if (response != null && response.getCode() == 200) {
+                    PicList picList = response.getData();
+                    List<ShareDetail> records;
+                    if(picList==null) {
+                        return;
+                    }
+                    // 避免了渲染空图片的情况
+                    records = picList.getRecords();
+                    int size = records.size();
+                    for (int i = 0; i < size; ) {
+                        if (records.get(i).getImageUrlList().size() == 0) {
+                            records.remove(i);
+                            size--;
+                        } else {
+                            i++;
+                        }
+                    }
+                    for (int i = 0; i < records.size(); i++) {
+                        getUserInfo(records, i);
+                        // 更新 LiveData
+                        Log.d("TAG", "onSuccess: "+records);
+                        Log.d("TAG", "onSuccess: "+records.get(i).getAvatar());
+                    }
+                    // 更新 LiveData
+                    recordsLiveData.postValue(records); // 修改为更新recordsLiveData
+                } else {
+                    // 处理请求失败的情况
+                    // 可以发送错误消息或采取其他适当的操作
+                    String msg = "ddsadf";
+                    Log.d("2", msg);
+                }
+            }
+        });
+    }
 }
